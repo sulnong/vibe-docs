@@ -7,6 +7,7 @@ const base = process.env.PUBLIC_BASE_PATH || '/';
 const cloudflareToken = process.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
 const styleBootScript = `(() => {
   const allowed = ['base', 'pop-brutal', 'luminous', 'neo-retro', 'pixel'];
+  const lightPacks = ['base', 'pop-brutal', 'neo-retro'];
   const storageKey = 'astro-style-pack';
   const root = document.documentElement;
   let pack = 'base';
@@ -14,12 +15,12 @@ const styleBootScript = `(() => {
     const stored = localStorage.getItem(storageKey);
     if (allowed.includes(stored)) pack = stored;
   } catch {}
-  const mode = 'dark';
+  const mode = lightPacks.includes(pack) ? 'light' : 'dark';
   root.setAttribute('data-theme-pack', pack);
   root.setAttribute('data-theme', mode);
   root.style.colorScheme = mode;
   try {
-    localStorage.setItem('starlight-theme', 'dark');
+    localStorage.setItem('starlight-theme', mode);
   } catch {}
 })();`;
 
@@ -37,8 +38,6 @@ export default defineConfig({
       components: {
         Header: './src/components/starlight/Header.astro',
         MobileMenuFooter: './src/components/starlight/MobileMenuFooter.astro',
-        Sidebar: './src/components/starlight/Sidebar.astro',
-        TableOfContents: './src/components/starlight/TableOfContents.astro',
       },
       defaultLocale: 'en',
       locales: {

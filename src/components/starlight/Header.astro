@@ -10,49 +10,6 @@ const shouldRenderSearch =
   config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro';
 ---
 
-<script is:inline>
-  (() => {
-    const root = document.documentElement;
-    const read = (key) => {
-      try {
-        return localStorage.getItem(key) === 'true';
-      } catch {
-        return false;
-      }
-    };
-    const write = (key, value) => {
-      try {
-        localStorage.setItem(key, String(value));
-      } catch {}
-    };
-    const apply = () => {
-      const navCollapsed = read('astro-nav-rail');
-      const tocCollapsed = read('astro-toc-rail');
-      root.toggleAttribute('data-sidebar-collapsed', navCollapsed);
-      root.toggleAttribute('data-toc-collapsed', tocCollapsed);
-      document.querySelectorAll('[data-toggle-sidebar]').forEach((button) => {
-        button.setAttribute('aria-expanded', String(!navCollapsed));
-      });
-      document.querySelectorAll('[data-toggle-toc]').forEach((button) => {
-        button.setAttribute('aria-expanded', String(!tocCollapsed));
-      });
-    };
-    apply();
-    document.addEventListener('click', (event) => {
-      const sidebarButton = event.target?.closest?.('[data-toggle-sidebar]');
-      if (sidebarButton) {
-        write('astro-nav-rail', !read('astro-nav-rail'));
-        apply();
-      }
-      const tocButton = event.target?.closest?.('[data-toggle-toc]');
-      if (tocButton) {
-        write('astro-toc-rail', !read('astro-toc-rail'));
-        apply();
-      }
-    });
-  })();
-</script>
-
 <div class="header">
   <div class="title-wrapper sl-flex">
     <SiteTitle />
