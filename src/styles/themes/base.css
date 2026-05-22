@@ -1,0 +1,97 @@
+:root,
+[data-theme-pack="base"] {
+  --astro-accent: #3b82f6;
+  --astro-accent-strong: #1d4ed8;
+  --astro-surface: #ffffff;
+  --astro-surface-muted: #f8fafc;
+  --astro-border: #d9e2ef;
+  --astro-text: #0f172a;
+  --astro-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  --astro-radius: 8px;
+  --astro-font-display: Inter, ui-sans-serif, system-ui, sans-serif;
+  --astro-font-heading: Inter, "SF Pro Display", ui-sans-serif, system-ui, sans-serif;
+  --astro-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --astro-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --sl-color-accent-low: #dbeafe;
+  --sl-color-accent: #2563eb;
+  --sl-color-accent-high: #1e3a8a;
+}
+
+:root[data-theme="dark"],
+:root[data-theme="dark"] [data-theme-pack="base"] {
+  --astro-surface: #0f172a;
+  --astro-surface-muted: #111827;
+  --astro-border: #334155;
+  --astro-text: #e5edf7;
+  --astro-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+}
+
+.astro-ui {
+  color: var(--astro-text);
+  font-family: var(--astro-font-display);
+}
+
+.astro-button {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  background: var(--astro-accent);
+  color: white;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.7rem 1rem;
+  text-decoration: none;
+  box-shadow: var(--astro-shadow);
+}
+
+.astro-button[data-variant="secondary"] {
+  background: var(--astro-surface);
+  color: var(--astro-text);
+}
+
+.astro-card {
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  background: var(--astro-surface);
+  box-shadow: var(--astro-shadow);
+  padding: 1rem;
+}
+
+.astro-card__eyebrow {
+  color: var(--astro-accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.astro-tooltip {
+  position: relative;
+  display: inline-flex;
+}
+
+.astro-tooltip__bubble {
+  position: absolute;
+  z-index: 20;
+  inset-block-end: calc(100% + 0.5rem);
+  inset-inline-start: 50%;
+  width: max-content;
+  max-width: 16rem;
+  transform: translateX(-50%);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  background: var(--astro-surface);
+  color: var(--astro-text);
+  opacity: 0;
+  padding: 0.5rem 0.65rem;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.astro-tooltip:focus-within .astro-tooltip__bubble,
+.astro-tooltip:hover .astro-tooltip__bubble {
+  opacity: 1;
+}

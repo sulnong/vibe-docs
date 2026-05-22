@@ -1,0 +1,6 @@
+/*
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Content-Type-Options: nosniff
+
+# Cloudflare Pages adds X-Robots-Tag: noindex to preview deployments by default.
+# Do not add a global X-Robots-Tag here, because production pages should be indexable.

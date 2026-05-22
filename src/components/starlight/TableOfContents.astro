@@ -1,0 +1,48 @@
+---
+const { toc } = Astro.locals.starlightRoute;
+---
+
+{
+  toc && (
+    <starlight-toc data-min-h={toc.minHeadingLevel} data-max-h={toc.maxHeadingLevel}>
+      <nav aria-labelledby="starlight__on-this-page">
+        <div class="panel-collapse toc-collapse-control">
+          <button type="button" data-toggle-toc aria-expanded="true" aria-label="Collapse page contents" title="Collapse page contents">
+            <span class="collapse-icon" aria-hidden="true">›</span>
+            <span class="collapse-text">On this page</span>
+            <span class="rail-text" aria-hidden="true">Contents</span>
+          </button>
+        </div>
+        <div class="toc-panel-body">
+          <h2 id="starlight__on-this-page">{Astro.locals.t('tableOfContents.onThisPage')}</h2>
+          <ul>
+            {
+              toc.items.map((heading) => (
+                <li>
+                  <a href={`#${heading.slug}`}>
+                    <span>{heading.text}</span>
+                  </a>
+                  {
+                    heading.children.length > 0 && (
+                      <ul>
+                        {
+                          heading.children.map((child) => (
+                            <li>
+                              <a href={`#${child.slug}`}>
+                                <span>{child.text}</span>
+                              </a>
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    )
+                  }
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </nav>
+    </starlight-toc>
+  )
+}

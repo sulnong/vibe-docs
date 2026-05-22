@@ -1,0 +1,14 @@
+---
+export interface Props {
+  eyebrow?: string;
+  title: string;
+}
+
+const { eyebrow, title } = Astro.props;
+---
+
+<article class="astro-card astro-ui">
+  {eyebrow && <p class="astro-card__eyebrow">{eyebrow}</p>}
+  <h3>{title}</h3>
+  <slot />
+</article>

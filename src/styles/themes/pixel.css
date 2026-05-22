@@ -1,0 +1,38 @@
+[data-theme-pack="pixel"] {
+  --astro-accent: #00d084;
+  --astro-accent-strong: #ffdd00;
+  --astro-surface: #101820;
+  --astro-surface-muted: #16232e;
+  --astro-border: #00d084;
+  --astro-text: #f9ffef;
+  --astro-shadow: 6px 6px 0 #ffdd00;
+  --astro-radius: 0;
+  --astro-font-display: "Courier New", ui-monospace, monospace;
+  --astro-font-heading: "Courier New", ui-monospace, monospace;
+  --astro-font-body: "Courier New", ui-monospace, monospace;
+  --astro-font-mono: "Courier New", ui-monospace, monospace;
+  --sl-color-accent-low: #11382e;
+  --sl-color-accent: #00d084;
+  --sl-color-accent-high: #f9ffef;
+}
+
+[data-theme-pack="pixel"] .astro-button,
+[data-theme-pack="pixel"] .astro-card,
+[data-theme-pack="pixel"] .astro-tooltip__bubble {
+  image-rendering: pixelated;
+  text-transform: uppercase;
+}
+
+[data-theme-pack="pixel"] .astro-card {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+
+[data-theme-pack="pixel"] .style-switcher,
+[data-theme-pack="pixel"] starlight-lang-select label {
+  border-width: 2px;
+  box-shadow: 4px 4px 0 var(--astro-accent-strong);
+  text-transform: uppercase;
+}

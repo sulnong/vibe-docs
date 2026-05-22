@@ -1,0 +1,119 @@
+---
+import config from 'virtual:starlight/user-config';
+
+import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
+import Search from 'virtual:starlight/components/Search';
+import SiteTitle from 'virtual:starlight/components/SiteTitle';
+import StyleSwitcher from '../StyleSwitcher.astro';
+
+const shouldRenderSearch =
+  config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro';
+---
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const read = (key) => {
+      try {
+        return localStorage.getItem(key) === 'true';
+      } catch {
+        return false;
+      }
+    };
+    const write = (key, value) => {
+      try {
+        localStorage.setItem(key, String(value));
+      } catch {}
+    };
+    const apply = () => {
+      const navCollapsed = read('astro-nav-rail');
+      const tocCollapsed = read('astro-toc-rail');
+      root.toggleAttribute('data-sidebar-collapsed', navCollapsed);
+      root.toggleAttribute('data-toc-collapsed', tocCollapsed);
+      document.querySelectorAll('[data-toggle-sidebar]').forEach((button) => {
+        button.setAttribute('aria-expanded', String(!navCollapsed));
+      });
+      document.querySelectorAll('[data-toggle-toc]').forEach((button) => {
+        button.setAttribute('aria-expanded', String(!tocCollapsed));
+      });
+    };
+    apply();
+    document.addEventListener('click', (event) => {
+      const sidebarButton = event.target?.closest?.('[data-toggle-sidebar]');
+      if (sidebarButton) {
+        write('astro-nav-rail', !read('astro-nav-rail'));
+        apply();
+      }
+      const tocButton = event.target?.closest?.('[data-toggle-toc]');
+      if (tocButton) {
+        write('astro-toc-rail', !read('astro-toc-rail'));
+        apply();
+      }
+    });
+  })();
+</script>
+
+<div class="header">
+  <div class="title-wrapper sl-flex">
+    <SiteTitle />
+  </div>
+  <div class="sl-flex print:hidden">
+    {shouldRenderSearch && <Search />}
+  </div>
+  <div class="sl-hidden md:sl-flex print:hidden right-group">
+    <StyleSwitcher />
+    <LanguageSelect />
+  </div>
+</div>
+
+<style>
+  @layer starlight.core {
+    .header {
+      display: flex;
+      gap: var(--sl-nav-gap);
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+
+    .title-wrapper {
+      overflow: clip;
+      padding: 0.25rem;
+      margin: -0.25rem;
+      min-width: 0;
+    }
+
+    .right-group {
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    @media (min-width: 50rem) {
+      :global(:root[data-has-sidebar]) {
+        --__sidebar-pad: calc(2 * var(--sl-nav-pad-x));
+      }
+      :global(:root:not([data-has-toc])) {
+        --__toc-width: 0rem;
+      }
+      .header {
+        --__sidebar-width: max(0rem, var(--sl-content-inline-start, 0rem) - var(--sl-nav-pad-x));
+        --__main-column-fr: calc(
+          (
+              100% + var(--__sidebar-pad, 0rem) - var(--__toc-width, var(--sl-sidebar-width)) -
+                (2 * var(--__toc-width, var(--sl-nav-pad-x))) - var(--sl-content-inline-start, 0rem) -
+                var(--sl-content-width)
+            ) / 2
+        );
+        display: grid;
+        grid-template-columns:
+          minmax(
+            calc(var(--__sidebar-width) + max(0rem, var(--__main-column-fr) - var(--sl-nav-gap))),
+            auto
+          )
+          1fr
+          auto;
+        align-content: center;
+      }
+    }
+  }
+</style>

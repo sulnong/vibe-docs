@@ -1,0 +1,13 @@
+---
+export interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary';
+}
+
+const { href, variant = 'primary' } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag class="astro-button astro-ui" data-variant={variant} href={href}>
+  <slot />
+</Tag>

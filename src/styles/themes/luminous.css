@@ -1,0 +1,84 @@
+[data-theme-pack="luminous"] {
+  --astro-accent: #55c7ff;
+  --astro-accent-strong: #f2f8ff;
+  --astro-surface: rgba(7, 23, 37, 0.94);
+  --astro-surface-muted: rgba(11, 38, 60, 0.9);
+  --astro-border: rgba(102, 190, 255, 0.48);
+  --astro-text: #d8e8f8;
+  --astro-shadow: 0 0 30px rgba(53, 184, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --astro-radius: 22px;
+  --astro-font-display: Inter, "SF Pro Display", ui-sans-serif, system-ui, sans-serif;
+  --astro-font-heading: Inter, "SF Pro Display", ui-sans-serif, system-ui, sans-serif;
+  --astro-font-body: Inter, "SF Pro Text", ui-sans-serif, system-ui, sans-serif;
+  --astro-font-mono: "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+  --sl-color-accent-low: #0a2a45;
+  --sl-color-accent: #35b8ff;
+  --sl-color-accent-high: #d9efff;
+}
+
+[data-theme-pack="luminous"] {
+  position: relative;
+}
+
+[data-theme-pack="luminous"]::before {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  z-index: -1;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.1), transparent 24%),
+    radial-gradient(circle at 78% 16%, rgba(53, 184, 255, 0.11), transparent 30%),
+    linear-gradient(145deg, #03070c, #071523 54%, #020509);
+  filter: blur(0);
+}
+
+[data-theme-pack="luminous"] .astro-card,
+[data-theme-pack="luminous"] .astro-tooltip__bubble {
+  border-color: var(--astro-border);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), transparent 34%),
+    var(--astro-surface);
+  backdrop-filter: blur(18px);
+}
+
+[data-theme-pack="luminous"] .astro-card {
+  box-shadow: var(--astro-shadow);
+}
+
+[data-theme-pack="luminous"] .astro-card h3 {
+  color: var(--astro-accent-strong);
+  font-family: var(--astro-font-display);
+  font-size: clamp(1.5rem, 3.6vw, 2.55rem);
+  font-weight: 420;
+  letter-spacing: 0;
+  line-height: 1.05;
+}
+
+[data-theme-pack="luminous"] .astro-card__eyebrow {
+  color: var(--astro-accent);
+  font-weight: 700;
+}
+
+[data-theme-pack="luminous"] .astro-button {
+  border-color: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(219, 236, 255, 0.88));
+  color: #06111b;
+  font-weight: 600;
+  box-shadow: 0 14px 30px rgba(204, 229, 255, 0.22);
+}
+
+[data-theme-pack="luminous"] .astro-button[data-variant="secondary"] {
+  background: rgba(7, 24, 38, 0.94);
+  color: var(--astro-accent-strong);
+}
+
+[data-theme-pack="luminous"] .style-switcher,
+[data-theme-pack="luminous"] starlight-lang-select label {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), transparent 40%),
+    rgba(7, 23, 37, 0.92);
+  box-shadow: 0 0 28px rgba(85, 199, 255, 0.12);
+  backdrop-filter: blur(18px);
+}

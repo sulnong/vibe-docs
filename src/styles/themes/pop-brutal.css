@@ -1,0 +1,55 @@
+[data-theme-pack="pop-brutal"] {
+  --astro-accent: #ff5a45;
+  --astro-accent-strong: #0b0b0c;
+  --astro-surface: #fffdf7;
+  --astro-surface-muted: #fff2b8;
+  --astro-border: #0b0b0c;
+  --astro-text: #05070a;
+  --astro-shadow: 8px 8px 0 #0b0b0c;
+  --astro-radius: 18px;
+  --astro-font-display: "Arial Black", "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  --astro-font-heading: "Arial Black", Impact, "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  --astro-font-body: "Arial", "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  --astro-font-mono: "Courier New", ui-monospace, monospace;
+  --sl-color-accent-low: #ffe6dd;
+  --sl-color-accent: #ff5a45;
+  --sl-color-accent-high: #2c0a06;
+}
+
+[data-theme-pack="pop-brutal"] .astro-card,
+[data-theme-pack="pop-brutal"] .astro-button,
+[data-theme-pack="pop-brutal"] .astro-tooltip__bubble {
+  border: 3px solid var(--astro-border);
+}
+
+[data-theme-pack="pop-brutal"] .astro-card {
+  background:
+    radial-gradient(circle at top, var(--astro-surface-muted) 0 34%, transparent 35%),
+    var(--astro-surface);
+}
+
+[data-theme-pack="pop-brutal"] .astro-card h3 {
+  font-family: var(--astro-font-display);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+[data-theme-pack="pop-brutal"] .astro-button {
+  border-radius: 16px;
+  color: #fff;
+  font-family: var(--astro-font-display);
+  font-weight: 900;
+  padding-inline: 1.15rem;
+}
+
+[data-theme-pack="pop-brutal"] .astro-button[data-variant="secondary"] {
+  background: var(--astro-accent-strong);
+  color: #fff;
+}
+
+[data-theme-pack="pop-brutal"] .style-switcher,
+[data-theme-pack="pop-brutal"] starlight-lang-select label {
+  border-width: 3px;
+  box-shadow: 5px 5px 0 var(--astro-border);
+}

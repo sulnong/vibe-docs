@@ -1,0 +1,47 @@
+{
+  "siteUrl": "https://example.com",
+  "topics": {
+    "astro": {
+      "clicks": 20,
+      "impressions": 430,
+      "ctr": 0.046511627906976744,
+      "averagePosition": 7.52093023255814,
+      "rows": 3,
+      "locales": {
+        "en": {
+          "clicks": 15,
+          "impressions": 330,
+          "rows": 2
+        },
+        "zh": {
+          "clicks": 5,
+          "impressions": 100,
+          "rows": 1
+        }
+      },
+      "topQueries": [
+        {
+          "query": "astro docs",
+          "page": "https://example.com/en/astro/getting-started/",
+          "clicks": 12,
+          "impressions": 240,
+          "position": 6.2
+        },
+        {
+          "query": "astro 中文",
+          "page": "https://example.com/zh/astro/getting-started/",
+          "clicks": 5,
+          "impressions": 100,
+          "position": 8.1
+        },
+        {
+          "query": "astro examples",
+          "page": "https://example.com/en/astro/examples/",
+          "clicks": 3,
+          "impressions": 90,
+          "position": 10.4
+        }
+      ]
+    }
+  }
+}

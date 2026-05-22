@@ -1,0 +1,63 @@
+---
+const styles = [
+  ['base', 'Base', 'B'],
+  ['pop-brutal', 'Pop', 'P'],
+  ['luminous', 'Luminous', 'L'],
+  ['neo-retro', 'Retro', 'R'],
+  ['pixel', 'Pixel', 'X'],
+];
+---
+
+<div class="style-switcher" data-style-switcher>
+  <span class="style-switcher__label">Style</span>
+  <div class="style-switcher__buttons" role="radiogroup" aria-label="Choose page style">
+    {
+      styles.map(([value, label, short]) => (
+        <button
+          type="button"
+          class="style-switcher__button"
+          data-style-option={value}
+          aria-label={`Use ${label} style`}
+          aria-checked="false"
+          role="radio"
+          title={label}
+        >
+          <span aria-hidden="true">{short}</span>
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script is:inline>
+  (() => {
+    const storageKey = 'astro-style-pack';
+    const allowed = ['base', 'pop-brutal', 'luminous', 'neo-retro', 'pixel'];
+    const root = document.documentElement;
+    const buttons = Array.from(document.querySelectorAll('[data-style-option]'));
+    const normalize = (value) => (allowed.includes(value) ? value : 'base');
+    const apply = (value) => {
+      const theme = normalize(value);
+      root.setAttribute('data-theme-pack', theme);
+      root.setAttribute('data-theme', 'dark');
+      root.style.colorScheme = theme === 'luminous' || theme === 'pixel' ? 'dark' : 'light';
+      buttons.forEach((button) => {
+        const active = button.dataset.styleOption === theme;
+        button.setAttribute('aria-checked', String(active));
+        button.toggleAttribute('data-active', active);
+      });
+      try {
+        localStorage.setItem(storageKey, theme);
+        localStorage.setItem('starlight-theme', 'dark');
+      } catch {}
+    };
+    let initial = 'base';
+    try {
+      initial = normalize(localStorage.getItem(storageKey));
+    } catch {}
+    apply(initial);
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => apply(button.dataset.styleOption));
+    });
+  })();
+</script>

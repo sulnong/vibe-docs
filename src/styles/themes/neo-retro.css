@@ -1,0 +1,33 @@
+[data-theme-pack="neo-retro"] {
+  --astro-accent: #ff4d8d;
+  --astro-accent-strong: #1f2937;
+  --astro-surface: #fff7d6;
+  --astro-surface-muted: #bff3ff;
+  --astro-border: #1f2937;
+  --astro-text: #1f2937;
+  --astro-shadow: 8px 8px 0 #1f2937;
+  --astro-radius: 6px;
+  --astro-font-display: Arial, ui-sans-serif, system-ui, sans-serif;
+  --astro-font-heading: Arial, "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  --astro-font-body: Verdana, "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  --astro-font-mono: "Courier New", ui-monospace, monospace;
+  --sl-color-accent-low: #ffd5e5;
+  --sl-color-accent: #ff4d8d;
+  --sl-color-accent-high: #58112b;
+}
+
+[data-theme-pack="neo-retro"] .astro-button,
+[data-theme-pack="neo-retro"] .astro-card,
+[data-theme-pack="neo-retro"] .astro-tooltip__bubble {
+  border-width: 2px;
+}
+
+[data-theme-pack="neo-retro"] .astro-button {
+  color: #1f2937;
+}
+
+[data-theme-pack="neo-retro"] .style-switcher,
+[data-theme-pack="neo-retro"] starlight-lang-select label {
+  border-width: 2px;
+  box-shadow: 4px 4px 0 var(--astro-border);
+}

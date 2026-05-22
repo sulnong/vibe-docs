@@ -1,0 +1,23 @@
+{
+  "name": "trend-docs-factory",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A bilingual GitHub Trends documentation site workflow powered by Astro, Starlight, and a Markdown queue.",
+  "bin": {
+    "trend-docs": "./tools/cli.js"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "node --test tests/*.test.js",
+    "check": "npm run test && npm run build && node tools/cli.js check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/starlight": "^0.39.2",
+    "astro": "^6.3.6"
+  },
+  "devDependencies": {}
+}

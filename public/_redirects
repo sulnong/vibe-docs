@@ -1,0 +1,5 @@
+# Canonical host example. Replace example.com with the production domain.
+# https://www.example.com/* https://example.com/:splat 301
+
+# Future split-site example. Keep disabled until a topic intentionally moves.
+# https://astro.example.com/* https://example.com/en/astro/:splat 301
