@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 
 import { checkTopicContent, listTopics } from './lib/checks.js';
+import { buildTopicDossier, summarizeDossierReadiness } from './lib/content-factory.js';
 import { writeDraftTopic } from './lib/draft.js';
 import { discoverRepos, fetchGitHubRepo, parseRepoSlug } from './lib/github.js';
 import { summarizeGscCsv } from './lib/gsc.js';
@@ -28,6 +29,9 @@ async function main(cmd, options) {
       break;
     case 'score':
       await score(options);
+      break;
+    case 'dossier':
+      await dossier(options);
       break;
     case 'outline':
       await outline(options);
@@ -72,6 +76,7 @@ async function discover(options) {
         latestReleaseAt: repo.latestReleaseAt,
       },
       seo: defaultSeoSignals(),
+      methodology: defaultMethodology(),
       sources: [repo.url],
     });
     console.log(`queued ${topic.repo} as ${topic.slug}`);
@@ -87,7 +92,7 @@ async function score(options) {
   for (const topic of targets) {
     const scoring = scoreCandidate(topic);
     topic.score = scoring;
-    topic.status = scoring.recommendation === 'approve-outline' ? 'outline-review' : 'candidate';
+    topic.status = scoring.recommendation === 'approve-outline' ? 'dossier-review' : 'candidate';
     topic.updatedAt = new Date().toISOString();
     console.log(`${topic.slug}: ${scoring.total}/100 ${scoring.recommendation}`);
   }
@@ -111,6 +116,27 @@ async function outline(options) {
   topic.updatedAt = new Date().toISOString();
   await writeQueue(queue, options.queue);
   console.log(`wrote ${out}`);
+}
+
+async function dossier(options) {
+  const queue = await readQueue(options.queue);
+  const topic = findTopic(queue, options.topic);
+  if (!topic) throw new Error(`Topic not found: ${options.topic}`);
+
+  const topicDossier = buildTopicDossier({ topic });
+  const readiness = summarizeDossierReadiness(topicDossier);
+  topicDossier.readiness = readiness;
+
+  const out = options.out || `workflow/dossiers/${topic.slug}.json`;
+  await writeJson(out, topicDossier);
+  topic.dossierPath = out;
+  topic.methodology = topic.methodology || defaultMethodology();
+  topic.status = readiness.ready ? 'dossier-review' : 'candidate';
+  topic.updatedAt = new Date().toISOString();
+  await writeQueue(queue, options.queue);
+
+  console.log(`wrote ${out}`);
+  if (!readiness.ready) console.log(`dossier needs: ${readiness.missing.join(', ')}`);
 }
 
 async function draft(options) {
@@ -213,6 +239,18 @@ function defaultSeoSignals() {
   };
 }
 
+function defaultMethodology() {
+  return {
+    topicType: 'open-source-project',
+    primary: 'question-intent-first',
+    qualityBar: 'credible-usable-v1',
+    bilingualStrategy: 'shared-source-differentiated-locales',
+    geoPolicy: 'crawlable-understandable-citable',
+    publicCitationPolicy: 'page-footer-sources',
+    competitorUse: 'intent-extraction-only',
+  };
+}
+
 function parseArgs(argv) {
   const parsed = { queue: DEFAULT_QUEUE_PATH };
   for (let index = 0; index < argv.length; index += 1) {
@@ -245,6 +283,7 @@ function printHelp() {
   discover --repo owner/name              Add a GitHub repository candidate
   discover --query "stars:>500"           Discover public GitHub candidates
   score [--topic slug]                    Score queued candidates
+  dossier --topic slug                    Write internal source and intent dossier JSON
   outline --topic slug                    Write bilingual topic outline JSON
   draft --topic slug                      Generate reviewable bilingual Markdown drafts
   check [--topic slug]                    Run release quality gates
