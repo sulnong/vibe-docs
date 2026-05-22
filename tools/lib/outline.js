@@ -1,61 +1,47 @@
-import { buildTopicDossier } from './content-factory.js';
+export const DEFAULT_PAGES = [
+  ['index', 'Overview', 'What the project does, who it is for, and when to use it.'],
+  ['getting-started', 'Getting Started', 'Install the project and complete the first useful workflow.'],
+  ['core-concepts', 'Core Concepts', 'Explain the vocabulary and mental model behind the project.'],
+  ['installation', 'Installation', 'Cover supported runtimes, package managers, and environment setup.'],
+  ['configuration', 'Configuration', 'Document configuration files, flags, and common presets.'],
+  ['tutorials', 'Tutorials', 'Walk through practical tasks from beginner to intermediate level.'],
+  ['examples', 'Examples', 'Collect realistic examples readers can adapt.'],
+  ['comparisons', 'Comparisons', 'Compare alternatives and explain selection tradeoffs.'],
+  ['faq', 'FAQ', 'Answer common adoption, migration, and troubleshooting questions.'],
+  ['resources', 'Resources', 'Link official docs, releases, examples, and source references.'],
+];
 
-export const DEFAULT_PAGES = buildTopicDossier({
-  topic: {
-    slug: 'topic',
-    title: 'Topic',
-    repo: 'owner/topic',
-  },
-}).pageMatrix.map((page) => [page.slug, page.title, page.purpose, page.userQuestion]);
+const ZH_TITLES = {
+  Overview: '概览',
+  'Getting Started': '快速开始',
+  'Core Concepts': '核心概念',
+  Installation: '安装',
+  Configuration: '配置',
+  Tutorials: '教程',
+  Examples: '示例',
+  Comparisons: '对比',
+  FAQ: '常见问题',
+  Resources: '资源',
+};
 
 export function buildOutline({ topicSlug, title, repo, sources = [] }) {
   if (!topicSlug) throw new Error('topicSlug is required.');
   if (!title) throw new Error('title is required.');
   if (!repo) throw new Error('repo is required.');
 
-  const dossier = buildTopicDossier({
-    topic: {
-      slug: topicSlug,
-      title,
-      repo,
-      sources,
-    },
-  });
-
-  const pages = dossier.pageMatrix.map((page, index) => ({
-    slug: page.slug,
-    title: page.title,
-    navTitle: page.title,
+  const pages = DEFAULT_PAGES.map(([slug, pageTitle, purpose], index) => ({
+    slug,
+    title: pageTitle,
+    navTitle: pageTitle,
     order: index + 1,
-    purpose: page.purpose,
-    userQuestion: page.userQuestion,
-    intent: page.intent || page.slug,
-    requiredSections: page.requiredSections,
-    targetKeywords: keywordSet(title, page.title, page.userQuestion),
-  }));
-
-  const translations = dossier.pageMatrix.map((page, index) => ({
-    slug: page.slug,
-    title: page.zhTitle || page.title,
-    navTitle: page.zhTitle || page.title,
-    order: index + 1,
-    purpose: page.purpose,
-    userQuestion: page.userQuestion,
-    intent: page.intent || page.slug,
-    requiredSections: page.requiredSections,
-    targetKeywords: keywordSet(title, page.zhTitle || page.title, page.userQuestion),
-    localeAdaptation: 'Share factual baseline with English and add Chinese search language, resources, and common questions where useful.',
+    purpose,
+    targetKeywords: keywordSet(title, pageTitle),
   }));
 
   return {
     topicSlug,
     title,
     repo,
-    methodology: {
-      primary: 'question-intent-first',
-      qualityBar: 'credible-usable-v1',
-      sourcePolicy: 'official-facts-competitors-for-intent-community-for-pain',
-    },
     pageCount: pages.length,
     locales: {
       en: { label: 'English', basePath: `/en/${topicSlug}/` },
@@ -63,28 +49,22 @@ export function buildOutline({ topicSlug, title, repo, sources = [] }) {
     },
     pages,
     translations: {
-      zh: translations,
+      zh: pages.map((page) => ({
+        ...page,
+        title: ZH_TITLES[page.title] || page.title,
+        navTitle: ZH_TITLES[page.navTitle] || page.navTitle,
+      })),
     },
-    searchIntentMatrix: dossier.searchIntentMatrix,
-    contentGates: dossier.contentGates,
     sources,
   };
 }
 
-function keywordSet(title, pageTitle, userQuestion = '') {
+function keywordSet(title, pageTitle) {
   const base = title.toLowerCase();
   const page = pageTitle.toLowerCase();
-  const questionWords = userQuestion
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .split(/\s+/)
-    .filter((word) => word.length > 3)
-    .slice(0, 3)
-    .join(' ');
   return [
     `${base} ${page}`,
     `${base} tutorial`,
     `${base} documentation`,
-    questionWords ? `${base} ${questionWords}` : `${base} guide`,
   ];
 }

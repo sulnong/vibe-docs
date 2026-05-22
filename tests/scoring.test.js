@@ -40,7 +40,6 @@ test('scoreCandidate prioritizes GitHub heat and zero-cost SEO opportunity', () 
   assert.equal(result.recommendation, 'approve-outline');
   assert.equal(result.dimensions.github.max, 60);
   assert.equal(result.dimensions.seo.max, 40);
-  assert.equal(result.nextStep, 'build-dossier');
   assert.ok(result.total >= 70);
   assert.match(result.reasons.join('\n'), /GitHub heat/);
   assert.match(result.reasons.join('\n'), /SEO opportunity/);

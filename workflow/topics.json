@@ -17,27 +17,14 @@
         "tutorialIntent": "unknown",
         "notes": "Fill from manual or semi-automated SERP review before outline approval."
       },
-      "methodology": {
-        "topicType": "open-source-project",
-        "primary": "question-intent-first",
-        "qualityBar": "credible-usable-v1",
-        "bilingualStrategy": "shared-source-differentiated-locales",
-        "geoPolicy": "crawlable-understandable-citable",
-        "publicCitationPolicy": "page-footer-sources",
-        "competitorUse": "intent-extraction-only"
-      },
       "sources": [
-        "https://github.com/withastro/astro",
-        "https://docs.astro.build/",
-        "https://docs.astro.build/en/concepts/why-astro/",
-        "https://github.com/withastro/astro/releases"
+        "https://github.com/withastro/astro"
       ],
       "updatedAt": "2026-05-22T02:43:18.279Z",
       "createdAt": "2026-05-22T02:40:20.951Z",
       "score": {
         "total": 46,
         "recommendation": "skip",
-        "nextStep": "review-or-pause",
         "dimensions": {
           "github": {
             "score": 29,
@@ -66,7 +53,6 @@
           "SEO opportunity: 17/40 from SERP competition, language gaps, and tutorial intent."
         ]
       },
-      "dossierPath": "workflow/dossiers/astro.json",
       "outlinePath": "workflow/outlines/astro.json"
     }
   ]

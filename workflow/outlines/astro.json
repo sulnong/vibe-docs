@@ -1,13 +1,8 @@
 {
   "topicSlug": "astro",
-  "title": "Astro",
+  "title": "astro",
   "repo": "withastro/astro",
-  "methodology": {
-    "primary": "question-intent-first",
-    "qualityBar": "credible-usable-v1",
-    "sourcePolicy": "official-facts-competitors-for-intent-community-for-pain"
-  },
-  "pageCount": 9,
+  "pageCount": 10,
   "locales": {
     "en": {
       "label": "English",
@@ -24,188 +19,119 @@
       "title": "Overview",
       "navTitle": "Overview",
       "order": 1,
-      "purpose": "Explain what the project does, who it is for, and the fastest trustworthy path through the guide.",
-      "userQuestion": "What is this project, and should I keep reading?",
-      "intent": "index",
-      "requiredSections": [
-        "Core answer",
-        "Limitations",
-        "Next steps",
-        "Sources"
-      ],
+      "purpose": "What the project does, who it is for, and when to use it.",
       "targetKeywords": [
         "astro overview",
         "astro tutorial",
-        "astro documentation",
-        "astro what this project"
-      ]
-    },
-    {
-      "slug": "why-and-when",
-      "title": "Why and When",
-      "navTitle": "Why and When",
-      "order": 2,
-      "purpose": "Cover background, origin, solved problems, fit, and non-fit cases.",
-      "userQuestion": "Why does this project exist, and when is it the right choice?",
-      "intent": "why-and-when",
-      "requiredSections": [
-        "Core answer",
-        "Limitations",
-        "Next steps",
-        "Sources"
-      ],
-      "targetKeywords": [
-        "astro why and when",
-        "astro tutorial",
-        "astro documentation",
-        "astro does this project"
+        "astro documentation"
       ]
     },
     {
       "slug": "getting-started",
       "title": "Getting Started",
       "navTitle": "Getting Started",
-      "order": 3,
+      "order": 2,
       "purpose": "Install the project and complete the first useful workflow.",
-      "userQuestion": "How do I get from zero to a working result?",
-      "intent": "getting-started",
-      "requiredSections": [
-        "Core answer",
-        "Limitations",
-        "Next steps",
-        "Sources"
-      ],
       "targetKeywords": [
         "astro getting started",
         "astro tutorial",
-        "astro documentation",
-        "astro from zero working"
+        "astro documentation"
       ]
     },
     {
       "slug": "core-concepts",
       "title": "Core Concepts",
       "navTitle": "Core Concepts",
-      "order": 4,
+      "order": 3,
       "purpose": "Explain the vocabulary and mental model behind the project.",
-      "userQuestion": "What concepts do I need before using it confidently?",
-      "intent": "core-concepts",
-      "requiredSections": [
-        "Core answer",
-        "Limitations",
-        "Next steps",
-        "Sources"
-      ],
       "targetKeywords": [
         "astro core concepts",
         "astro tutorial",
-        "astro documentation",
-        "astro what concepts need"
+        "astro documentation"
       ]
     },
     {
-      "slug": "common-tasks",
-      "title": "Common Tasks",
-      "navTitle": "Common Tasks",
-      "order": 5,
-      "purpose": "Map recurring search needs to practical implementation paths.",
-      "userQuestion": "What do developers usually need to build or configure with it?",
-      "intent": "common-tasks",
-      "requiredSections": [
-        "Core answer",
-        "Limitations",
-        "Next steps",
-        "Sources"
-      ],
+      "slug": "installation",
+      "title": "Installation",
+      "navTitle": "Installation",
+      "order": 4,
+      "purpose": "Cover supported runtimes, package managers, and environment setup.",
       "targetKeywords": [
-        "astro common tasks",
+        "astro installation",
         "astro tutorial",
-        "astro documentation",
-        "astro what developers usually"
+        "astro documentation"
+      ]
+    },
+    {
+      "slug": "configuration",
+      "title": "Configuration",
+      "navTitle": "Configuration",
+      "order": 5,
+      "purpose": "Document configuration files, flags, and common presets.",
+      "targetKeywords": [
+        "astro configuration",
+        "astro tutorial",
+        "astro documentation"
+      ]
+    },
+    {
+      "slug": "tutorials",
+      "title": "Tutorials",
+      "navTitle": "Tutorials",
+      "order": 6,
+      "purpose": "Walk through practical tasks from beginner to intermediate level.",
+      "targetKeywords": [
+        "astro tutorials",
+        "astro tutorial",
+        "astro documentation"
       ]
     },
     {
       "slug": "examples",
       "title": "Examples",
       "navTitle": "Examples",
-      "order": 6,
-      "purpose": "Collect realistic examples readers can adapt and verify.",
-      "userQuestion": "What does a realistic usage pattern look like?",
-      "intent": "examples",
-      "requiredSections": [
-        "Core answer",
-        "Limitations",
-        "Next steps",
-        "Sources"
-      ],
+      "order": 7,
+      "purpose": "Collect realistic examples readers can adapt.",
       "targetKeywords": [
         "astro examples",
         "astro tutorial",
-        "astro documentation",
-        "astro does realistic usage"
+        "astro documentation"
       ]
     },
     {
-      "slug": "tradeoffs-and-alternatives",
-      "title": "Tradeoffs and Alternatives",
-      "navTitle": "Tradeoffs and Alternatives",
-      "order": 7,
+      "slug": "comparisons",
+      "title": "Comparisons",
+      "navTitle": "Comparisons",
+      "order": 8,
       "purpose": "Compare alternatives and explain selection tradeoffs.",
-      "userQuestion": "What are the strengths, weaknesses, and competing options?",
-      "intent": "tradeoffs-and-alternatives",
-      "requiredSections": [
-        "Core answer",
-        "Limitations",
-        "Next steps",
-        "Sources"
-      ],
       "targetKeywords": [
-        "astro tradeoffs and alternatives",
+        "astro comparisons",
         "astro tutorial",
-        "astro documentation",
-        "astro what strengths weaknesses"
+        "astro documentation"
       ]
     },
     {
       "slug": "faq",
       "title": "FAQ",
       "navTitle": "FAQ",
-      "order": 8,
+      "order": 9,
       "purpose": "Answer common adoption, migration, and troubleshooting questions.",
-      "userQuestion": "Which questions or doubts repeatedly block adoption?",
-      "intent": "faq",
-      "requiredSections": [
-        "Core answer",
-        "Limitations",
-        "Next steps",
-        "Sources"
-      ],
       "targetKeywords": [
         "astro faq",
         "astro tutorial",
-        "astro documentation",
-        "astro which questions doubts"
+        "astro documentation"
       ]
     },
     {
       "slug": "resources",
       "title": "Resources",
       "navTitle": "Resources",
-      "order": 9,
+      "order": 10,
       "purpose": "Link official docs, releases, examples, and source references.",
-      "userQuestion": "Where should I verify facts and keep learning?",
-      "intent": "resources",
-      "requiredSections": [
-        "Core answer",
-        "Limitations",
-        "Next steps",
-        "Sources"
-      ],
       "targetKeywords": [
         "astro resources",
         "astro tutorial",
-        "astro documentation",
-        "astro where should verify"
+        "astro documentation"
       ]
     }
   ],
@@ -216,264 +142,124 @@
         "title": "概览",
         "navTitle": "概览",
         "order": 1,
-        "purpose": "Explain what the project does, who it is for, and the fastest trustworthy path through the guide.",
-        "userQuestion": "What is this project, and should I keep reading?",
-        "intent": "index",
-        "requiredSections": [
-          "Core answer",
-          "Limitations",
-          "Next steps",
-          "Sources"
-        ],
+        "purpose": "What the project does, who it is for, and when to use it.",
         "targetKeywords": [
-          "astro 概览",
+          "astro overview",
           "astro tutorial",
-          "astro documentation",
-          "astro what this project"
-        ],
-        "localeAdaptation": "Share factual baseline with English and add Chinese search language, resources, and common questions where useful."
-      },
-      {
-        "slug": "why-and-when",
-        "title": "为什么与何时选择",
-        "navTitle": "为什么与何时选择",
-        "order": 2,
-        "purpose": "Cover background, origin, solved problems, fit, and non-fit cases.",
-        "userQuestion": "Why does this project exist, and when is it the right choice?",
-        "intent": "why-and-when",
-        "requiredSections": [
-          "Core answer",
-          "Limitations",
-          "Next steps",
-          "Sources"
-        ],
-        "targetKeywords": [
-          "astro 为什么与何时选择",
-          "astro tutorial",
-          "astro documentation",
-          "astro does this project"
-        ],
-        "localeAdaptation": "Share factual baseline with English and add Chinese search language, resources, and common questions where useful."
+          "astro documentation"
+        ]
       },
       {
         "slug": "getting-started",
         "title": "快速开始",
         "navTitle": "快速开始",
-        "order": 3,
+        "order": 2,
         "purpose": "Install the project and complete the first useful workflow.",
-        "userQuestion": "How do I get from zero to a working result?",
-        "intent": "getting-started",
-        "requiredSections": [
-          "Core answer",
-          "Limitations",
-          "Next steps",
-          "Sources"
-        ],
         "targetKeywords": [
-          "astro 快速开始",
+          "astro getting started",
           "astro tutorial",
-          "astro documentation",
-          "astro from zero working"
-        ],
-        "localeAdaptation": "Share factual baseline with English and add Chinese search language, resources, and common questions where useful."
+          "astro documentation"
+        ]
       },
       {
         "slug": "core-concepts",
         "title": "核心概念",
         "navTitle": "核心概念",
-        "order": 4,
+        "order": 3,
         "purpose": "Explain the vocabulary and mental model behind the project.",
-        "userQuestion": "What concepts do I need before using it confidently?",
-        "intent": "core-concepts",
-        "requiredSections": [
-          "Core answer",
-          "Limitations",
-          "Next steps",
-          "Sources"
-        ],
         "targetKeywords": [
-          "astro 核心概念",
+          "astro core concepts",
           "astro tutorial",
-          "astro documentation",
-          "astro what concepts need"
-        ],
-        "localeAdaptation": "Share factual baseline with English and add Chinese search language, resources, and common questions where useful."
+          "astro documentation"
+        ]
       },
       {
-        "slug": "common-tasks",
-        "title": "常见任务",
-        "navTitle": "常见任务",
-        "order": 5,
-        "purpose": "Map recurring search needs to practical implementation paths.",
-        "userQuestion": "What do developers usually need to build or configure with it?",
-        "intent": "common-tasks",
-        "requiredSections": [
-          "Core answer",
-          "Limitations",
-          "Next steps",
-          "Sources"
-        ],
+        "slug": "installation",
+        "title": "安装",
+        "navTitle": "安装",
+        "order": 4,
+        "purpose": "Cover supported runtimes, package managers, and environment setup.",
         "targetKeywords": [
-          "astro 常见任务",
+          "astro installation",
           "astro tutorial",
-          "astro documentation",
-          "astro what developers usually"
-        ],
-        "localeAdaptation": "Share factual baseline with English and add Chinese search language, resources, and common questions where useful."
+          "astro documentation"
+        ]
+      },
+      {
+        "slug": "configuration",
+        "title": "配置",
+        "navTitle": "配置",
+        "order": 5,
+        "purpose": "Document configuration files, flags, and common presets.",
+        "targetKeywords": [
+          "astro configuration",
+          "astro tutorial",
+          "astro documentation"
+        ]
+      },
+      {
+        "slug": "tutorials",
+        "title": "教程",
+        "navTitle": "教程",
+        "order": 6,
+        "purpose": "Walk through practical tasks from beginner to intermediate level.",
+        "targetKeywords": [
+          "astro tutorials",
+          "astro tutorial",
+          "astro documentation"
+        ]
       },
       {
         "slug": "examples",
         "title": "示例",
         "navTitle": "示例",
-        "order": 6,
-        "purpose": "Collect realistic examples readers can adapt and verify.",
-        "userQuestion": "What does a realistic usage pattern look like?",
-        "intent": "examples",
-        "requiredSections": [
-          "Core answer",
-          "Limitations",
-          "Next steps",
-          "Sources"
-        ],
+        "order": 7,
+        "purpose": "Collect realistic examples readers can adapt.",
         "targetKeywords": [
-          "astro 示例",
+          "astro examples",
           "astro tutorial",
-          "astro documentation",
-          "astro does realistic usage"
-        ],
-        "localeAdaptation": "Share factual baseline with English and add Chinese search language, resources, and common questions where useful."
+          "astro documentation"
+        ]
       },
       {
-        "slug": "tradeoffs-and-alternatives",
-        "title": "取舍与替代方案",
-        "navTitle": "取舍与替代方案",
-        "order": 7,
+        "slug": "comparisons",
+        "title": "对比",
+        "navTitle": "对比",
+        "order": 8,
         "purpose": "Compare alternatives and explain selection tradeoffs.",
-        "userQuestion": "What are the strengths, weaknesses, and competing options?",
-        "intent": "tradeoffs-and-alternatives",
-        "requiredSections": [
-          "Core answer",
-          "Limitations",
-          "Next steps",
-          "Sources"
-        ],
         "targetKeywords": [
-          "astro 取舍与替代方案",
+          "astro comparisons",
           "astro tutorial",
-          "astro documentation",
-          "astro what strengths weaknesses"
-        ],
-        "localeAdaptation": "Share factual baseline with English and add Chinese search language, resources, and common questions where useful."
+          "astro documentation"
+        ]
       },
       {
         "slug": "faq",
         "title": "常见问题",
         "navTitle": "常见问题",
-        "order": 8,
+        "order": 9,
         "purpose": "Answer common adoption, migration, and troubleshooting questions.",
-        "userQuestion": "Which questions or doubts repeatedly block adoption?",
-        "intent": "faq",
-        "requiredSections": [
-          "Core answer",
-          "Limitations",
-          "Next steps",
-          "Sources"
-        ],
         "targetKeywords": [
-          "astro 常见问题",
+          "astro faq",
           "astro tutorial",
-          "astro documentation",
-          "astro which questions doubts"
-        ],
-        "localeAdaptation": "Share factual baseline with English and add Chinese search language, resources, and common questions where useful."
+          "astro documentation"
+        ]
       },
       {
         "slug": "resources",
         "title": "资源",
         "navTitle": "资源",
-        "order": 9,
+        "order": 10,
         "purpose": "Link official docs, releases, examples, and source references.",
-        "userQuestion": "Where should I verify facts and keep learning?",
-        "intent": "resources",
-        "requiredSections": [
-          "Core answer",
-          "Limitations",
-          "Next steps",
-          "Sources"
-        ],
         "targetKeywords": [
-          "astro 资源",
+          "astro resources",
           "astro tutorial",
-          "astro documentation",
-          "astro where should verify"
-        ],
-        "localeAdaptation": "Share factual baseline with English and add Chinese search language, resources, and common questions where useful."
+          "astro documentation"
+        ]
       }
     ]
   },
-  "searchIntentMatrix": [
-    {
-      "id": "background",
-      "label": "Background and origin",
-      "userQuestion": "Why does this project exist, and what problem was it created to solve?"
-    },
-    {
-      "id": "evaluation",
-      "label": "Evaluation",
-      "userQuestion": "When should a developer choose this project instead of an alternative?"
-    },
-    {
-      "id": "first-workflow",
-      "label": "First useful workflow",
-      "userQuestion": "How does a developer get from zero to a useful result?"
-    },
-    {
-      "id": "concepts",
-      "label": "Mental model",
-      "userQuestion": "Which concepts must a developer understand before using it well?"
-    },
-    {
-      "id": "tasks",
-      "label": "Common implementation tasks",
-      "userQuestion": "Which practical tasks do users repeatedly search for?"
-    },
-    {
-      "id": "tradeoffs",
-      "label": "Tradeoffs and alternatives",
-      "userQuestion": "What are the advantages, disadvantages, and competing options?"
-    },
-    {
-      "id": "troubleshooting",
-      "label": "Troubleshooting",
-      "userQuestion": "What breaks, confuses users, or needs verification against current docs?"
-    }
-  ],
-  "contentGates": [
-    {
-      "name": "topic-admission",
-      "description": "The topic has a real problem, stable sources, search demand, alternatives, and a clear audience."
-    },
-    {
-      "name": "dossier-admission",
-      "description": "Official sources, multilingual SERP observations, alternatives, and cross-checked facts are recorded."
-    },
-    {
-      "name": "outline-admission",
-      "description": "Every page answers a real user question or task and avoids thin keyword-only pages."
-    },
-    {
-      "name": "publish-admission",
-      "description": "Every page has metadata, a core answer, limitations, next steps, and public sources."
-    },
-    {
-      "name": "optimization-admission",
-      "description": "Post-publish work follows Search Console, analytics, SERP changes, and user questions."
-    }
-  ],
   "sources": [
-    "https://github.com/withastro/astro",
-    "https://docs.astro.build/",
-    "https://docs.astro.build/en/concepts/why-astro/",
-    "https://github.com/withastro/astro/releases"
+    "https://github.com/withastro/astro"
   ]
 }

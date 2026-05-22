@@ -24,15 +24,12 @@ npm run check
 ```bash
 node tools/cli.js discover --repo owner/name
 node tools/cli.js score --topic repo-slug
-node tools/cli.js dossier --topic repo-slug
 node tools/cli.js outline --topic repo-slug
 node tools/cli.js draft --topic repo-slug
 node tools/cli.js check --topic repo-slug
 ```
 
-The internal queue is not part of the public site. It exists for topic review, source dossiers, content generation, and analytics feedback.
-
-The content workflow is question-intent-first: build an internal dossier from official sources, multilingual SERP observations, alternatives, and community pain before writing the public page matrix. Public pages stay topic-first and cite sources at the footer; competitor pages are used only to identify intent, gaps, and common mistakes.
+The internal queue is not part of the public site. It exists for topic review, content generation, and analytics feedback.
 
 ## GitHub Pages
 
@@ -70,7 +67,3 @@ Official references:
 - Cloudflare Pages redirects and headers: https://developers.cloudflare.com/pages/configuration/redirects/
 - Cloudflare Web Analytics: https://developers.cloudflare.com/web-analytics/
 - Search Console Search Analytics: https://developers.google.com/webmaster-tools/v1/searchanalytics/query
-- Google helpful content: https://developers.google.com/search/docs/fundamentals/creating-helpful-content
-- Google AI Search guidance: https://developers.google.com/search/blog/2025/05/succeeding-in-ai-search
-- Google multilingual sites: https://developers.google.com/search/docs/specialty/international/managing-multi-regional-sites
-- OpenAI crawlers: https://platform.openai.com/docs/gptbot

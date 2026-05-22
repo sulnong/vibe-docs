@@ -3,8 +3,6 @@ import { join } from 'node:path';
 
 const PLACEHOLDER_RE = /\b(TODO|TBD|lorem ipsum|coming soon|placeholder)\b/i;
 const URL_RE = /https?:\/\/[^\s)>\]]+/i;
-const LIMITATION_SIGNAL_RE = /\b(limitation|tradeoff|alternative|instead|avoid|mistake|troubleshoot|unsupported|not necessary|may not|does not replace|only when|only what|server rendering|client directive|base path|official source|source map|quality gate)\b|限制|取舍|替代|不适合|误区|排错|不要|未必|不能替代|只有|只在|服务端渲染|按需|base path|官方资料|来源|质量门槛/i;
-const NEXT_STEP_SIGNAL_RE = /\b(next steps?|start with|learn first|checklist|deploy|read|verify|try|test|compare|use the official|inspect|add|create|move into|jump to)\b|下一步|先|开始|检查清单|部署|阅读|验证|尝试|测试|对比|继续|查看|添加|创建|再看|跳到/i;
 
 export async function checkTopicContent({ docsRoot = 'src/content/docs', topicSlug } = {}) {
   const failures = [];
@@ -42,15 +40,6 @@ export async function checkTopicContent({ docsRoot = 'src/content/docs', topicSl
       }
       if (PLACEHOLDER_RE.test(content)) failures.push(`${path} contains placeholder text.`);
       if (!URL_RE.test(content)) failures.push(`${path} needs at least one source URL.`);
-      if (!hasHeading(content, 'Sources')) {
-        failures.push(`${path} needs a Sources section for credible usable publication.`);
-      }
-      if (!LIMITATION_SIGNAL_RE.test(content)) {
-        failures.push(`${path} needs limitations, tradeoffs, alternatives, or troubleshooting signals for credible usable publication.`);
-      }
-      if (!NEXT_STEP_SIGNAL_RE.test(content)) {
-        failures.push(`${path} needs next-step or action-path signals for credible usable publication.`);
-      }
     }
   }
 
@@ -96,9 +85,4 @@ async function markdownFiles(dir) {
 
 function stripExtension(file) {
   return file.replace(/\.mdx?$/, '');
-}
-
-function hasHeading(content, heading) {
-  const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return new RegExp(`^##\\s+${escaped}\\s*$`, 'im').test(content);
 }

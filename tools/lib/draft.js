@@ -25,11 +25,10 @@ export async function writeDraftTopic({ docsRoot = 'src/content/docs', topic }) 
 function renderPage({ locale, topic, page }) {
   const source = `https://github.com/${topic.repo}`;
   const title = page.title;
-  const userQuestion = page.userQuestion || 'What should a developer know before using this project?';
   const description =
     locale === 'en'
-      ? `${title} for ${topic.title || topic.slug}: a source-linked answer to a real developer question.`
-      : `${topic.title || topic.slug} 的${title}：围绕真实开发者问题整理的、有来源链接、可继续扩展的中文指南。`;
+      ? `${title} for ${topic.title || topic.slug}: a source-linked guide generated for review before publication.`
+      : `${topic.title || topic.slug} 的${title}：面向发布前审核的、有来源链接、可本地化扩展、适合搜索收录的双语文档页面。`;
 
   if (locale === 'zh') {
     return `---
@@ -39,19 +38,17 @@ description: ${yamlString(description)}
 
 # ${title}
 
-这篇页面围绕 \`${topic.repo}\` 整理，先回答一个真实问题：${userQuestion} 正文应保留统一事实基线，并在发布前结合官方文档、README、release notes、示例和社区问题复核关键步骤。
+这篇页面围绕 \`${topic.repo}\` 整理，目标是帮助读者快速判断项目价值、使用方式和进一步阅读路径。正文保留统一事实基线，发布前需要结合官方文档、README 和 release notes 复核关键步骤。
 
-## Core answer
+## 适用场景
 
-${topic.title || topic.slug} 的内容应从用户任务出发，而不是复刻官方目录。先说明它解决的问题、适合的读者、最小可行工作流，再把安装、配置、概念和示例链接到官方来源。
+- 需要快速了解 ${topic.title || topic.slug} 的开发者。
+- 正在比较同类开源项目的技术负责人。
+- 希望用中文材料完成初步评估，再回到官方资料验证细节的读者。
 
-## Limitations
+## 审核重点
 
-发布前必须确认命令、版本要求、配置字段、限制条件和替代方案都来自可追溯来源。竞品站只能用于识别用户意图、遗漏点和常见误区，不能复用原文、结构或独特表达。
-
-## Next steps
-
-补充官方 docs、README、release notes、示例项目、issue/FAQ 和中文搜索问题。若中文搜索结果显示读者更关心替代品、报错或部署场景，应在不偏离事实基线的前提下增加本地化段落。
+发布前请确认安装命令、版本要求、配置字段和限制条件都来自官方资料。若搜索结果显示用户更关心替代品、教程或中文问题，应在本页补充相应段落。
 
 ## Sources
 
@@ -66,19 +63,17 @@ description: ${yamlString(description)}
 
 # ${title}
 
-This page answers one real developer question about \`${topic.repo}\`: ${userQuestion} It keeps the factual baseline tied to official sources so the page can be reviewed, localized, and expanded without drifting away from source material.
+This page summarizes \`${topic.repo}\` for developers who need a fast but source-linked evaluation path. It keeps the factual baseline tied to the official repository so the page can be reviewed, localized, and expanded without drifting away from source material.
 
-## Core answer
+## When to use this page
 
-Start from the user task, not from a mirrored official table of contents. Explain the problem this project solves, the reader it fits, the smallest useful workflow, and the official places to verify installation, configuration, concepts, and examples.
+- You want to understand what ${topic.title || topic.slug} does before investing deeper research time.
+- You are comparing open-source tools in the same category.
+- You need a reviewable draft that can be expanded with official docs, README details, release notes, and examples.
 
-## Limitations
+## Review checklist
 
-Before publication, confirm commands, version requirements, configuration fields, limitations, and alternatives against traceable sources. Competitor pages may identify intent, gaps, and common mistakes, but their wording, structure, and unique expression must not be reused.
-
-## Next steps
-
-Expand this page with official docs, README details, release notes, examples, issue/FAQ signals, and locale-specific search questions. If search results show tutorial, comparison, or troubleshooting intent, answer those concrete queries with source-linked facts.
+Before publication, confirm installation commands, version requirements, configuration fields, and limitations against official sources. If the search results show tutorial, comparison, or troubleshooting intent, expand this page with those concrete queries.
 
 ## Sources
 

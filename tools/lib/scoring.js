@@ -28,7 +28,6 @@ export function scoreCandidate(candidate) {
   return {
     total,
     recommendation,
-    nextStep: recommendation === 'approve-outline' ? 'build-dossier' : 'review-or-pause',
     dimensions: {
       github: { score: githubScore.score, max: 60, details: githubScore.details },
       seo: { score: seoScore.score, max: 40, details: seoScore.details },
