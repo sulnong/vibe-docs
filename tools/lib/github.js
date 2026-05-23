@@ -30,6 +30,10 @@ export function parseRepoSlug(input) {
 }
 
 export function slugifyRepoName(name) {
+  return slugifyTopic(name);
+}
+
+export function slugifyTopic(name) {
   return name
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
@@ -48,21 +52,20 @@ export async function fetchGitHubRepo(input, { token = process.env.GITHUB_TOKEN 
   return normalizeRepo(data, repo);
 }
 
-export async function discoverRepos({ query, limit = 10, token = process.env.GITHUB_TOKEN } = {}) {
-  const since = new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).toISOString().slice(0, 10);
-  const q = query || `stars:>500 pushed:>${since}`;
-  const url = new URL('https://api.github.com/search/repositories');
-  url.searchParams.set('q', q);
-  url.searchParams.set('sort', 'stars');
-  url.searchParams.set('order', 'desc');
-  url.searchParams.set('per_page', String(Math.min(Number(limit) || 10, 50)));
+export function officialSourceCandidates(input) {
+  const repo = parseRepoSlug(input);
+  const base = `https://github.com/${repo.fullName}`;
 
-  const response = await fetch(url, { headers: githubHeaders(token) });
-  if (!response.ok) {
-    throw new Error(`GitHub discovery failed: ${response.status} ${response.statusText}`);
-  }
-  const data = await response.json();
-  return data.items.map((item, index) => normalizeRepo(item, parseRepoSlug(item.full_name), index + 1));
+  return [
+    { kind: 'repository', url: base, usage: '仓库元信息、README、源码入口' },
+    { kind: 'readme', url: `${base}#readme`, usage: '事实基线、定位、安装和示例' },
+    { kind: 'docs-directory', url: `${base}/tree/main/docs`, usage: '仓库内文档；路径可能需要 agent 验证' },
+    { kind: 'releases', url: `${base}/releases`, usage: '版本变化、breaking changes、升级注意事项' },
+    { kind: 'examples', url: `${base}/tree/main/examples`, usage: '真实示例和可复用代码结构；路径可能需要 agent 验证' },
+    { kind: 'issues', url: `${base}/issues`, usage: '坑点、排错、用户高频问题；必须回到官方事实交叉验证' },
+    { kind: 'discussions', url: `${base}/discussions`, usage: '社区问题、采用疑虑和真实用法；必须回到官方事实交叉验证' },
+    { kind: 'wiki', url: `${base}/wiki`, usage: '补充背景资料；是否存在需要 agent 验证' },
+  ];
 }
 
 function githubHeaders(token) {
@@ -80,6 +83,7 @@ function normalizeRepo(data, repo, trendingRank) {
     name: repo.name,
     slug: repo.slug,
     description: data.description || '',
+    homepage: data.homepage || '',
     url: data.html_url || `https://github.com/${repo.fullName}`,
     stars: data.stargazers_count || 0,
     forks: data.forks_count || 0,

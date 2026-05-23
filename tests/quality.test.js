@@ -4,23 +4,23 @@ import { join } from 'node:path';
 import test from 'node:test';
 
 import { checkTopicContent } from '../tools/lib/checks.js';
-import { buildOutline } from '../tools/lib/outline.js';
 import { writeDraftTopic } from '../tools/lib/draft.js';
+import { buildTopicPlan } from '../tools/lib/topic-plan.js';
 
 test('checkTopicContent enforces bilingual pages, metadata, citations, and banned placeholders', async () => {
   const root = await makeTempDir('trend-docs-check-');
-  const outline = buildOutline({
-    topicSlug: 'sample',
-    title: 'Sample Project',
+  const plan = buildTopicPlan({
+    topic: 'Sample Project',
+    slug: 'sample',
     repo: 'owner/sample',
-    sources: ['https://github.com/owner/sample'],
+    officialDocs: ['https://example.com/docs'],
   });
 
   await mkdir(join(root, 'en', 'sample'), { recursive: true });
   await mkdir(join(root, 'zh', 'sample'), { recursive: true });
 
-  for (const page of outline.pages) {
-    const body = makePage(page.title, 'Reference: https://github.com/owner/sample');
+  for (const page of plan.pages) {
+    const body = makePage(page.titles.en, 'Reference: https://github.com/owner/sample');
     await writeFile(join(root, 'en', 'sample', `${page.slug}.md`), body);
     await writeFile(join(root, 'zh', 'sample', `${page.slug}.md`), body);
   }
@@ -28,7 +28,7 @@ test('checkTopicContent enforces bilingual pages, metadata, citations, and banne
   const passing = await checkTopicContent({ docsRoot: root, topicSlug: 'sample' });
   assert.equal(passing.ok, true);
 
-  await writeFile(join(root, 'zh', 'sample', `${outline.pages[0].slug}.md`), makePage('Bad', 'TODO'));
+  await writeFile(join(root, 'zh', 'sample', `${plan.pages[0].slug}.md`), makePage('Bad', 'TODO'));
   const failing = await checkTopicContent({ docsRoot: root, topicSlug: 'sample' });
   assert.equal(failing.ok, false);
   assert.match(failing.failures.join('\n'), /placeholder/i);
@@ -46,9 +46,9 @@ test('writeDraftTopic quotes frontmatter values that contain colons', async () =
     },
   });
 
-  const content = await readFile(join(root, 'en', 'colon-demo', 'configuration.md'), 'utf8');
-  assert.match(content, /^title: "Configuration"/m);
-  assert.match(content, /^description: "Configuration for Project: Demo:/m);
+  const content = await readFile(join(root, 'en', 'colon-demo', 'index.md'), 'utf8');
+  assert.match(content, /^title: "Overview"/m);
+  assert.match(content, /^description: "Overview for Project: Demo:/m);
 });
 
 function makePage(title, sourceLine) {

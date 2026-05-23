@@ -1,30 +1,30 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-import { buildOutline } from './outline.js';
+import { buildTopicPlan } from './topic-plan.js';
 
 export async function writeDraftTopic({ docsRoot = 'src/content/docs', topic }) {
-  const outline = buildOutline({
-    topicSlug: topic.slug,
-    title: topic.title || topic.name || topic.slug,
+  const plan = buildTopicPlan({
+    topic: topic.title || topic.name || topic.slug,
+    slug: topic.slug,
     repo: topic.repo,
-    sources: topic.sources || [`https://github.com/${topic.repo}`],
+    officialDocs: topic.officialDocs || topic.sources || [],
+    competitors: topic.competitors || [],
   });
 
   for (const locale of ['en', 'zh']) {
-    const dir = join(docsRoot, locale, topic.slug);
+    const dir = join(docsRoot, locale, plan.slug);
     await mkdir(dir, { recursive: true });
-    const pages = locale === 'en' ? outline.pages : outline.translations.zh;
-    for (const page of pages) {
+    for (const page of plan.pages) {
       await writeFile(join(dir, `${page.slug}.md`), renderPage({ locale, topic, page }));
     }
   }
-  return outline;
+  return plan;
 }
 
 function renderPage({ locale, topic, page }) {
   const source = `https://github.com/${topic.repo}`;
-  const title = page.title;
+  const title = locale === 'en' ? page.titles.en : page.titles.zh;
   const description =
     locale === 'en'
       ? `${title} for ${topic.title || topic.slug}: a source-linked guide generated for review before publication.`
@@ -38,17 +38,17 @@ description: ${yamlString(description)}
 
 # ${title}
 
-这篇页面围绕 \`${topic.repo}\` 整理，目标是帮助读者快速判断项目价值、使用方式和进一步阅读路径。正文保留统一事实基线，发布前需要结合官方文档、README 和 release notes 复核关键步骤。
+这篇页面围绕 \`${topic.repo}\` 整理，目标是回答：${page.question} 正文保留统一事实基线，发布前需要结合官方文档、README、release notes、examples、issues 和 SERP 观察复核关键步骤。
 
-## 适用场景
+## 页面要覆盖什么
 
-- 需要快速了解 ${topic.title || topic.slug} 的开发者。
-- 正在比较同类开源项目的技术负责人。
-- 希望用中文材料完成初步评估，再回到官方资料验证细节的读者。
+- 搜索意图：${page.intent}
+- 页面组织：${page.sections.join('；')}
+- 差异化内容：${page.uniqueAngle}
 
 ## 审核重点
 
-发布前请确认安装命令、版本要求、配置字段和限制条件都来自官方资料。若搜索结果显示用户更关心替代品、教程或中文问题，应在本页补充相应段落。
+发布前请确认事实、安装命令、版本要求、配置字段、限制条件和排错路径都来自可追踪来源。若搜索结果显示用户更关心替代品、教程或中文问题，应在本页补充相应段落。
 
 ## Sources
 
@@ -63,17 +63,17 @@ description: ${yamlString(description)}
 
 # ${title}
 
-This page summarizes \`${topic.repo}\` for developers who need a fast but source-linked evaluation path. It keeps the factual baseline tied to the official repository so the page can be reviewed, localized, and expanded without drifting away from source material.
+This page summarizes \`${topic.repo}\` for developers who need a source-linked answer to: ${page.question} It keeps the factual baseline tied to official material so the page can be reviewed, localized, and expanded without drifting away from source material.
 
-## When to use this page
+## Coverage
 
-- You want to understand what ${topic.title || topic.slug} does before investing deeper research time.
-- You are comparing open-source tools in the same category.
-- You need a reviewable draft that can be expanded with official docs, README details, release notes, and examples.
+- Search intent: ${page.intent}
+- Page structure: ${page.sections.join('; ')}
+- Unique angle: ${page.uniqueAngle}
 
 ## Review checklist
 
-Before publication, confirm installation commands, version requirements, configuration fields, and limitations against official sources. If the search results show tutorial, comparison, or troubleshooting intent, expand this page with those concrete queries.
+Before publication, confirm facts, installation commands, version requirements, configuration fields, limitations, examples, and troubleshooting paths against official sources. If SERP review shows tutorial, comparison, or troubleshooting intent, expand this page with those concrete queries.
 
 ## Sources
 

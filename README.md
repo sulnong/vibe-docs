@@ -1,6 +1,6 @@
 # Astro Guide
 
-Astro Guide is the first public topic in a bilingual documentation-site workflow. Public visitors should see topic-first documentation, not the internal content factory.
+Astro Guide is the first public topic in an agent-assisted bilingual documentation project. Public visitors should see topic-first documentation, while internal research plans stay outside the public site.
 
 ## Stack
 
@@ -8,7 +8,8 @@ Astro Guide is the first public topic in a bilingual documentation-site workflow
 - `/en/{topic}/` and `/zh/{topic}/` URL structure.
 - Right-side style switcher that changes presentation without changing content URLs.
 - GitHub Pages deployment through tagged releases.
-- Internal CLI + Markdown/JSON queue stored under `workflow/`.
+- Agent-facing helper tools under `tools/`.
+- Human-reviewed topic outline reports under `content-plans/`.
 
 ## Quick Start
 
@@ -19,17 +20,39 @@ node tools/cli.js help
 npm run check
 ```
 
-## First Workflow
+## What `tools/` Is For
+
+`tools/` is an agent-facing helper layer, not a product UI for human operators. It helps an agent turn a topic into a reviewable outline report, then generate bilingual drafts after human approval.
+
+The main commands are:
+
+- `research`: create `content-plans/<topic>/outline.md`;
+- `draft`: generate English and Chinese Markdown drafts after the outline is approved;
+- `check`: run structural checks on generated docs.
 
 ```bash
-node tools/cli.js discover --repo owner/name
-node tools/cli.js score --topic repo-slug
-node tools/cli.js outline --topic repo-slug
-node tools/cli.js draft --topic repo-slug
-node tools/cli.js check --topic repo-slug
+node tools/cli.js help
 ```
 
-The internal queue is not part of the public site. It exists for topic review, content generation, and analytics feedback.
+## What `content-plans/` Is For
+
+`content-plans/` stores agent-generated topic outline reports. Each report is meant for human review before document generation. It should explain what the agent researched, which sources matter, what pages will be generated, how URLs are organized, what each page answers, and where each page gets its facts.
+
+Important files and directories:
+
+- `content-plans/README.md`: rules for outline reports;
+- `content-plans/<topic>/outline.md`: the reviewable topic outline report.
+
+## Agent Flow
+
+```bash
+node tools/cli.js research --topic "Astro" --repo withastro/astro --official-docs https://docs.astro.build/
+# Human reviews content-plans/astro/outline.md
+node tools/cli.js draft --topic "Astro" --repo withastro/astro --official-docs https://docs.astro.build/
+node tools/cli.js check --topic astro
+```
+
+Before running `draft`, the agent should research official docs, README, releases, examples, issues, search demand, SERP competitors, troubleshooting paths, and opportunities to create content that is not just a summary of existing pages.
 
 ## GitHub Pages
 
@@ -43,17 +66,6 @@ For GitHub project pages, set repository variables if the defaults are not right
 
 - `PUBLIC_SITE_URL`, for example `https://yourname.github.io`
 - `PUBLIC_BASE_PATH`, for example `/your-repo/`
-
-## Analytics Loop
-
-Export Search Console query/page data as CSV, then import it:
-
-```bash
-node tools/cli.js import-gsc --file workflow/samples/gsc-export.csv
-node tools/cli.js report --out workflow/reports/latest.md
-```
-
-Use the report to decide whether a topic should be expanded, rewritten, internally linked more heavily, split to a subdomain, or paused.
 
 ## Deployment Notes
 

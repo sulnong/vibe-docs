@@ -31,8 +31,8 @@ export default defineConfig({
     sitemap(),
     starlight({
       title: {
-        en: 'Astro Guide',
-        zh: 'Astro 指南',
+        en: 'Vibe Docs',
+        zh: 'Vibe Docs',
       },
       customCss: ['./src/styles/custom.css'],
       components: {
@@ -116,6 +116,129 @@ export default defineConfig({
                 { label: 'Comparisons', translations: { zh: '对比' }, link: '/astro/comparisons/' },
                 { label: 'FAQ', translations: { zh: '常见问题' }, link: '/astro/faq/' },
                 { label: 'Resources', translations: { zh: '资源' }, link: '/astro/resources/' },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Hermes Agent',
+          translations: { zh: 'Hermes Agent' },
+          items: [
+            {
+              label: 'Start',
+              translations: { zh: '开始' },
+              items: [
+                { label: 'Overview', translations: { zh: '概览' }, link: '/hermes-agent/' },
+                { label: 'Why and When', translations: { zh: '为什么与何时选择' }, link: '/hermes-agent/why-and-when/' },
+                { label: 'Installation', translations: { zh: '安装与版本基线' }, link: '/hermes-agent/installation/' },
+                { label: 'First Run', translations: { zh: '第一条可靠路径' }, link: '/hermes-agent/first-run/' },
+              ],
+            },
+            {
+              label: 'Daily Work',
+              translations: { zh: '日常工作流' },
+              items: [
+                { label: 'Providers and Models', translations: { zh: 'Provider 与模型配置' }, link: '/hermes-agent/providers-and-models/' },
+                { label: 'CLI and TUI', translations: { zh: 'CLI 与 TUI' }, link: '/hermes-agent/cli-and-tui/' },
+                { label: 'Tools and Toolsets', translations: { zh: '工具与工具集' }, link: '/hermes-agent/tools-and-toolsets/' },
+                { label: 'Skills System', translations: { zh: 'Skills 系统' }, link: '/hermes-agent/skills/' },
+                { label: 'Memory and Sessions', translations: { zh: '记忆与会话搜索' }, link: '/hermes-agent/memory-and-sessions/' },
+                { label: 'Context Files', translations: { zh: '项目指令与 Context Files' }, link: '/hermes-agent/context-files/' },
+              ],
+            },
+            {
+              label: 'Automation',
+              translations: { zh: '自动化与协作' },
+              items: [
+                { label: 'Messaging Gateway', translations: { zh: '消息平台 Gateway' }, link: '/hermes-agent/messaging-gateway/' },
+                { label: 'Cron Automation', translations: { zh: 'Cron 长期自动化' }, link: '/hermes-agent/cron-automation/' },
+                { label: 'Subagent Delegation', translations: { zh: 'Subagent 委派' }, link: '/hermes-agent/delegation/' },
+                { label: 'Kanban Board', translations: { zh: 'Kanban 多 Agent Board' }, link: '/hermes-agent/kanban/' },
+              ],
+            },
+            {
+              label: 'Integration and Security',
+              translations: { zh: '集成与安全' },
+              items: [
+                { label: 'Security Model', translations: { zh: '安全模型' }, link: '/hermes-agent/security-model/' },
+                { label: 'Terminal Backends', translations: { zh: 'Terminal Backends' }, link: '/hermes-agent/terminal-backends/' },
+                { label: 'MCP Integration', translations: { zh: 'MCP 集成' }, link: '/hermes-agent/mcp/' },
+                { label: 'API Server', translations: { zh: 'API Server' }, link: '/hermes-agent/api-server/' },
+                { label: 'Web and Media Tools', translations: { zh: 'Web/Browser/Media' }, link: '/hermes-agent/web-browser-media/' },
+                { label: 'OpenClaw Migration', translations: { zh: 'OpenClaw 迁移' }, link: '/hermes-agent/openclaw-migration/' },
+              ],
+            },
+            {
+              label: 'Reference',
+              translations: { zh: '参考' },
+              items: [
+                { label: 'Architecture', translations: { zh: '架构阅读路径' }, link: '/hermes-agent/architecture/' },
+                { label: 'Troubleshooting', translations: { zh: '排错路径' }, link: '/hermes-agent/troubleshooting/' },
+                { label: 'Alternatives', translations: { zh: '替代方案与对比' }, link: '/hermes-agent/alternatives/' },
+                { label: 'Resources', translations: { zh: '资源与更新追踪' }, link: '/hermes-agent/resources/' },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Swarms',
+          translations: { zh: 'Swarms' },
+          items: [
+            {
+              label: 'Start',
+              translations: { zh: '开始' },
+              items: [
+                { label: 'Overview', translations: { zh: '概览' }, link: '/swarms/' },
+                { label: 'Why and When', translations: { zh: '为什么与何时选择' }, link: '/swarms/why-and-when/' },
+                { label: 'Installation', translations: { zh: '安装与环境配置' }, link: '/swarms/installation/' },
+                { label: 'Quickstart', translations: { zh: '快速开始' }, link: '/swarms/quickstart/' },
+                { label: 'Core Concepts', translations: { zh: '核心概念' }, link: '/swarms/core-concepts/' },
+              ],
+            },
+            {
+              label: 'Agent Development',
+              translations: { zh: '单 Agent 开发' },
+              items: [
+                { label: 'Agent Configuration', translations: { zh: 'Agent 配置地图' }, link: '/swarms/agent-configuration/' },
+                { label: 'Agent Tools', translations: { zh: 'Agent 工具' }, link: '/swarms/agent-tools/' },
+                { label: 'Memory and State', translations: { zh: '记忆与状态' }, link: '/swarms/memory-and-state/' },
+                { label: 'Structured Outputs', translations: { zh: '结构化输出' }, link: '/swarms/structured-outputs/' },
+                { label: 'Reasoning Agents', translations: { zh: 'Reasoning Agents' }, link: '/swarms/reasoning-agents/' },
+              ],
+            },
+            {
+              label: 'Architectures',
+              translations: { zh: '多 Agent 架构' },
+              items: [
+                { label: 'Architecture Overview', translations: { zh: '架构总览' }, link: '/swarms/architectures/' },
+                { label: 'SequentialWorkflow', translations: { zh: 'SequentialWorkflow' }, link: '/swarms/sequential-workflow/' },
+                { label: 'ConcurrentWorkflow', translations: { zh: 'ConcurrentWorkflow' }, link: '/swarms/concurrent-workflow/' },
+                { label: 'AgentRearrange', translations: { zh: 'AgentRearrange' }, link: '/swarms/agent-rearrange/' },
+                { label: 'GraphWorkflow', translations: { zh: 'GraphWorkflow' }, link: '/swarms/graph-workflow/' },
+                { label: 'SwarmRouter', translations: { zh: 'SwarmRouter' }, link: '/swarms/swarm-router/' },
+                { label: 'Advanced Architectures', translations: { zh: '高级架构' }, link: '/swarms/advanced-architectures/' },
+              ],
+            },
+            {
+              label: 'Operations',
+              translations: { zh: '生产与运维' },
+              items: [
+                { label: 'CLI and YAML', translations: { zh: 'CLI 与 YAML' }, link: '/swarms/cli-and-yaml/' },
+                { label: 'Model Providers', translations: { zh: 'Model Providers' }, link: '/swarms/model-providers/' },
+                { label: 'MCP and AOP', translations: { zh: 'MCP 与 AOP' }, link: '/swarms/mcp-and-aop/' },
+                { label: 'Production', translations: { zh: '生产化最佳实践' }, link: '/swarms/production/' },
+                { label: 'Scaling and Deployment', translations: { zh: '扩展与部署' }, link: '/swarms/scaling-and-deployment/' },
+              ],
+            },
+            {
+              label: 'Reference',
+              translations: { zh: '参考' },
+              items: [
+                { label: 'Examples Cookbook', translations: { zh: 'Examples Cookbook' }, link: '/swarms/examples-cookbook/' },
+                { label: 'Troubleshooting', translations: { zh: '排错路径' }, link: '/swarms/troubleshooting/' },
+                { label: 'Alternatives', translations: { zh: '替代方案与对比' }, link: '/swarms/alternatives/' },
+                { label: 'Version Notes', translations: { zh: '版本变化与迁移' }, link: '/swarms/version-notes/' },
+                { label: 'Resources', translations: { zh: '资源与更新追踪' }, link: '/swarms/resources/' },
               ],
             },
           ],

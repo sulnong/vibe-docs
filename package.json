@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "A bilingual GitHub Trends documentation site workflow powered by Astro, Starlight, and a Markdown queue.",
+  "description": "A bilingual documentation site where agents research topics, produce outline reports, and generate reviewable Astro + Starlight docs.",
   "bin": {
     "trend-docs": "./tools/cli.js"
   },
