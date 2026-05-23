@@ -2,7 +2,7 @@ import sitemap from '@astrojs/sitemap';
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
 
-const site = process.env.PUBLIC_SITE_URL || 'https://example.com';
+const site = process.env.PUBLIC_SITE_URL || 'https://docxing.top';
 const base = process.env.PUBLIC_BASE_PATH || '/';
 const cloudflareToken = process.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
 const styleBootScript = `(() => {
