@@ -1,161 +1,45 @@
 ---
-title: "Hermes Agent：Terminal Backends 与隔离运行"
-description: "Hermes Agent 的Terminal Backends 与隔离运行：包含来源链接、任务地图、取舍、坑点和更新基线的中文指南。"
+title: "Terminal Backends"
+description: "按风险、可复现性和访问需求，在 local、Docker、SSH、云端或沙箱执行之间选择。"
 ---
 
-# Hermes Agent：Terminal Backends 与隔离运行
+# Terminal Backends
 
-这篇页面属于公开的 Hermes Agent 主题指南。它面向需要落地 agent 框架的读者，重点不是复述 README，而是把公开资料整理成可执行的任务地图、决策清单和排错入口。
+## 控制影响范围
 
-## 本页回答什么
+凭据、终端、文件写入、浏览器、消息平台和自动化都会扩大 agent 的影响范围。默认给最小权限，用隔离和回滚降低错误成本。
 
-- 搜索意图：Hermes Docker backend、SSH backend、Modal、Daytona、Vercel Sandbox、Singularity。
-- 核心问题：local、Docker、SSH、cloud sandbox 各解决什么问题？
-- 差异化角度：把“命令隔离”和“agent 进程隔离”分开讲，避免误以为 Docker backend 包住一切。
-- 研究基线：2026-05-22/23
-
-## 编辑备注
-
-- 不要把 terminal backend 隔离误解成整个 agent 进程都被包住。backend 能限制 shell 和文件工具操作，但插件、hook、skill、MCP 子进程和进程内代码仍要单独做信任审查。
-- 生产环境或不可信输入场景，应优先用 whole-process wrapping 的心智模型。
-
-## 事实基线
-
-- Hermes Agent 由 Nous Research 定位为自进化 AI agent，组合了终端界面、消息网关、skills、持久记忆、定时自动化、子 agent 委派和多种执行后端。
-- 研究时观察到的 PyPI 包为 `hermes-agent` `0.14.0`，要求 Python `>=3.11`，许可证为 MIT。
-- 官方文档提供 `llms.txt` 短索引和 `llms-full.txt` 完整语料。完整语料覆盖安装、CLI/TUI、配置、会话、工具、skills、记忆、MCP、cron、delegation、kanban、gateway、providers、API server、开发者架构和 FAQ。
-- 曾尝试浅克隆仓库，但 pack/index 阶段耗时过长，按流程放弃，改用 GitHub API、官方文档、PyPI、release、issues 和浏览器可访问资料继续研究。
-
-当前公开资料基线如下：
-
-| 字段 | 值 |
+| 场景 | 边界 |
 | --- | --- |
-| 仓库 | `NousResearch/hermes-agent` |
-| 研究时观察到的包版本 | `0.14.0` |
-| Python 要求 | `>=3.11` |
-| 许可证 | `MIT` |
-| 官方文档 | https://hermes-agent.nousresearch.com/docs/ |
+| 本地工作 | Git diff 和 checkpoint。 |
+| 容器或远程 | 明确挂载路径和清理方式。 |
+| 凭据 | 不进日志和公开文件。 |
+| 无人值守 | 预算、告警和关闭路径。 |
 
-## 读者任务地图
+## 安全就是控制可触达范围
 
-### 1. backend map
+Agent 只能影响它能触达的东西。默认缩小可触达范围，让高影响动作可见，并在任务或输入不确定时使用隔离。
 
-这一节用来回答本页背后的实际问题：local、Docker、SSH、cloud sandbox 各解决什么问题？ 对 Hermes Agent 来说，"backend map" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
+| 风险面 | 边界 |
+| --- | --- |
+| 终端命令 | 破坏性命令审批。 |
+| 文件写入 | Git diff、checkpoint 和复核。 |
+| 凭据 | 环境隔离，不进日志。 |
+| 远程 backend | 明确挂载、用户和清理。 |
+| 自动化 | 预算、告警和停止路径。 |
 
-检查点：
+## 按风险选择 backend
 
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 2. file tools 与 shell contract
-
-这一节用来回答本页背后的实际问题：local、Docker、SSH、cloud sandbox 各解决什么问题？ 对 Hermes Agent 来说，"file tools 与 shell contract" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 3. Docker resources/security
-
-这一节用来回答本页背后的实际问题：local、Docker、SSH、cloud sandbox 各解决什么问题？ 对 Hermes Agent 来说，"Docker resources/security" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 4. SSH/remote
-
-这一节用来回答本页背后的实际问题：local、Docker、SSH、cloud sandbox 各解决什么问题？ 对 Hermes Agent 来说，"SSH/remote" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 5. serverless persistence
-
-这一节用来回答本页背后的实际问题：local、Docker、SSH、cloud sandbox 各解决什么问题？ 对 Hermes Agent 来说，"serverless persistence" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 6. 什么时候需要 whole-process container
-
-这一节用来回答本页背后的实际问题：local、Docker、SSH、cloud sandbox 各解决什么问题？ 对 Hermes Agent 来说，"什么时候需要 whole-process container" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-## 决策清单
-
-- 先用最小形状证明价值。只有任务确实受益时，才加入长期状态、更多 agent 或后台自动化。
-- 把能力问题和运营问题分开：框架能不能做、团队能不能验证、失败模式能不能被隔离。
-- 把每个 provider、tool、memory store 和外部集成都当成需要显式配置与回滚的契约。
-
-## 常见陷阱
-
-- 照搬官方 quickstart，却没有定义自己任务的成功信号。
-- 单 agent baseline 还不可衡量时，就先堆更多 agent。
-- 没有命名和清理策略，就让记忆或持久状态无限积累。
-- 还没判断输入和用户是否可信，就打开强权限工具。
-
-## 实践清单
-
-- 写清具体任务、期望输出形状和最低可接受证据。
-- 先选最小执行模式；简单路径跑通后再增加并发或持久化。
-- 把来源链接放在命令、参数和安全声明旁边，降低后续更新成本。
-- 记录版本和研究日期，因为 agent 框架变化非常快。
-
-## 本页来源需求
-
-tools、docker、installation、security、Nix。
-
-更新本页时，需要回到下面的上游链接核验命令、参数、版本号和安全声明。GitHub issues 适合发现症状，但事实基线应以官方文档、release、包元信息和源码为准。
+Local 简单快速；容器增加依赖隔离；SSH 和云 backend 增加可达性和运维复杂度。选择能安全完成任务的最小 backend。
 
 ## 相关页面
 
-- [概览](/zh/hermes-agent/)
-- [为什么与何时选择](/zh/hermes-agent/why-and-when/)
 - [安装与版本基线](/zh/hermes-agent/installation/)
-- [快速开始：第一条可靠路径](/zh/hermes-agent/first-run/)
+- [第一条可靠路径](/zh/hermes-agent/first-run/)
 - [Provider 与模型配置](/zh/hermes-agent/providers-and-models/)
-- [CLI 与 TUI 日常工作流](/zh/hermes-agent/cli-and-tui/)
 - [工具与工具集](/zh/hermes-agent/tools-and-toolsets/)
-- [Skills 系统](/zh/hermes-agent/skills/)
 
-## 来源
+## 参考资料
 
-- 代码仓库: https://github.com/NousResearch/hermes-agent
-- README: https://github.com/NousResearch/hermes-agent#readme
-- 官方文档: https://hermes-agent.nousresearch.com/docs/
-- 面向 LLM 的文档索引: https://hermes-agent.nousresearch.com/docs/llms.txt
-- 完整文档语料: https://hermes-agent.nousresearch.com/docs/llms-full.txt
-- PyPI 包: https://pypi.org/project/hermes-agent/
-- 版本发布: https://github.com/NousResearch/hermes-agent/releases
-- 安全政策: https://github.com/NousResearch/hermes-agent/blob/main/SECURITY.md
-- installation: https://hermes-agent.nousresearch.com/docs/getting-started/installation
-- quickstart: https://hermes-agent.nousresearch.com/docs/getting-started/quickstart
-- cli: https://hermes-agent.nousresearch.com/docs/user-guide/cli
-- tui: https://hermes-agent.nousresearch.com/docs/user-guide/tui
-- configuration: https://hermes-agent.nousresearch.com/docs/user-guide/configuration
-- providers: https://hermes-agent.nousresearch.com/docs/integrations/providers
-- security: https://hermes-agent.nousresearch.com/docs/user-guide/security
-- tools: https://hermes-agent.nousresearch.com/docs/user-guide/features/tools
+- Official docs: https://hermes-agent.nousresearch.com/docs/
+- Security: https://hermes-agent.nousresearch.com/docs/user-guide/security

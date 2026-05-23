@@ -1,157 +1,52 @@
 ---
-title: "Hermes Agent：为什么与何时选择"
-description: "Hermes Agent 的为什么与何时选择：包含来源链接、任务地图、取舍、坑点和更新基线的中文指南。"
+title: "为什么与何时选择 Hermes Agent"
+description: "判断一个任务是否真的适合 Hermes Agent，还是用更短的 CLI、脚本、聊天机器人或工作流 runner 就够。"
 ---
 
-# Hermes Agent：为什么与何时选择
+# 为什么与何时选择 Hermes Agent
 
-这篇页面属于公开的 Hermes Agent 主题指南。它面向需要落地 agent 框架的读者，重点不是复述 README，而是把公开资料整理成可执行的任务地图、决策清单和排错入口。
+## 什么时候适合
 
-## 本页回答什么
+- 任务需要多轮上下文、工具或文件。
+- 工作会重复出现，复用流程能节省解释。
+- 输出可以检查，而不是只靠模型语气。
+- 失败后能停止、重试、回滚或交给人处理。
 
-- 搜索意图：选型、是否替代 Claude Code/Codex/aider/OpenHands。
-- 核心问题：什么时候 Hermes 的复杂度值得，什么时候过度？
-- 差异化角度：明确“不该选”的场景：只要一次性补全、完全不想配置 provider、不能接受 agent 长期权限管理、只需要轻量 git pair programming。
-- 研究基线：2026-05-22/23
+## 保持更小的情况
 
+如果一次模型调用、短脚本或普通 CLI 已经更容易检查，就不要为了显得高级而引入 agent 系统。多 agent 或长期 agent 的价值应该来自更清楚的数据流、更好的复用或更可靠的复核。
 
-## 事实基线
-
-- Hermes Agent 由 Nous Research 定位为自进化 AI agent，组合了终端界面、消息网关、skills、持久记忆、定时自动化、子 agent 委派和多种执行后端。
-- 研究时观察到的 PyPI 包为 `hermes-agent` `0.14.0`，要求 Python `>=3.11`，许可证为 MIT。
-- 官方文档提供 `llms.txt` 短索引和 `llms-full.txt` 完整语料。完整语料覆盖安装、CLI/TUI、配置、会话、工具、skills、记忆、MCP、cron、delegation、kanban、gateway、providers、API server、开发者架构和 FAQ。
-- 曾尝试浅克隆仓库，但 pack/index 阶段耗时过长，按流程放弃，改用 GitHub API、官方文档、PyPI、release、issues 和浏览器可访问资料继续研究。
-
-当前公开资料基线如下：
-
-| 字段 | 值 |
+| 需求 | 起点 |
 | --- | --- |
-| 仓库 | `NousResearch/hermes-agent` |
-| 研究时观察到的包版本 | `0.14.0` |
-| Python 要求 | `>=3.11` |
-| 许可证 | `MIT` |
-| 官方文档 | https://hermes-agent.nousresearch.com/docs/ |
+| 一次回答 | 普通模型调用。 |
+| 一个角色加工具 | 本地 Hermes 会话。 |
+| 有序步骤 | 明确 prompt 和工具边界。 |
+| 独立并行 | 委派或多个隔离任务。 |
+| 无人值守 | 先加日志、限制和关闭路径。 |
 
-## 读者任务地图
+## 按操作模型选择
 
-### 1. 强适配任务
+Hermes 最适合靠近终端、需要连续性的工作。如果任务确定性强，脚本仍然更容易测试。如果任务主要是对话，聊天界面可能已经足够。
 
-这一节用来回答本页背后的实际问题：什么时候 Hermes 的复杂度值得，什么时候过度？ 对 Hermes Agent 来说，"强适配任务" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
+| 适合使用 | 先停一下 |
+| --- | --- |
+| 工作跨文件、命令和会话 | 只是一次性解释 |
+| Skills 或 memory 能减少重复准备 | 隐藏状态会让审查更难 |
+| 未来需要远程入口 | 还说不清如何停止 agent |
 
-检查点：
+## 实用测试
 
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 2. 弱适配任务
-
-这一节用来回答本页背后的实际问题：什么时候 Hermes 的复杂度值得，什么时候过度？ 对 Hermes Agent 来说，"弱适配任务" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 3. 团队/个人/云端场景
-
-这一节用来回答本页背后的实际问题：什么时候 Hermes 的复杂度值得，什么时候过度？ 对 Hermes Agent 来说，"团队/个人/云端场景" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 4. 长期记忆与自动化价值
-
-这一节用来回答本页背后的实际问题：什么时候 Hermes 的复杂度值得，什么时候过度？ 对 Hermes Agent 来说，"长期记忆与自动化价值" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 5. 拒绝清单
-
-这一节用来回答本页背后的实际问题：什么时候 Hermes 的复杂度值得，什么时候过度？ 对 Hermes Agent 来说，"拒绝清单" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 6. 采用前 checklist
-
-这一节用来回答本页背后的实际问题：什么时候 Hermes 的复杂度值得，什么时候过度？ 对 Hermes Agent 来说，"采用前 checklist" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-## 决策清单
-
-- 先用最小形状证明价值。只有任务确实受益时，才加入长期状态、更多 agent 或后台自动化。
-- 把能力问题和运营问题分开：框架能不能做、团队能不能验证、失败模式能不能被隔离。
-- 把每个 provider、tool、memory store 和外部集成都当成需要显式配置与回滚的契约。
-
-## 常见陷阱
-
-- 照搬官方 quickstart，却没有定义自己任务的成功信号。
-- 单 agent baseline 还不可衡量时，就先堆更多 agent。
-- 没有命名和清理策略，就让记忆或持久状态无限积累。
-- 还没判断输入和用户是否可信，就打开强权限工具。
-
-## 实践清单
-
-- 写清具体任务、期望输出形状和最低可接受证据。
-- 先选最小执行模式；简单路径跑通后再增加并发或持久化。
-- 把来源链接放在命令、参数和安全声明旁边，降低后续更新成本。
-- 记录版本和研究日期，因为 agent 框架变化非常快。
-
-## 本页来源需求
-
-README、learning path、gateway、cron、skills、memory、security。
-
-更新本页时，需要回到下面的上游链接核验命令、参数、版本号和安全声明。GitHub issues 适合发现症状，但事实基线应以官方文档、release、包元信息和源码为准。
+采用框架前，先写清输入、预期输出、复核步骤和失败处理。如果这些说不清，框架选择可能还不是当前真正的问题。
 
 ## 相关页面
 
-- [概览](/zh/hermes-agent/)
 - [安装与版本基线](/zh/hermes-agent/installation/)
-- [快速开始：第一条可靠路径](/zh/hermes-agent/first-run/)
+- [第一条可靠路径](/zh/hermes-agent/first-run/)
 - [Provider 与模型配置](/zh/hermes-agent/providers-and-models/)
-- [CLI 与 TUI 日常工作流](/zh/hermes-agent/cli-and-tui/)
 - [工具与工具集](/zh/hermes-agent/tools-and-toolsets/)
-- [Skills 系统](/zh/hermes-agent/skills/)
-- [记忆与会话搜索](/zh/hermes-agent/memory-and-sessions/)
 
-## 来源
+## 参考资料
 
-- 代码仓库: https://github.com/NousResearch/hermes-agent
-- README: https://github.com/NousResearch/hermes-agent#readme
-- 官方文档: https://hermes-agent.nousresearch.com/docs/
-- 面向 LLM 的文档索引: https://hermes-agent.nousresearch.com/docs/llms.txt
-- 完整文档语料: https://hermes-agent.nousresearch.com/docs/llms-full.txt
-- PyPI 包: https://pypi.org/project/hermes-agent/
-- 版本发布: https://github.com/NousResearch/hermes-agent/releases
-- 安全政策: https://github.com/NousResearch/hermes-agent/blob/main/SECURITY.md
-- installation: https://hermes-agent.nousresearch.com/docs/getting-started/installation
-- quickstart: https://hermes-agent.nousresearch.com/docs/getting-started/quickstart
-- cli: https://hermes-agent.nousresearch.com/docs/user-guide/cli
-- tui: https://hermes-agent.nousresearch.com/docs/user-guide/tui
-- configuration: https://hermes-agent.nousresearch.com/docs/user-guide/configuration
-- providers: https://hermes-agent.nousresearch.com/docs/integrations/providers
-- security: https://hermes-agent.nousresearch.com/docs/user-guide/security
-- tools: https://hermes-agent.nousresearch.com/docs/user-guide/features/tools
+- Official docs: https://hermes-agent.nousresearch.com/docs/
+- Quickstart: https://hermes-agent.nousresearch.com/docs/getting-started/quickstart
+- Security: https://hermes-agent.nousresearch.com/docs/user-guide/security

@@ -1,157 +1,51 @@
 ---
-title: "Hermes Agent: Architecture Reading Path"
-description: "Architecture Reading Path for Hermes Agent: source-linked guidance, task maps, tradeoffs, pitfalls, and update notes."
+title: "Architecture Reading Path"
+description: "Read Hermes internals by subsystem: agent loop, provider runtime, prompt assembly, tools, session storage, gateway, and CLI."
 ---
 
-# Hermes Agent: Architecture Reading Path
+# Architecture Reading Path
 
-This page is part of the public Hermes Agent topic guide. It is written for readers who need a practical route through a fast-moving agent framework, not a thin summary of the upstream README.
+## Start with data flow
 
-## What This Page Answers
+```text
+agent loop -> provider -> prompt -> tools -> session
+```
 
-- Search intent: Understand Architecture Reading Path in a practical long-running agent workflow.
-- Core question: What is the smallest reliable way to use Architecture Reading Path, what should be verified, and what failure modes matter before adoption?
-- Differentiated angle: This page turns upstream reference material into an operational map: prerequisites, configuration boundaries, verification signals, and update checks.
-- Research baseline: 2026-05-22/23
+Draw inputs, outputs, and dependencies before choosing a class or architecture. The more complex the structure, the more important it is to preserve intermediate outputs, route decisions, cost, and timing.
 
-
-## Fact Baseline
-
-- Hermes Agent is positioned by Nous Research as a self-improving AI agent with a terminal interface, messaging gateway, skills, persistent memory, scheduled automation, subagent delegation, and multiple execution backends.
-- The current PyPI package observed during research was `hermes-agent` version `0.14.0`, requiring Python `>=3.11` and using the MIT license.
-- The official docs expose both a short `llms.txt` index and a full `llms-full.txt` corpus. The full corpus covered installation, CLI/TUI, configuration, sessions, tools, skills, memory, MCP, cron, delegation, kanban, gateway, providers, API server, developer architecture, and FAQ material.
-- A shallow clone of the repository was attempted but abandoned after it stalled in pack/index processing; GitHub API, official docs, PyPI, releases, issues, and browser-capable research were used instead.
-
-The current public baseline for this topic is:
-
-| Field | Value |
+| Shape | Use when |
 | --- | --- |
-| Repository | `NousResearch/hermes-agent` |
-| Package/version observed | `0.14.0` |
-| Python requirement | `>=3.11` |
-| License | `MIT` |
-| Official docs | https://hermes-agent.nousresearch.com/docs/ |
+| Line | Each step depends on the previous one. |
+| Parallel | Multiple roles work independently on the same input. |
+| Graph | Mixed dependencies and join points. |
+| Router | Different tasks need different workflows. |
 
-## Reader Task Map
+## Start with the data flow
 
-### 1. When to Use It
+Draw inputs, outputs, and dependencies before choosing an architecture. If the arrows are a straight line, a sequence is enough. If branches join later, use a graph. If different task types need different workflows, use routing.
 
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Hermes Agent, "When to Use It" should name the input, the expected output, the verification signal, and the source that proves the behavior.
+```text
+agent loop -> provider runtime -> prompt assembly -> tools -> session storage
+```
 
-Operational checks:
+| Shape | Use when |
+| --- | --- |
+| Line | Each step depends on the previous output. |
+| Parallel | Several roles can work independently. |
+| Graph | Dependencies split and join. |
+| Router | The first decision is which workflow should run. |
 
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
+## Keep intermediate output
 
-### 2. Minimum Reliable Path
+Complex agent systems need inspectable raw outputs. The final answer alone rarely explains which role introduced a wrong assumption.
 
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Hermes Agent, "Minimum Reliable Path" should name the input, the expected output, the verification signal, and the source that proves the behavior.
+## Related pages
 
-Operational checks:
-
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
-
-### 3. Configuration Surface
-
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Hermes Agent, "Configuration Surface" should name the input, the expected output, the verification signal, and the source that proves the behavior.
-
-Operational checks:
-
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
-
-### 4. Verification Signals
-
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Hermes Agent, "Verification Signals" should name the input, the expected output, the verification signal, and the source that proves the behavior.
-
-Operational checks:
-
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
-
-### 5. Failure Modes
-
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Hermes Agent, "Failure Modes" should name the input, the expected output, the verification signal, and the source that proves the behavior.
-
-Operational checks:
-
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
-
-### 6. Sources to Recheck
-
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Hermes Agent, "Sources to Recheck" should name the input, the expected output, the verification signal, and the source that proves the behavior.
-
-Operational checks:
-
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
-
-## Decision Checklist
-
-- Start with the smallest shape that can prove value. Add long-lived state, extra agents, or background automation only when the task actually benefits from them.
-- Separate capability questions from operating questions: can the framework do it, can your team verify it, and can the failure mode be contained?
-- Treat every provider, tool, memory store, and external integration as a contract that needs explicit configuration and rollback.
-
-## Common Traps
-
-- Copying an official quickstart without defining the success signal for your own task.
-- Adding more agents before the single-agent baseline is measurable.
-- Letting memory or persistent state accumulate without a naming and cleanup policy.
-- Turning on powerful tools before deciding which inputs and users are trusted.
-
-## Practical Checklist
-
-- Write down the exact task, the expected output shape, and the minimum acceptable evidence.
-- Pick the smallest execution pattern, then add concurrency or persistence only after the simple path works.
-- Keep source links next to commands, parameters, and security claims so future updates are cheap.
-- Record the version and research date because these agent frameworks move quickly.
-
-## Source Requirements for This Page
-
-Recheck the official documentation, package metadata, repository README, release or changelog notes, and any linked API reference before updating claims about Architecture Reading Path. What is the smallest reliable way to use Architecture Reading Path, what should be verified, and what failure modes matter before adoption?
-
-When updating this page, verify commands, parameters, version numbers, and security claims against the upstream links below. GitHub issues are useful for discovering symptoms, but official documentation, releases, package metadata, and source files should carry the factual baseline.
-
-## Related Pages
-
-- [Overview](/en/hermes-agent/)
-- [Why and When](/en/hermes-agent/why-and-when/)
-- [Installation and Version Baseline](/en/hermes-agent/installation/)
+- [Installation](/en/hermes-agent/installation/)
 - [First Reliable Run](/en/hermes-agent/first-run/)
 - [Providers and Models](/en/hermes-agent/providers-and-models/)
-- [CLI and TUI Workflow](/en/hermes-agent/cli-and-tui/)
 - [Tools and Toolsets](/en/hermes-agent/tools-and-toolsets/)
-- [Skills System](/en/hermes-agent/skills/)
 
-## Sources
+## References
 
-- Repository: https://github.com/NousResearch/hermes-agent
-- README: https://github.com/NousResearch/hermes-agent#readme
-- Official documentation: https://hermes-agent.nousresearch.com/docs/
-- Documentation index for LLMs: https://hermes-agent.nousresearch.com/docs/llms.txt
-- Full documentation corpus: https://hermes-agent.nousresearch.com/docs/llms-full.txt
-- PyPI package: https://pypi.org/project/hermes-agent/
-- Releases: https://github.com/NousResearch/hermes-agent/releases
-- Security policy: https://github.com/NousResearch/hermes-agent/blob/main/SECURITY.md
-- installation: https://hermes-agent.nousresearch.com/docs/getting-started/installation
-- quickstart: https://hermes-agent.nousresearch.com/docs/getting-started/quickstart
-- cli: https://hermes-agent.nousresearch.com/docs/user-guide/cli
-- tui: https://hermes-agent.nousresearch.com/docs/user-guide/tui
-- configuration: https://hermes-agent.nousresearch.com/docs/user-guide/configuration
-- providers: https://hermes-agent.nousresearch.com/docs/integrations/providers
-- security: https://hermes-agent.nousresearch.com/docs/user-guide/security
-- tools: https://hermes-agent.nousresearch.com/docs/user-guide/features/tools
+- Architecture: https://hermes-agent.nousresearch.com/docs/developer-guide/architecture

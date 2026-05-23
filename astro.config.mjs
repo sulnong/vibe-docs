@@ -37,6 +37,7 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
       components: {
         Header: './src/components/starlight/Header.astro',
+        Sidebar: './src/components/starlight/TopicSidebar.astro',
         MobileMenuFooter: './src/components/starlight/MobileMenuFooter.astro',
       },
       defaultLocale: 'en',

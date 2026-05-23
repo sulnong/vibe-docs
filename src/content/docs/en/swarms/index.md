@@ -1,161 +1,60 @@
 ---
 title: "Swarms Guide"
-description: "Overview for Swarms: source-linked guidance, task maps, tradeoffs, pitfalls, and update notes."
+description: "Learn Swarms as a Python framework for building measurable single-agent and multi-agent workflows."
 ---
 
 # Swarms Guide
 
-This page is part of the public Swarms topic guide. It is written for readers who need a practical route through a fast-moving agent framework, not a thin summary of the upstream README.
+Swarms is a Python framework for building single-agent and multi-agent systems with tools, memory, structured outputs, workflow orchestration, and deployment patterns.
 
-## What This Page Answers
+## How to think about it
 
-- Search intent: Understand what Swarms is and whether it is a useful foundation for a multi-agent system.
-- Core question: Is Swarms an agent framework, workflow engine, API library, CLI, marketplace surface, or a combination of those?
-- Differentiated angle: Organize Swarms as single-agent primitives, orchestration structures, production surfaces, and an examples library.
-- Research baseline: 2026-05-22/23
+Think of Swarms as a Python application framework. Agents are objects, workflows are orchestration structures, and production use still needs logs, secrets, retries, budgets, and rollback.
 
-## Editorial Notes
-
-- Swarms is easiest to understand as a pattern library plus runtime primitives: Agent, tool use, memory, structured output, and many orchestration structures.
-- The docs are broad, so this guide turns them into a decision path.
-
-## Fact Baseline
-
-- Swarms presents itself as an enterprise-grade production-ready multi-agent orchestration framework with single-agent primitives, many orchestration structures, CLI workflows, deployment guidance, and a large example library.
-- The current PyPI package observed during research was `swarms` version `12.0.0`, requiring Python `>=3.10,<4.0` and using the Apache-2.0 license.
-- The official docs expose `llms.txt` and `llms-full.txt`; the index listed 174 pages spanning agents, tools, memory, structured outputs, architectures, API reference, CLI, deployment, examples, FAQ, and changelog.
-- The GitHub tree contained roughly 198 docs paths and more than 1,000 example-related paths, so the most useful editorial work is routing readers to the right pattern instead of copying every API reference page.
-
-The current public baseline for this topic is:
+## Current version baseline
 
 | Field | Value |
 | --- | --- |
 | Repository | `kyegomez/swarms` |
-| Package/version observed | `12.0.0` |
+| Package | `swarms` |
+| Version checked | `12.0.0` |
 | Python requirement | `>=3.10,<4.0` |
 | License | `Apache-2.0` |
-| Official docs | https://docs.swarms.world/ |
 
-## Reader Task Map
+## Keep reading
 
-### 1. Positioning
-
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Swarms, "Positioning" should name the input, the expected output, the verification signal, and the source that proves the behavior.
-
-Operational checks:
-
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
-
-### 2. Capability Map
-
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Swarms, "Capability Map" should name the input, the expected output, the verification signal, and the source that proves the behavior.
-
-Operational checks:
-
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
-
-### 3. Where It Fits
-
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Swarms, "Where It Fits" should name the input, the expected output, the verification signal, and the source that proves the behavior.
-
-Operational checks:
-
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
-
-### 4. Where It Does Not Fit
-
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Swarms, "Where It Does Not Fit" should name the input, the expected output, the verification signal, and the source that proves the behavior.
-
-Operational checks:
-
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
-
-### 5. Reading Path
-
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Swarms, "Reading Path" should name the input, the expected output, the verification signal, and the source that proves the behavior.
-
-Operational checks:
-
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
-
-### 6. Source Baseline
-
-Use this section to reduce a broad documentation topic into a decision the reader can act on. For Swarms, "Source Baseline" should name the input, the expected output, the verification signal, and the source that proves the behavior.
-
-Operational checks:
-
-- Identify whether the task is setup, usage, orchestration, deployment, security, debugging, or comparison work.
-- Link each command, parameter, API class, or security claim back to an upstream source before treating it as stable.
-- Write down what success looks like before adding optional features, extra agents, memory, background jobs, or gateway access.
-- Keep a fallback path when provider authentication, model behavior, state, external tools, or network access fails.
-
-## Decision Checklist
-
-- Start with the smallest shape that can prove value. Add long-lived state, extra agents, or background automation only when the task actually benefits from them.
-- Separate capability questions from operating questions: can the framework do it, can your team verify it, and can the failure mode be contained?
-- Treat every provider, tool, memory store, and external integration as a contract that needs explicit configuration and rollback.
-
-## Common Traps
-
-- Copying an official quickstart without defining the success signal for your own task.
-- Adding more agents before the single-agent baseline is measurable.
-- Letting memory or persistent state accumulate without a naming and cleanup policy.
-- Turning on powerful tools before deciding which inputs and users are trusted.
-
-## Practical Checklist
-
-- Write down the exact task, the expected output shape, and the minimum acceptable evidence.
-- Pick the smallest execution pattern, then add concurrency or persistence only after the simple path works.
-- Keep source links next to commands, parameters, and security claims so future updates are cheap.
-- Record the version and research date because these agent frameworks move quickly.
-
-## Source Requirements for This Page
-
-Recheck the official documentation, package metadata, repository README, release or changelog notes, and any linked API reference before updating claims about Overview. Is Swarms an agent framework, workflow engine, API library, CLI, marketplace surface, or a combination of those?
-
-When updating this page, verify commands, parameters, version numbers, and security claims against the upstream links below. GitHub issues are useful for discovering symptoms, but official documentation, releases, package metadata, and source files should carry the factual baseline.
-
-## Related Pages
-
-- [Why and When](/en/swarms/why-and-when/)
-- [Installation and Environment](/en/swarms/installation/)
+- [Installation](/en/swarms/installation/)
 - [Quickstart](/en/swarms/quickstart/)
 - [Core Concepts](/en/swarms/core-concepts/)
-- [Agent Configuration Map](/en/swarms/agent-configuration/)
-- [Agent Tools](/en/swarms/agent-tools/)
-- [Memory and State](/en/swarms/memory-and-state/)
-- [Structured Outputs](/en/swarms/structured-outputs/)
+- [Architecture Overview](/en/swarms/architectures/)
+- [Production](/en/swarms/production/)
+- [Troubleshooting](/en/swarms/troubleshooting/)
 
-## Sources
+## What to read first
+
+If Swarms is new in the project, start with one Agent and one output. The workflow catalog makes more sense after the single-agent path is boring and measurable.
+
+| Reader situation | Best next page |
+| --- | --- |
+| Need to install | [Installation](/en/swarms/installation/) |
+| Need a first script | [Quickstart](/en/swarms/quickstart/) |
+| Confused by terms | [Core Concepts](/en/swarms/core-concepts/) |
+| Choosing a workflow | [Architecture Overview](/en/swarms/architectures/) |
+
+## What this guide assumes
+
+The version baseline is swarms 12.0.0, with Python >=3.10,<4.0. Agent projects move quickly, so use these docs as a practical map and verify exact commands against the official documentation before pinning production behavior.
+
+## Related pages
+
+- [Installation](/en/swarms/installation/)
+- [Quickstart](/en/swarms/quickstart/)
+- [Core Concepts](/en/swarms/core-concepts/)
+- [Architecture Overview](/en/swarms/architectures/)
+
+## References
 
 - Repository: https://github.com/kyegomez/swarms
-- README: https://github.com/kyegomez/swarms#readme
-- Official documentation: https://docs.swarms.world/
-- Documentation index for LLMs: https://docs.swarms.world/llms.txt
-- Full documentation corpus: https://docs.swarms.world/llms-full.txt
+- Official docs: https://docs.swarms.world/
+- LLM docs index: https://docs.swarms.world/llms.txt
 - PyPI package: https://pypi.org/project/swarms/
-- Swarms v12 changelog: https://docs.swarms.world/changelog/swarms-v12
-- FAQ: https://docs.swarms.world/community/faq
-- installation: https://docs.swarms.world/installation
-- environment: https://docs.swarms.world/environment-setup
-- quickstart: https://docs.swarms.world/quickstart
-- agents: https://docs.swarms.world/concepts/agents
-- swarms: https://docs.swarms.world/concepts/swarms
-- workflows: https://docs.swarms.world/concepts/workflows
-- creatingAgents: https://docs.swarms.world/agents/creating-agents
-- agentConfig: https://docs.swarms.world/agents/agent-configuration

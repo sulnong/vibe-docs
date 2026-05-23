@@ -1,172 +1,60 @@
 ---
 title: "Swarms 指南"
-description: "Swarms 的概览：包含来源链接、任务地图、取舍、坑点和更新基线的中文指南。"
+description: "把 Swarms 作为 Python 框架来学习，用它构建可衡量的单 agent 与多 agent workflow。"
 ---
 
 # Swarms 指南
 
-这篇页面属于公开的 Swarms 主题指南。它面向需要落地 agent 框架的读者，重点不是复述 README，而是把公开资料整理成可执行的任务地图、决策清单和排错入口。
+Swarms 是用于构建单 agent 与多 agent 系统的 Python 框架，覆盖工具、记忆、结构化输出、workflow 编排和部署模式。
 
-## 本页回答什么
+## 如何理解它
 
-- 搜索意图：Swarms 是什么、是否适合构建 multi-agent 系统。
-- 核心问题：Swarms 是 agent framework、workflow engine、API library、CLI 还是 marketplace？
-- 差异化角度：用“单 agent 能力 + orchestration structures + production surface + examples library”组织。
-- 研究基线：2026-05-22/23
+把 Swarms 当作 Python 应用框架来看。Agent 是对象，workflow 是编排结构，生产化仍然需要日志、密钥、重试、预算和回滚。
 
-## 编辑备注
+## 当前版本基线
 
-- 理解 Swarms 最简单的方式是把它看成 pattern library 加运行时原语：Agent、工具、记忆、结构化输出和多种 orchestration structures。
-- 官方文档很宽，本指南把它重新组织成决策路径。
-
-## 事实基线
-
-- Swarms 自称面向生产的企业级 multi-agent orchestration framework，覆盖单 agent 原语、多种 orchestration structures、CLI 工作流、部署指南和大量 examples。
-- 研究时观察到的 PyPI 包为 `swarms` `12.0.0`，要求 Python `>=3.10,<4.0`，许可证为 Apache-2.0。
-- 官方文档提供 `llms.txt` 和 `llms-full.txt`；索引列出 174 个页面，覆盖 agents、tools、memory、structured outputs、architectures、API reference、CLI、deployment、examples、FAQ 和 changelog。
-- GitHub 目录树里 docs 路径约 198 个，examples 相关路径超过 1000 个，因此本站最有价值的工作是帮读者选对模式，而不是复制每个 API 页面。
-
-当前公开资料基线如下：
-
-| 字段 | 值 |
+| 项目 | 值 |
 | --- | --- |
 | 仓库 | `kyegomez/swarms` |
-| 研究时观察到的包版本 | `12.0.0` |
+| Package | `swarms` |
+| 检查版本 | `12.0.0` |
 | Python 要求 | `>=3.10,<4.0` |
-| 许可证 | `Apache-2.0` |
-| 官方文档 | https://docs.swarms.world/ |
+| License | `Apache-2.0` |
 
-## 读者任务地图
+## 继续阅读
 
-### 1. 一句话定位
+- [安装与环境配置](/zh/swarms/installation/)
+- [快速开始](/zh/swarms/quickstart/)
+- [核心概念](/zh/swarms/core-concepts/)
+- [架构总览](/zh/swarms/architectures/)
+- [生产化最佳实践](/zh/swarms/production/)
+- [排错路径](/zh/swarms/troubleshooting/)
 
-这一节用来回答本页背后的实际问题：Swarms 是 agent framework、workflow engine、API library、CLI 还是 marketplace？ 对 Swarms 来说，"一句话定位" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
+## 先读什么
 
-检查点：
+如果项目里刚开始使用 Swarms，先写一个 Agent 和一个可检查输出。单 agent 路径稳定后，再看 workflow 目录会清楚很多。
 
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
+| 读者状态 | 下一页 |
+| --- | --- |
+| 需要安装 | [安装与环境配置](/zh/swarms/installation/) |
+| 需要第一个脚本 | [快速开始](/zh/swarms/quickstart/) |
+| 概念混乱 | [核心概念](/zh/swarms/core-concepts/) |
+| 在选 workflow | [架构总览](/zh/swarms/architectures/) |
 
-### 2. 核心对象
+## 这套指南的基线
 
-这一节用来回答本页背后的实际问题：Swarms 是 agent framework、workflow engine、API library、CLI 还是 marketplace？ 对 Swarms 来说，"核心对象" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 3. 能力地图
-
-这一节用来回答本页背后的实际问题：Swarms 是 agent framework、workflow engine、API library、CLI 还是 marketplace？ 对 Swarms 来说，"能力地图" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 4. 与单 agent library 的差异
-
-这一节用来回答本页背后的实际问题：Swarms 是 agent framework、workflow engine、API library、CLI 还是 marketplace？ 对 Swarms 来说，"与单 agent library 的差异" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 5. 适合场景
-
-这一节用来回答本页背后的实际问题：Swarms 是 agent framework、workflow engine、API library、CLI 还是 marketplace？ 对 Swarms 来说，"适合场景" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 6. 学习路径
-
-这一节用来回答本页背后的实际问题：Swarms 是 agent framework、workflow engine、API library、CLI 还是 marketplace？ 对 Swarms 来说，"学习路径" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 7. 来源
-
-这一节用来回答本页背后的实际问题：Swarms 是 agent framework、workflow engine、API library、CLI 还是 marketplace？ 对 Swarms 来说，"来源" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-## 决策清单
-
-- 先用最小形状证明价值。只有任务确实受益时，才加入长期状态、更多 agent 或后台自动化。
-- 把能力问题和运营问题分开：框架能不能做、团队能不能验证、失败模式能不能被隔离。
-- 把每个 provider、tool、memory store 和外部集成都当成需要显式配置与回滚的契约。
-
-## 常见陷阱
-
-- 照搬官方 quickstart，却没有定义自己任务的成功信号。
-- 单 agent baseline 还不可衡量时，就先堆更多 agent。
-- 没有命名和清理策略，就让记忆或持久状态无限积累。
-- 还没判断输入和用户是否可信，就打开强权限工具。
-
-## 实践清单
-
-- 写清具体任务、期望输出形状和最低可接受证据。
-- 先选最小执行模式；简单路径跑通后再增加并发或持久化。
-- 把来源链接放在命令、参数和安全声明旁边，降低后续更新成本。
-- 记录版本和研究日期，因为 agent 框架变化非常快。
-
-## 本页来源需求
-
-README、introduction、quickstart、PyPI、docs index。
-
-更新本页时，需要回到下面的上游链接核验命令、参数、版本号和安全声明。GitHub issues 适合发现症状，但事实基线应以官方文档、release、包元信息和源码为准。
+这里使用的版本基线是 swarms 12.0.0，Python 要求 >=3.10,<4.0。Agent 项目变化很快，生产 pin 版本前仍要重新查看官方文档。
 
 ## 相关页面
 
-- [为什么与何时选择](/zh/swarms/why-and-when/)
 - [安装与环境配置](/zh/swarms/installation/)
-- [快速开始：第一个 Agent 与 Swarm](/zh/swarms/quickstart/)
+- [快速开始](/zh/swarms/quickstart/)
 - [核心概念](/zh/swarms/core-concepts/)
-- [Agent 配置地图](/zh/swarms/agent-configuration/)
-- [Agent 工具与函数调用](/zh/swarms/agent-tools/)
-- [记忆、上下文压缩与状态](/zh/swarms/memory-and-state/)
-- [Structured Outputs](/zh/swarms/structured-outputs/)
+- [架构总览](/zh/swarms/architectures/)
 
-## 来源
+## 参考资料
 
-- 代码仓库: https://github.com/kyegomez/swarms
-- README: https://github.com/kyegomez/swarms#readme
-- 官方文档: https://docs.swarms.world/
-- 面向 LLM 的文档索引: https://docs.swarms.world/llms.txt
-- 完整文档语料: https://docs.swarms.world/llms-full.txt
-- PyPI 包: https://pypi.org/project/swarms/
-- Swarms v12 changelog: https://docs.swarms.world/changelog/swarms-v12
-- FAQ: https://docs.swarms.world/community/faq
-- installation: https://docs.swarms.world/installation
-- environment: https://docs.swarms.world/environment-setup
-- quickstart: https://docs.swarms.world/quickstart
-- agents: https://docs.swarms.world/concepts/agents
-- swarms: https://docs.swarms.world/concepts/swarms
-- workflows: https://docs.swarms.world/concepts/workflows
-- creatingAgents: https://docs.swarms.world/agents/creating-agents
-- agentConfig: https://docs.swarms.world/agents/agent-configuration
+- Repository: https://github.com/kyegomez/swarms
+- Official docs: https://docs.swarms.world/
+- LLM docs index: https://docs.swarms.world/llms.txt
+- PyPI package: https://pypi.org/project/swarms/

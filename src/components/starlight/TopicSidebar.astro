@@ -1,0 +1,46 @@
+---
+import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
+import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
+
+const TOPIC_SLUGS = ['astro', 'hermes-agent', 'swarms'];
+const HOST_TOPICS = new Map([
+  ['astro.docxing.top', 'astro'],
+  ['hermes.docxing.top', 'hermes-agent'],
+  ['hermes-agent.docxing.top', 'hermes-agent'],
+  ['swarms.docxing.top', 'swarms'],
+]);
+
+const { sidebar } = Astro.locals.starlightRoute;
+const hostname = Astro.url.hostname.toLowerCase();
+const pathname = Astro.url.pathname;
+const topicFromHost = HOST_TOPICS.get(hostname);
+const topicFromPath = TOPIC_SLUGS.find((slug) =>
+  new RegExp(`/(en|zh)/${slug}(/|$)`).test(pathname)
+);
+const currentTopic = topicFromHost ?? topicFromPath;
+
+const filteredSidebar = currentTopic
+  ? sidebar.filter((entry) => entryContainsTopic(entry, currentTopic))
+  : sidebar;
+
+function entryContainsTopic(entry, topic) {
+  if ('href' in entry && typeof entry.href === 'string') {
+    return entry.href.includes(`/${topic}/`);
+  }
+
+  if ('entries' in entry && Array.isArray(entry.entries)) {
+    return entry.entries.some((child) => entryContainsTopic(child, topic));
+  }
+
+  return false;
+}
+---
+
+<SidebarPersister>
+  <SidebarSublist sublist={filteredSidebar} />
+</SidebarPersister>
+
+<div class="md:sl-hidden">
+  <MobileMenuFooter />
+</div>

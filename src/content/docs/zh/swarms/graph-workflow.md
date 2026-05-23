@@ -1,190 +1,54 @@
 ---
-title: "Swarms：GraphWorkflow"
-description: "Swarms 的GraphWorkflow：包含来源链接、任务地图、取舍、坑点和更新基线的中文指南。"
+title: "GraphWorkflow"
+description: "当任务有 DAG 形依赖、混合并行和明确执行边时，使用 GraphWorkflow。"
 ---
 
-# Swarms：GraphWorkflow
+# GraphWorkflow
 
-这篇页面属于公开的 Swarms 主题指南。它面向需要落地 agent 框架的读者，重点不是复述 README，而是把公开资料整理成可执行的任务地图、决策清单和排错入口。
+## 从数据流开始
 
-## 本页回答什么
+```text
+collect_docs -> extract_facts -> synthesize
+collect_metrics -> analyze_metrics -> synthesize
+```
 
-- 搜索意图：Swarms GraphWorkflow DAG、parallel execution、callbacks。
-- 核心问题：什么时候必须用 DAG，而不是 Sequential/AgentRearrange？
-- 差异化角度：给“fan-out/fan-in”和“复杂依赖”任务模板。
-- 研究基线：2026-05-22/23
+先画输入、输出和依赖，再选择类或架构。结构越复杂，越要保存中间输出、route decisions、成本和耗时。
 
-
-## 事实基线
-
-- Swarms 自称面向生产的企业级 multi-agent orchestration framework，覆盖单 agent 原语、多种 orchestration structures、CLI 工作流、部署指南和大量 examples。
-- 研究时观察到的 PyPI 包为 `swarms` `12.0.0`，要求 Python `>=3.10,<4.0`，许可证为 Apache-2.0。
-- 官方文档提供 `llms.txt` 和 `llms-full.txt`；索引列出 174 个页面，覆盖 agents、tools、memory、structured outputs、architectures、API reference、CLI、deployment、examples、FAQ 和 changelog。
-- GitHub 目录树里 docs 路径约 198 个，examples 相关路径超过 1000 个，因此本站最有价值的工作是帮读者选对模式，而不是复制每个 API 页面。
-
-当前公开资料基线如下：
-
-| 字段 | 值 |
+| 形态 | 适合场景 |
 | --- | --- |
-| 仓库 | `kyegomez/swarms` |
-| 研究时观察到的包版本 | `12.0.0` |
-| Python 要求 | `>=3.10,<4.0` |
-| 许可证 | `Apache-2.0` |
-| 官方文档 | https://docs.swarms.world/ |
+| 直线 | 每一步依赖上一步。 |
+| 并行 | 多个角色独立处理同一输入。 |
+| 图 | 有混合依赖和汇合点。 |
+| 路由 | 不同任务需要不同 workflow。 |
 
-## 读者任务地图
+## 显式写出依赖边
 
-### 1. nodes/edges
+先画输入、输出和依赖，再选择架构。如果箭头是一条直线，sequence 就够。如果分支之后汇合，用 graph。如果不同任务类型需要不同 workflow，用 routing。
 
-这一节用来回答本页背后的实际问题：什么时候必须用 DAG，而不是 Sequential/AgentRearrange？ 对 Swarms 来说，"nodes/edges" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
+```text
+collect_docs -> extract_facts -> synthesize
+collect_metrics -> analyze_metrics -> synthesize
+synthesize -> final_review
+```
 
-检查点：
+| 形态 | 适合场景 |
+| --- | --- |
+| 直线 | 每一步依赖上一步输出。 |
+| 并行 | 多个角色能独立工作。 |
+| 图 | 依赖会分叉再汇合。 |
+| 路由 | 第一步要决定运行哪个 workflow。 |
 
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
+## 保留中间输出
 
-### 2. topological execution
-
-这一节用来回答本页背后的实际问题：什么时候必须用 DAG，而不是 Sequential/AgentRearrange？ 对 Swarms 来说，"topological execution" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 3. auto parallelization
-
-这一节用来回答本页背后的实际问题：什么时候必须用 DAG，而不是 Sequential/AgentRearrange？ 对 Swarms 来说，"auto parallelization" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 4. cycle detection
-
-这一节用来回答本页背后的实际问题：什么时候必须用 DAG，而不是 Sequential/AgentRearrange？ 对 Swarms 来说，"cycle detection" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 5. compilation
-
-这一节用来回答本页背后的实际问题：什么时候必须用 DAG，而不是 Sequential/AgentRearrange？ 对 Swarms 来说，"compilation" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 6. visualization
-
-这一节用来回答本页背后的实际问题：什么时候必须用 DAG，而不是 Sequential/AgentRearrange？ 对 Swarms 来说，"visualization" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 7. serialization
-
-这一节用来回答本页背后的实际问题：什么时候必须用 DAG，而不是 Sequential/AgentRearrange？ 对 Swarms 来说，"serialization" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 8. callbacks
-
-这一节用来回答本页背后的实际问题：什么时候必须用 DAG，而不是 Sequential/AgentRearrange？ 对 Swarms 来说，"callbacks" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 9. graph backend
-
-这一节用来回答本页背后的实际问题：什么时候必须用 DAG，而不是 Sequential/AgentRearrange？ 对 Swarms 来说，"graph backend" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-## 决策清单
-
-- 先用最小形状证明价值。只有任务确实受益时，才加入长期状态、更多 agent 或后台自动化。
-- 把能力问题和运营问题分开：框架能不能做、团队能不能验证、失败模式能不能被隔离。
-- 把每个 provider、tool、memory store 和外部集成都当成需要显式配置与回滚的契约。
-
-## 常见陷阱
-
-- 照搬官方 quickstart，却没有定义自己任务的成功信号。
-- 单 agent baseline 还不可衡量时，就先堆更多 agent。
-- 没有命名和清理策略，就让记忆或持久状态无限积累。
-- 还没判断输入和用户是否可信，就打开强权限工具。
-
-## 实践清单
-
-- 写清具体任务、期望输出形状和最低可接受证据。
-- 先选最小执行模式；简单路径跑通后再增加并发或持久化。
-- 把来源链接放在命令、参数和安全声明旁边，降低后续更新成本。
-- 记录版本和研究日期，因为 agent 框架变化非常快。
-
-## 本页来源需求
-
-api/graph-workflow、architectures/graph-workflow、examples graphworkflow、v12 changelog、issue #1560。
-
-更新本页时，需要回到下面的上游链接核验命令、参数、版本号和安全声明。GitHub issues 适合发现症状，但事实基线应以官方文档、release、包元信息和源码为准。
+复杂 agent 系统需要能检查原始输出。只有最终答案通常无法解释哪个角色引入了错误假设。
 
 ## 相关页面
 
-- [概览](/zh/swarms/)
-- [为什么与何时选择](/zh/swarms/why-and-when/)
 - [安装与环境配置](/zh/swarms/installation/)
-- [快速开始：第一个 Agent 与 Swarm](/zh/swarms/quickstart/)
+- [快速开始](/zh/swarms/quickstart/)
 - [核心概念](/zh/swarms/core-concepts/)
-- [Agent 配置地图](/zh/swarms/agent-configuration/)
-- [Agent 工具与函数调用](/zh/swarms/agent-tools/)
-- [记忆、上下文压缩与状态](/zh/swarms/memory-and-state/)
+- [架构总览](/zh/swarms/architectures/)
 
-## 来源
+## 参考资料
 
-- 代码仓库: https://github.com/kyegomez/swarms
-- README: https://github.com/kyegomez/swarms#readme
-- 官方文档: https://docs.swarms.world/
-- 面向 LLM 的文档索引: https://docs.swarms.world/llms.txt
-- 完整文档语料: https://docs.swarms.world/llms-full.txt
-- PyPI 包: https://pypi.org/project/swarms/
-- Swarms v12 changelog: https://docs.swarms.world/changelog/swarms-v12
-- FAQ: https://docs.swarms.world/community/faq
-- installation: https://docs.swarms.world/installation
-- environment: https://docs.swarms.world/environment-setup
-- quickstart: https://docs.swarms.world/quickstart
-- agents: https://docs.swarms.world/concepts/agents
-- swarms: https://docs.swarms.world/concepts/swarms
-- workflows: https://docs.swarms.world/concepts/workflows
-- creatingAgents: https://docs.swarms.world/agents/creating-agents
-- agentConfig: https://docs.swarms.world/agents/agent-configuration
+- Graph: https://docs.swarms.world/api/graph-workflow.md

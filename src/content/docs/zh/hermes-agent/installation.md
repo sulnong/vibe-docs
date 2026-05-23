@@ -1,168 +1,51 @@
 ---
-title: "Hermes Agent：安装与版本基线"
-description: "Hermes Agent 的安装与版本基线：包含来源链接、任务地图、取舍、坑点和更新基线的中文指南。"
+title: "安装与版本基线"
+description: "安装 Hermes Agent，确认 Python 和包要求，并让第一套环境容易检查。"
 ---
 
-# Hermes Agent：安装与版本基线
+# 安装与版本基线
 
-这篇页面属于公开的 Hermes Agent 主题指南。它面向需要落地 agent 框架的读者，重点不是复述 README，而是把公开资料整理成可执行的任务地图、决策清单和排错入口。
+## 创建干净环境
 
-## 本页回答什么
+```bash
+curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+command -v hermes
+hermes --help
+```
 
-- 搜索意图：install Hermes Agent、pip install hermes-agent、Windows/Termux/Nix 安装。
-- 核心问题：应选 curl installer、pip、Nix、Windows native、WSL2 还是 Termux？
-- 差异化角度：写清“验证成功”的标准：`hermes doctor`、provider configured、first chat、session resume，而不是只有安装命令。
-- 研究基线：2026-05-22/23
+当前包信息显示 hermes-agent 0.14.0，Python 要求 >=3.11。严肃使用前重新确认包信息，并把版本、provider、操作系统和第一条成功命令记录下来。
 
+## 安装阶段先别混在一起
 
-## 事实基线
+- 先证明命令可用，再调 provider key。
+- 不要把工具、记忆、gateway 和部署问题混在安装问题里。
+- 生产机器上的安装脚本要看来源，并用正确用户执行。
 
-- Hermes Agent 由 Nous Research 定位为自进化 AI agent，组合了终端界面、消息网关、skills、持久记忆、定时自动化、子 agent 委派和多种执行后端。
-- 研究时观察到的 PyPI 包为 `hermes-agent` `0.14.0`，要求 Python `>=3.11`，许可证为 MIT。
-- 官方文档提供 `llms.txt` 短索引和 `llms-full.txt` 完整语料。完整语料覆盖安装、CLI/TUI、配置、会话、工具、skills、记忆、MCP、cron、delegation、kanban、gateway、providers、API server、开发者架构和 FAQ。
-- 曾尝试浅克隆仓库，但 pack/index 阶段耗时过长，按流程放弃，改用 GitHub API、官方文档、PyPI、release、issues 和浏览器可访问资料继续研究。
+## 干净安装更容易排错
 
-当前公开资料基线如下：
+使用新 shell 和小环境。安装、provider 鉴权和 workflow 代码同时变化时，第一次失败会有太多可能原因。第一步只确认命令可见、包版本可见、模型调用可见。
 
-| 字段 | 值 |
+```bash
+curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+command -v hermes
+hermes --help
+```
+
+| 安装后检查 | 为什么重要 |
 | --- | --- |
-| 仓库 | `NousResearch/hermes-agent` |
-| 研究时观察到的包版本 | `0.14.0` |
-| Python 要求 | `>=3.11` |
-| 许可证 | `MIT` |
-| 官方文档 | https://hermes-agent.nousresearch.com/docs/ |
-
-## 读者任务地图
-
-### 1. 安装路径矩阵
-
-这一节用来回答本页背后的实际问题：应选 curl installer、pip、Nix、Windows native、WSL2 还是 Termux？ 对 Hermes Agent 来说，"安装路径矩阵" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 2. Python/Node/uv/ripgrep/ffmpeg 依赖
-
-这一节用来回答本页背后的实际问题：应选 curl installer、pip、Nix、Windows native、WSL2 还是 Termux？ 对 Hermes Agent 来说，"Python/Node/uv/ripgrep/ffmpeg 依赖" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 3. Windows early beta
-
-这一节用来回答本页背后的实际问题：应选 curl installer、pip、Nix、Windows native、WSL2 还是 Termux？ 对 Hermes Agent 来说，"Windows early beta" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 4. Termux 限制
-
-这一节用来回答本页背后的实际问题：应选 curl installer、pip、Nix、Windows native、WSL2 还是 Termux？ 对 Hermes Agent 来说，"Termux 限制" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 5. service user
-
-这一节用来回答本页背后的实际问题：应选 curl installer、pip、Nix、Windows native、WSL2 还是 Termux？ 对 Hermes Agent 来说，"service user" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 6. update/uninstall
-
-这一节用来回答本页背后的实际问题：应选 curl installer、pip、Nix、Windows native、WSL2 还是 Termux？ 对 Hermes Agent 来说，"update/uninstall" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 7. 验证命令
-
-这一节用来回答本页背后的实际问题：应选 curl installer、pip、Nix、Windows native、WSL2 还是 Termux？ 对 Hermes Agent 来说，"验证命令" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-## 决策清单
-
-- 先用最小形状证明价值。只有任务确实受益时，才加入长期状态、更多 agent 或后台自动化。
-- 把能力问题和运营问题分开：框架能不能做、团队能不能验证、失败模式能不能被隔离。
-- 把每个 provider、tool、memory store 和外部集成都当成需要显式配置与回滚的契约。
-
-## 常见陷阱
-
-- 照搬官方 quickstart，却没有定义自己任务的成功信号。
-- 单 agent baseline 还不可衡量时，就先堆更多 agent。
-- 没有命名和清理策略，就让记忆或持久状态无限积累。
-- 还没判断输入和用户是否可信，就打开强权限工具。
-
-## 实践清单
-
-- 写清具体任务、期望输出形状和最低可接受证据。
-- 先选最小执行模式；简单路径跑通后再增加并发或持久化。
-- 把来源链接放在命令、参数和安全声明旁边，降低后续更新成本。
-- 记录版本和研究日期，因为 agent 框架变化非常快。
-
-## 本页来源需求
-
-installation、updating、termux、nix、PyPI、README。
-
-更新本页时，需要回到下面的上游链接核验命令、参数、版本号和安全声明。GitHub issues 适合发现症状，但事实基线应以官方文档、release、包元信息和源码为准。
+| 记录包版本 | 以后知道在和哪个行为比较。 |
+| 记录 Python 版本 | 很多失败是环境不匹配。 |
+| 记录第一条成功命令 | 别人能复现起点。 |
+| Provider key 不进代码 | 示例文件可以安全提交。 |
 
 ## 相关页面
 
-- [概览](/zh/hermes-agent/)
-- [为什么与何时选择](/zh/hermes-agent/why-and-when/)
-- [快速开始：第一条可靠路径](/zh/hermes-agent/first-run/)
+- [第一条可靠路径](/zh/hermes-agent/first-run/)
 - [Provider 与模型配置](/zh/hermes-agent/providers-and-models/)
-- [CLI 与 TUI 日常工作流](/zh/hermes-agent/cli-and-tui/)
 - [工具与工具集](/zh/hermes-agent/tools-and-toolsets/)
 - [Skills 系统](/zh/hermes-agent/skills/)
-- [记忆与会话搜索](/zh/hermes-agent/memory-and-sessions/)
 
-## 来源
+## 参考资料
 
-- 代码仓库: https://github.com/NousResearch/hermes-agent
-- README: https://github.com/NousResearch/hermes-agent#readme
-- 官方文档: https://hermes-agent.nousresearch.com/docs/
-- 面向 LLM 的文档索引: https://hermes-agent.nousresearch.com/docs/llms.txt
-- 完整文档语料: https://hermes-agent.nousresearch.com/docs/llms-full.txt
-- PyPI 包: https://pypi.org/project/hermes-agent/
-- 版本发布: https://github.com/NousResearch/hermes-agent/releases
-- 安全政策: https://github.com/NousResearch/hermes-agent/blob/main/SECURITY.md
-- installation: https://hermes-agent.nousresearch.com/docs/getting-started/installation
-- quickstart: https://hermes-agent.nousresearch.com/docs/getting-started/quickstart
-- cli: https://hermes-agent.nousresearch.com/docs/user-guide/cli
-- tui: https://hermes-agent.nousresearch.com/docs/user-guide/tui
-- configuration: https://hermes-agent.nousresearch.com/docs/user-guide/configuration
-- providers: https://hermes-agent.nousresearch.com/docs/integrations/providers
-- security: https://hermes-agent.nousresearch.com/docs/user-guide/security
-- tools: https://hermes-agent.nousresearch.com/docs/user-guide/features/tools
+- Installation: https://hermes-agent.nousresearch.com/docs/getting-started/installation
+- PyPI package: https://pypi.org/project/hermes-agent/

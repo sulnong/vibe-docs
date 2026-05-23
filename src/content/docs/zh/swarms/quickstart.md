@@ -1,168 +1,58 @@
 ---
-title: "Swarms：快速开始：第一个 Agent 与 Swarm"
-description: "Swarms 的快速开始：第一个 Agent 与 Swarm：包含来源链接、任务地图、取舍、坑点和更新基线的中文指南。"
+title: "快速开始"
+description: "创建第一个 Swarms Agent，运行无害任务，并在加入编排前检查输出。"
 ---
 
-# Swarms：快速开始：第一个 Agent 与 Swarm
+# 快速开始
 
-这篇页面属于公开的 Swarms 主题指南。它面向需要落地 agent 框架的读者，重点不是复述 README，而是把公开资料整理成可执行的任务地图、决策清单和排错入口。
+## 运行最小有用任务
 
-## 本页回答什么
+```python
+from swarms import Agent
 
-- 搜索意图：Swarms quickstart、first agent、first swarm。
-- 核心问题：怎样用最少代码创建 Agent，再把两个 Agent 串成 workflow？
-- 差异化角度：把“单 agent 成功”和“multi-agent 成功”分成两个验证目标。
-- 研究基线：2026-05-22/23
+agent = Agent(
+    agent_name="docs_summarizer",
+    system_prompt="You summarize technical notes clearly and briefly.",
+    model_name="gpt-4o-mini",
+    max_loops=1,
+)
 
+result = agent.run("Write three practical checks before adopting a new agent framework.")
+print(result)
+```
 
-## 事实基线
+第一次运行只证明基础路径：能启动、能连模型、能返回可检查结果。不要一开始就接生产数据、远程入口或高风险工具。
 
-- Swarms 自称面向生产的企业级 multi-agent orchestration framework，覆盖单 agent 原语、多种 orchestration structures、CLI 工作流、部署指南和大量 examples。
-- 研究时观察到的 PyPI 包为 `swarms` `12.0.0`，要求 Python `>=3.10,<4.0`，许可证为 Apache-2.0。
-- 官方文档提供 `llms.txt` 和 `llms-full.txt`；索引列出 174 个页面，覆盖 agents、tools、memory、structured outputs、architectures、API reference、CLI、deployment、examples、FAQ 和 changelog。
-- GitHub 目录树里 docs 路径约 198 个，examples 相关路径超过 1000 个，因此本站最有价值的工作是帮读者选对模式，而不是复制每个 API 页面。
-
-当前公开资料基线如下：
-
-| 字段 | 值 |
+| 信号 | 含义 |
 | --- | --- |
-| 仓库 | `kyegomez/swarms` |
-| 研究时观察到的包版本 | `12.0.0` |
-| Python 要求 | `>=3.10,<4.0` |
-| 许可证 | `Apache-2.0` |
-| 官方文档 | https://docs.swarms.world/ |
+| 命令或脚本可运行 | 环境和包安装基本正确。 |
+| 模型调用成功 | provider 配置可用。 |
+| 输出有边界 | loop 或会话没有失控。 |
+| 状态可找到 | 之后可以恢复或排错。 |
 
-## 读者任务地图
+## 第一次运行要低风险
 
-### 1. first Agent
+先运行一个 Agent、一个 prompt、一个输出。单脚本可检查前，不要加 workflow、memory、tools 或 routing。
 
-这一节用来回答本页背后的实际问题：怎样用最少代码创建 Agent，再把两个 Agent 串成 workflow？ 对 Swarms 来说，"first Agent" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
+```bash
+python first_agent.py
+```
 
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 2. `max_loops`
-
-这一节用来回答本页背后的实际问题：怎样用最少代码创建 Agent，再把两个 Agent 串成 workflow？ 对 Swarms 来说，"`max_loops`" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 3. interactive
-
-这一节用来回答本页背后的实际问题：怎样用最少代码创建 Agent，再把两个 Agent 串成 workflow？ 对 Swarms 来说，"interactive" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 4. first SequentialWorkflow
-
-这一节用来回答本页背后的实际问题：怎样用最少代码创建 Agent，再把两个 Agent 串成 workflow？ 对 Swarms 来说，"first SequentialWorkflow" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 5. 验证输出
-
-这一节用来回答本页背后的实际问题：怎样用最少代码创建 Agent，再把两个 Agent 串成 workflow？ 对 Swarms 来说，"验证输出" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 6. 最小失败点
-
-这一节用来回答本页背后的实际问题：怎样用最少代码创建 Agent，再把两个 Agent 串成 workflow？ 对 Swarms 来说，"最小失败点" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-### 7. 下一步
-
-这一节用来回答本页背后的实际问题：怎样用最少代码创建 Agent，再把两个 Agent 串成 workflow？ 对 Swarms 来说，"下一步" 不应该停留在概念解释，而要写清输入、期望输出、验证信号和能证明该行为的来源。
-
-检查点：
-
-- 判断当前任务属于安装、使用、编排、部署、安全、排错还是对比。
-- 每条命令、参数或 API 名称都要能回链官方文档，再视为稳定事实。
-- 增加可选功能前，先写清什么算成功。
-- provider 认证、模型行为、记忆或外部工具失败时，要保留回退路径。
-
-## 决策清单
-
-- 先用最小形状证明价值。只有任务确实受益时，才加入长期状态、更多 agent 或后台自动化。
-- 把能力问题和运营问题分开：框架能不能做、团队能不能验证、失败模式能不能被隔离。
-- 把每个 provider、tool、memory store 和外部集成都当成需要显式配置与回滚的契约。
-
-## 常见陷阱
-
-- 照搬官方 quickstart，却没有定义自己任务的成功信号。
-- 单 agent baseline 还不可衡量时，就先堆更多 agent。
-- 没有命名和清理策略，就让记忆或持久状态无限积累。
-- 还没判断输入和用户是否可信，就打开强权限工具。
-
-## 实践清单
-
-- 写清具体任务、期望输出形状和最低可接受证据。
-- 先选最小执行模式；简单路径跑通后再增加并发或持久化。
-- 把来源链接放在命令、参数和安全声明旁边，降低后续更新成本。
-- 记录版本和研究日期，因为 agent 框架变化非常快。
-
-## 本页来源需求
-
-quickstart、creating-agents、README。
-
-更新本页时，需要回到下面的上游链接核验命令、参数、版本号和安全声明。GitHub issues 适合发现症状，但事实基线应以官方文档、release、包元信息和源码为准。
+| 如果失败 | 先看这里 |
+| --- | --- |
+| 命令或 import 失败 | 安装和当前环境。 |
+| Provider 鉴权失败 | Key 来源、模型名和 provider 账号。 |
+| 输出太散 | Prompt、loop 限制和输出要求。 |
+| 状态找不到 | Session、日志和工作目录。 |
 
 ## 相关页面
 
-- [概览](/zh/swarms/)
-- [为什么与何时选择](/zh/swarms/why-and-when/)
 - [安装与环境配置](/zh/swarms/installation/)
 - [核心概念](/zh/swarms/core-concepts/)
-- [Agent 配置地图](/zh/swarms/agent-configuration/)
-- [Agent 工具与函数调用](/zh/swarms/agent-tools/)
-- [记忆、上下文压缩与状态](/zh/swarms/memory-and-state/)
-- [Structured Outputs](/zh/swarms/structured-outputs/)
+- [架构总览](/zh/swarms/architectures/)
+- [生产化最佳实践](/zh/swarms/production/)
 
-## 来源
+## 参考资料
 
-- 代码仓库: https://github.com/kyegomez/swarms
-- README: https://github.com/kyegomez/swarms#readme
-- 官方文档: https://docs.swarms.world/
-- 面向 LLM 的文档索引: https://docs.swarms.world/llms.txt
-- 完整文档语料: https://docs.swarms.world/llms-full.txt
-- PyPI 包: https://pypi.org/project/swarms/
-- Swarms v12 changelog: https://docs.swarms.world/changelog/swarms-v12
-- FAQ: https://docs.swarms.world/community/faq
-- installation: https://docs.swarms.world/installation
-- environment: https://docs.swarms.world/environment-setup
-- quickstart: https://docs.swarms.world/quickstart
-- agents: https://docs.swarms.world/concepts/agents
-- swarms: https://docs.swarms.world/concepts/swarms
-- workflows: https://docs.swarms.world/concepts/workflows
-- creatingAgents: https://docs.swarms.world/agents/creating-agents
-- agentConfig: https://docs.swarms.world/agents/agent-configuration
+- Quickstart: https://docs.swarms.world/quickstart.md
+- Agent: https://docs.swarms.world/api/agent.md
