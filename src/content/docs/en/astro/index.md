@@ -1,65 +1,107 @@
 ---
-title: "Astro Overview"
-description: "Learn what Astro is, what problems it solves, and how to navigate this Astro guide as a practical learning path."
+title: "Astro Guide"
+description: "Learn Astro as a content-first web framework: HTML first, components where they help, and JavaScript only where the page needs it."
 ---
 
-# Astro Overview
+# Astro Guide
 
-Astro is a web framework for content-driven websites. Its default output is HTML, not a large client-side JavaScript application. That one design choice shapes almost everything else: pages are fast by default, Markdown is a first-class authoring format, UI framework components are optional, and interactivity can be added only where a page needs it.
+Astro is a web framework for content-driven websites. It treats the page as a document first: build the HTML, keep the URL stable, make the content easy to author, and add browser JavaScript only where a specific part of the page needs it.
 
-This makes Astro especially useful for documentation, blogs, changelogs, marketing pages, portfolios, product pages, and landing pages. These sites usually care about readable content, stable URLs, search indexing, fast loading, and a maintainable authoring workflow. Astro gives you those things without forcing every page to become a full client app.
+That default gives Astro a different feel from a full client application framework. A page can use components, data, layouts, Markdown, MDX, and framework islands, but it does not become a large browser app unless you choose that direction.
+
+## Where Astro fits
+
+Astro is most comfortable when the page itself is the product:
+
+- Documentation with sidebars, search, code examples, localized pages, and stable URLs.
+- Blogs, changelogs, guides, and editorial sites where authors prefer Markdown or MDX.
+- Product and marketing pages that need fast first loads, good metadata, and flexible visual design.
+- Project sites that are mostly static but include a few interactive pieces.
+- Multi-language content where sitemap, canonical URLs, and route structure matter.
+
+Astro can also render on demand with adapters, but the static model is the easiest place to start. Once you understand the static model, server rendering becomes a deliberate extension rather than the default assumption.
 
 ## The mental model
 
-Think of an Astro page as a document that can use components. A `.astro` file can run server-side code in frontmatter, render HTML, import data, include Markdown, and reuse components. Unless you explicitly hydrate a client component, Astro sends the rendered HTML and does not send the component JavaScript to the browser.
+Think of an Astro page as a document that can use components.
 
-That means Astro encourages a useful question for every feature:
+An `.astro` file has frontmatter for server-side code and a template for the HTML it renders:
 
-- Can this be plain HTML and CSS?
-- Does it need a small interactive island?
-- Does it need request-time server rendering?
+```astro
+---
+const title = 'Why Astro feels different';
+const updated = new Date('2026-05-23');
+---
 
-For many documentation pages, the answer is mostly HTML, sometimes a small island.
+<article>
+  <p>Updated {updated.toLocaleDateString('en-US')}</p>
+  <h1>{title}</h1>
+  <p>This page is HTML unless you choose to hydrate something.</p>
+</article>
+```
 
-## When Astro fits well
+The frontmatter runs during the build or on the server, depending on the output mode. The template becomes HTML. If you import a React, Vue, Svelte, or Solid component, Astro can render it too, but that component only becomes interactive in the browser when you add a client directive such as `client:visible` or `client:load`.
 
-Astro is a strong fit when the page itself is content. Good examples include:
+This leads to a useful sequence of questions for every feature:
 
-- Documentation sites with sidebars, search, code examples, and localized pages.
-- Blogs and editorial sites where authors want Markdown or MDX.
-- Product and marketing pages that need fast first load and careful metadata.
-- Project sites that mix static pages with a few interactive widgets.
-- Multi-language content where URL structure and canonical metadata matter.
+| Question | Astro answer |
+| --- | --- |
+| Can this remain HTML and CSS? | Use an Astro component, Markdown, or MDX. |
+| Does one part need browser behavior? | Use a small client island. |
+| Does the page need request-time data? | Add an adapter and render that route on demand. |
+| Does the whole product behave like an app shell? | Consider whether a React-first or full-stack framework is more direct. |
 
-Astro can also be used for more dynamic sites with server rendering and adapters, but the learning path should start with the static model because it explains Astro's strengths most clearly.
+## What to learn first
 
-## When another framework may fit better
+Astro has many integrations, but the first learning path can stay small:
+
+1. Create a project and run the development server.
+2. Open `src/pages/` and understand how files become URLs.
+3. Build one Astro component and pass props into it.
+4. Add one layout so pages share metadata and structure.
+5. Add Markdown or a content collection when content becomes more than a few files.
+6. Hydrate one small client component only after you can explain why it needs JavaScript.
+7. Build and preview the production output before choosing a host.
+
+That order keeps the framework understandable. It also prevents a common mistake: installing React, Tailwind, MDX, Starlight, an adapter, and several plugins before the plain site makes sense.
+
+## The main pieces
+
+| Piece | What it is for |
+| --- | --- |
+| `src/pages/` | File-based routes. A page file becomes a URL. |
+| Astro components | Static or mostly static UI, layouts, wrappers, cards, callouts, and page sections. |
+| Framework components | React, Vue, Svelte, Solid, or other UI components when a specific island needs browser state. |
+| Client directives | Control when framework components hydrate in the browser. |
+| Content collections | Typed content, frontmatter validation, and queries for Markdown, MDX, YAML, TOML, JSON, or remote data. |
+| Integrations | Starlight, MDX, sitemap, Tailwind, UI frameworks, adapters, and other project capabilities. |
+| Adapters | Deployment targets for on-demand rendering or platform-specific output. |
+
+Documentation sites usually add Starlight early because it supplies the docs shell: sidebar, search, table of contents, i18n, code highlighting, page metadata, and content schemas. A marketing site might skip Starlight and build custom layouts directly. A blog might start with content collections and a small set of templates.
+
+## When Astro can feel indirect
 
 Astro is not trying to replace every application framework. If the entire product is a highly interactive dashboard with shared client state, real-time collaboration, complex optimistic updates, and a large authenticated app shell, a React-first or full-stack app framework may be more direct.
 
-Astro still can host interactive components, but its center of gravity is different: publish HTML first, hydrate only what needs browser behavior, and keep content easy to own.
+Astro can still host interactive components inside those pages, but it asks you to split the experience into a static document and interactive islands. That split is powerful for content sites. It can feel awkward when almost every part of the screen is client state.
 
-## How this guide is organized
+## A good first project
 
-Start with [Getting Started](/en/astro/getting-started/) to create and run a project. Then read [Project Structure](/en/astro/project-structure/) and [Routing](/en/astro/routing/) to understand how files become pages. After that, [Components & Islands](/en/astro/components-and-islands/) explains the most distinctive part of Astro: selective JavaScript.
+A good first Astro project should be small enough to finish, but complete enough to touch the real workflow:
 
-Once the basics make sense, move into [Content Collections](/en/astro/content-collections/), [Styling](/en/astro/styling/), [MDX & Starlight](/en/astro/mdx-and-starlight/), and [Build & Deploy](/en/astro/build-and-deploy/). If your immediate goal is publishing this site, jump to [GitHub Pages](/en/astro/github-pages/).
+1. Create three routes: home, about, and one content page.
+2. Add one shared layout component.
+3. Add one content collection or a small Markdown section.
+4. Add one interactive island, such as a counter or theme switcher.
+5. Configure `site` in `astro.config.mjs`.
+6. Run a production build and preview the result.
+7. Deploy to static hosting.
 
-## A useful first goal
+If you are new to Astro, continue with [Getting Started](/en/astro/getting-started/). If you already have a project open, [Routing](/en/astro/routing/) and [Components & Islands](/en/astro/components-and-islands/) usually make the rest of the framework click.
 
-A good first Astro project is small but complete:
+## References
 
-1. Create a site with two or three routes.
-2. Add one layout component.
-3. Add one Markdown or MDX content collection.
-4. Add one interactive island, such as a theme switcher.
-5. Build it and deploy it to static hosting.
-
-That exercise touches the parts of Astro that matter most without drowning you in optional integrations.
-
-## Sources
-
-- Astro docs: https://docs.astro.build/
+- Astro documentation: https://docs.astro.build/
 - Why Astro: https://docs.astro.build/en/concepts/why-astro/
 - Islands architecture: https://docs.astro.build/en/concepts/islands/
 - Astro repository: https://github.com/withastro/astro

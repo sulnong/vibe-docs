@@ -1,70 +1,140 @@
 ---
 title: "Components & Islands"
-description: "Understand Astro components, framework components, and the Islands architecture that keeps JavaScript scoped."
+description: "Understand Astro components, framework components, slots, client directives, and the island model that keeps JavaScript scoped."
 ---
 
 # Components & Islands
 
-Astro components use the `.astro` file format. They can contain frontmatter for server-side logic, HTML-like markup, scoped styles, and slots. They are the best default for static UI and content-heavy layouts.
+Astro has two kinds of components that are easy to confuse:
 
-Framework components are different. Astro can render React, Vue, Svelte, Solid, and other UI framework components through integrations. Those components are useful when you need client-side state or browser APIs.
+- Astro components, written as `.astro` files, are the default for HTML-first UI.
+- Framework components, such as React or Vue components, are for parts of the page that need browser state or browser APIs.
+
+The distinction matters because importing a component does not automatically mean Astro ships a client application. Static UI can stay static. Interactive UI can hydrate as an island.
 
 ## Astro components
 
-An Astro component has two parts: frontmatter and template.
+An Astro component has frontmatter and a template:
 
 ```astro
 ---
-const { title } = Astro.props;
-const updated = new Date().toISOString();
+const { title, tone = 'default' } = Astro.props;
 ---
 
-<article>
+<section class:list={['callout', `callout-${tone}`]}>
   <h2>{title}</h2>
-  <p>Last generated: {updated}</p>
   <slot />
-</article>
+</section>
+
+<style>
+  .callout {
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+</style>
 ```
 
-The frontmatter runs on the server or during the build. The template becomes HTML. Styles written inside the component are scoped by default.
+The frontmatter runs during the build or on the server. The template becomes HTML. Styles inside the component are scoped by default.
 
-## Slots
+Use Astro components for content wrappers, layout sections, cards, callouts, navigation surfaces, metadata helpers, and anything that does not need browser behavior.
 
-Slots let a component wrap content supplied by the parent:
+## Props and slots
+
+Props pass data into a component. Slots pass content into a component.
 
 ```astro
-<Card title="Fast by default">
+---
+import Callout from '../components/Callout.astro';
+---
+
+<Callout title="Fast by default" tone="info">
   <p>Astro renders HTML first and hydrates only what you choose.</p>
-</Card>
+</Callout>
 ```
 
-This makes Astro components useful for documentation callouts, cards, examples, and reusable page sections.
+This pattern is useful in documentation because the component provides structure while the page keeps readable Markdown-like content.
+
+Named slots help when a component needs more than one content region:
+
+```astro
+<FeatureCard>
+  <span slot="eyebrow">Routing</span>
+  <h2>Files become URLs</h2>
+  <p>Keep the route tree visible in the filesystem.</p>
+</FeatureCard>
+```
+
+Do not turn every paragraph into a component. Components are useful when they remove real repetition or make structure clearer.
 
 ## Framework components
 
-Use a framework component when the UI needs browser behavior: a combobox, a live chart, a complex filter panel, a drag-and-drop editor, or an authenticated app widget.
+Use a framework component when the UI needs browser behavior:
 
-The important detail is that importing a React component does not automatically ship it as a browser app. Astro renders it to HTML unless you add a client directive.
+- a combobox
+- a live chart
+- a filter panel
+- drag and drop
+- media controls
+- a code playground
+- an authenticated widget
+
+Astro supports React, Vue, Svelte, Solid, and other frameworks through integrations. A project can use more than one framework, but that is rarely the simplest choice. Each framework adds dependencies, conventions, and bundle cost.
 
 ## Client directives
 
-Common directives include:
+A framework component only becomes interactive in the browser when you add a client directive:
 
-- `client:load` hydrates immediately.
-- `client:idle` hydrates when the browser is idle.
-- `client:visible` hydrates when the component enters the viewport.
-- `client:media` hydrates only when a media query matches.
-- `client:only` skips server rendering and renders only on the client.
+```astro
+---
+import SearchBox from '../components/SearchBox.jsx';
+---
 
-Choose the least eager directive that still gives the user a good experience. A below-the-fold interactive demo usually does not need `client:load`.
+<SearchBox client:visible />
+```
+
+Common directives:
+
+| Directive | Behavior | Good fit |
+| --- | --- | --- |
+| `client:load` | Hydrates as soon as possible | Above-the-fold controls that must work immediately |
+| `client:idle` | Hydrates when the browser is idle | Nice-to-have widgets |
+| `client:visible` | Hydrates when the component enters the viewport | Demos and widgets lower on the page |
+| `client:media` | Hydrates when a media query matches | Mobile-only or desktop-only interactions |
+| `client:only` | Renders only on the client | Components that cannot run during server rendering |
+
+Choose the least eager directive that still gives readers a good experience. A filter at the top of a page may need `client:load`. A demo below several sections is usually better with `client:visible`.
 
 ## Why islands matter
 
-The Islands architecture helps keep pages fast because the document can remain mostly static. Instead of one large app taking over the page, you get small interactive pieces inside a stable HTML shell.
+The Islands architecture lets a page remain mostly static while specific parts become interactive. Instead of one large app taking over the document, Astro produces a stable HTML shell with small hydrated islands inside it.
 
-For documentation, this is a natural fit. Search engines and readers get content immediately. Interactions such as theme switching, copy buttons, search, or examples can hydrate independently.
+For documentation, this is a natural fit. Readers and search engines get the content immediately. Interactions such as search, theme switching, copy buttons, playgrounds, or charts can load independently.
 
-## Sources
+The result is not automatically fast; a large island can still ship too much JavaScript. The advantage is that Astro gives you a clear boundary where you can ask whether the JavaScript is worth it.
+
+## A practical component choice
+
+| Need | Start with |
+| --- | --- |
+| Repeated static page section | Astro component |
+| Markdown content with consistent wrapper | Astro component or Starlight component |
+| Interactive form control | Framework component with `client:load` or `client:idle` |
+| Below-the-fold demo | Framework component with `client:visible` |
+| Browser-only API such as `window` at render time | `client:only` or move browser code into an effect |
+| Site-wide app state | Reconsider whether Astro is the right center for that surface |
+
+## Common mistakes
+
+| Symptom | What to check |
+| --- | --- |
+| React component renders but clicks do nothing | Missing `client:*` directive |
+| Build fails because `window` is undefined | Browser API is running during server render |
+| Page ships too much JavaScript | Islands are too large or hydrated too eagerly |
+| Component styles leak unexpectedly | Global CSS is being used where scoped styles would be safer |
+| Every section becomes a component | The abstraction is hiding content rather than simplifying it |
+
+## References
 
 - Astro components: https://docs.astro.build/en/basics/astro-components/
 - Islands architecture: https://docs.astro.build/en/concepts/islands/

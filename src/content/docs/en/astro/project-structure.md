@@ -1,11 +1,11 @@
 ---
 title: "Project Structure"
-description: "Understand the main folders and files in an Astro project before editing pages, components, content, and configuration."
+description: "Understand the folders and configuration files in an Astro project before editing routes, layouts, components, content, and assets."
 ---
 
 # Project Structure
 
-Astro projects are intentionally small at the root. A typical project looks like this:
+An Astro project is usually easy to scan at the root. The most important files are few, and most work happens under `src/`.
 
 ```text
 astro.config.mjs
@@ -18,31 +18,60 @@ src/
   pages/
 ```
 
-Templates and integrations can add more files, but these folders explain the core model.
+Templates and integrations can add more directories, but this structure explains the core model: routes live in `src/pages/`, reusable UI lives in `src/components/`, shared shells live in `src/layouts/`, and structured content lives in `src/content/`.
 
 ## `src/pages/`
 
-`src/pages/` is where Astro's file-based routing begins. Files in this directory become routes. A file named `src/pages/about.astro` becomes `/about/`. A file named `src/pages/blog/index.astro` becomes `/blog/`.
+`src/pages/` is where Astro's file-based routing begins. A file named `src/pages/about.astro` becomes `/about/`. A file named `src/pages/blog/index.astro` becomes `/blog/`.
 
-Pages can be `.astro`, `.md`, `.mdx`, or framework-specific files depending on integrations. For a documentation site, Starlight handles much of this routing for docs content, but the basic Astro idea still matters: files map to URLs.
+Pages can be `.astro`, `.md`, `.mdx`, or supported framework files depending on the integrations installed. For a documentation site, Starlight manages docs routes through its content collection, but the same routing idea still matters for root pages, custom landing pages, redirects, API endpoints, and non-doc sections.
+
+Use `src/pages/` for files that should create routes. Do not put reusable UI there unless the file really is a page.
 
 ## `src/components/`
 
-Components are reusable pieces of UI. Use `.astro` components for static or mostly static UI: cards, layout sections, headers, footers, and content wrappers. Use framework components such as React or Vue when you need client-side state or browser APIs.
+Components are reusable pieces of UI. Astro components are the default for static or mostly static pieces:
 
-A good rule is to start with an Astro component. Add a framework component only when the UI needs browser interactivity.
+- cards
+- callouts
+- headers and footers
+- content wrappers
+- layout sections
+- documentation widgets that do not need browser state
 
-## `src/layouts/`
-
-Layouts wrap pages with shared structure. A layout might define the document shell, metadata, navigation, footer, and slots for page content.
-
-For example:
+Start with `.astro` components. Add React, Vue, Svelte, Solid, or another framework only when a specific part of the page needs browser behavior.
 
 ```astro
 ---
 const { title } = Astro.props;
 ---
 
+<section class="card">
+  <h2>{title}</h2>
+  <slot />
+</section>
+
+<style>
+  .card {
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+</style>
+```
+
+This component can wrap content, render as HTML, and avoid shipping client JavaScript.
+
+## `src/layouts/`
+
+Layouts wrap pages with shared structure. A layout often owns the document shell, metadata, navigation, footer, and slots for page content.
+
+```astro
+---
+const { title } = Astro.props;
+---
+
+<!doctype html>
 <html lang="en">
   <head>
     <title>{title}</title>
@@ -53,33 +82,107 @@ const { title } = Astro.props;
 </html>
 ```
 
-Layouts keep repeated markup out of individual pages and make metadata easier to manage consistently.
+Layouts reduce repetition and make metadata more consistent. If you find the same `<head>`, navigation, or wrapper markup appearing in several pages, it usually belongs in a layout.
+
+In a Starlight site, the built-in docs layout handles most documentation pages. Custom layouts are still useful for non-doc landing pages, topic indexes, experiments, or marketing pages outside the docs tree.
 
 ## `src/content/`
 
-`src/content/` is used for content collections. Collections let you validate frontmatter, query content safely, and keep metadata consistent across pages.
+`src/content/` is used for content collections. Collections let Astro validate frontmatter, query entries safely, and keep metadata consistent across Markdown, MDX, YAML, TOML, JSON, or remote content.
 
-For a content-heavy site, this folder is often where the real product lives. Pages are not just templates; they are structured documents with titles, descriptions, slugs, dates, sources, and relationships.
+A blog collection might look like this:
+
+```text
+src/content/blog/
+  first-post.md
+  second-post.md
+```
+
+The schema usually lives in `src/content.config.ts`:
+
+```ts
+import { defineCollection, z } from 'astro:content';
+
+const blog = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishedAt: z.date(),
+  }),
+});
+
+export const collections = { blog };
+```
+
+For content-heavy sites, this folder often becomes the real product. Pages are not just templates; they are documents with titles, descriptions, slugs, dates, relationships, and publishing rules.
 
 ## `public/`
 
-Files in `public/` are copied directly to the build output. Use it for assets that should keep their filename and path, such as `robots.txt`, favicons, static images, or downloaded files.
+Files in `public/` are copied directly to the build output. Use it for assets that need a stable path and should not be processed by Astro:
 
-If an image is imported by a component, it usually belongs under `src/`. If it should be served exactly as-is, `public/` is often simpler.
+- `robots.txt`
+- favicons
+- static images served by exact path
+- downloadable files
+- verification files from external services
+
+If an image is imported by a component and should be optimized or bundled, place it under `src/` instead. If it must be served exactly as written, `public/` is simpler.
 
 ## `astro.config.mjs`
 
-This file configures the project. Common settings include:
+`astro.config.mjs` controls the project:
 
-- `site` for the public origin.
-- `base` for subpath deployments.
-- `integrations` such as Starlight, MDX, sitemap, Tailwind, or framework adapters.
-- `output` for static or server rendering.
-- adapter settings for hosting platforms.
+```js
+import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
-For SEO-oriented documentation, `site` and `base` are especially important because they affect generated URLs, sitemaps, canonical links, and asset paths.
+export default defineConfig({
+  site: 'https://example.com',
+  base: '/',
+  integrations: [sitemap()],
+});
+```
 
-## Sources
+Common settings include:
+
+| Setting | Why it matters |
+| --- | --- |
+| `site` | Public origin used for canonical URLs, sitemaps, and integrations. |
+| `base` | Subpath used when deploying under something like `/repo/`. |
+| `integrations` | Adds Starlight, MDX, sitemap, Tailwind, UI frameworks, or other capabilities. |
+| `output` | Chooses static output or server output. |
+| `adapter` | Enables on-demand rendering on a specific host. |
+
+For SEO-oriented documentation, `site` and `base` are especially important. A site can build successfully while still generating wrong canonical URLs or asset paths.
+
+## `package.json`
+
+`package.json` tells you how the project is run:
+
+```json
+{
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  }
+}
+```
+
+It also shows installed integrations and the Astro version range. When a project behaves differently from a tutorial, check `package.json` and the lockfile before assuming the docs are wrong.
+
+## How structure changes by project type
+
+| Project type | Structure usually grows around |
+| --- | --- |
+| Marketing site | `src/pages/`, `src/components/`, custom layouts, image assets |
+| Blog | `src/content/`, dynamic routes, feeds, author metadata |
+| Documentation | Starlight docs content, sidebar config, i18n, search, code examples |
+| Hybrid app | Routes that opt into on-demand rendering, adapters, API endpoints |
+
+Do not force every Astro project into the same shape. Let the content model decide where files belong.
+
+## References
 
 - Project structure: https://docs.astro.build/en/basics/project-structure/
 - Configuration reference: https://docs.astro.build/en/reference/configuration-reference/

@@ -1,19 +1,23 @@
 ---
 title: "Resources"
-description: "Official Astro resources, documentation links, repositories, and related references used by this guide."
+description: "Official Astro resources, Starlight links, deployment references, and where to verify behavior when building Astro sites."
 ---
 
 # Resources
 
-Use this page as the source map for the Astro guide. Prefer official documentation first, then source code and release notes when you need to verify behavior.
+Use this page when you need to verify Astro behavior, find the right official guide, or continue learning after the main pages in this topic.
+
+The most useful habit is to start with the official documentation page that matches the task, then use the configuration reference, integration docs, or repository when exact behavior matters.
 
 ## Official Astro resources
 
-- Astro documentation: https://docs.astro.build/
-- Astro GitHub repository: https://github.com/withastro/astro
-- Astro integrations: https://docs.astro.build/en/guides/integrations-guide/
-- Astro configuration reference: https://docs.astro.build/en/reference/configuration-reference/
-- Astro CLI reference: https://docs.astro.build/en/reference/cli-reference/
+| Resource | Use it for |
+| --- | --- |
+| https://docs.astro.build/ | Main documentation, guides, concepts, references |
+| https://github.com/withastro/astro | Source code, issues, releases, package history |
+| https://docs.astro.build/en/reference/configuration-reference/ | Exact config options such as `site`, `base`, `output`, and adapters |
+| https://docs.astro.build/en/reference/cli-reference/ | CLI commands and flags |
+| https://docs.astro.build/en/guides/integrations-guide/ | Official and community integration entry points |
 
 ## Core learning topics
 
@@ -25,32 +29,65 @@ Use this page as the source map for the Astro guide. Prefer official documentati
 - Framework components: https://docs.astro.build/en/guides/framework-components/
 - Client directives: https://docs.astro.build/en/reference/directives-reference/#client-directives
 
-## Content and styling
+These pages explain the mental model. Read them before debugging a complex integration; many problems come from expecting Astro to behave like a client app framework.
+
+## Content and authoring
 
 - Content collections: https://docs.astro.build/en/guides/content-collections/
 - MDX integration: https://docs.astro.build/en/guides/integrations-guide/mdx/
-- Styling: https://docs.astro.build/en/guides/styling/
-- CSS custom properties: https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties
+- Markdown content: https://docs.astro.build/en/guides/markdown-content/
+- Images: https://docs.astro.build/en/guides/images/
+
+For content-heavy sites, the content collection docs are especially important. They explain how content becomes a typed data model instead of a folder of loose Markdown files.
+
+## Styling
+
+- Styling guide: https://docs.astro.build/en/guides/styling/
+- CSS custom properties on MDN: https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties
+- Starlight CSS customization: https://starlight.astro.build/guides/css-and-tailwind/
+
+Use Astro's styling guide for framework-level behavior and MDN for CSS language details.
 
 ## Documentation with Starlight
 
 - Starlight documentation: https://starlight.astro.build/
-- Starlight i18n: https://starlight.astro.build/guides/i18n/
 - Starlight authoring content: https://starlight.astro.build/guides/authoring-content/
-- Starlight CSS customization: https://starlight.astro.build/guides/css-and-tailwind/
+- Starlight i18n: https://starlight.astro.build/guides/i18n/
+- Starlight configuration: https://starlight.astro.build/reference/configuration/
+- Starlight components: https://starlight.astro.build/reference/components/
+
+Starlight is the right place to verify docs-shell behavior: sidebar, search, i18n, page metadata, code highlighting, and built-in components.
 
 ## Deployment
 
 - Deploy Astro: https://docs.astro.build/en/guides/deploy/
 - Deploy to GitHub Pages: https://docs.astro.build/en/guides/deploy/github/
+- On-demand rendering: https://docs.astro.build/en/guides/on-demand-rendering/
 - GitHub Pages custom workflows: https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
 - GitHub deploy-pages action: https://github.com/actions/deploy-pages
 
-## How to use sources while editing docs
+For deployment problems, check the URL shape first: `site`, `base`, output directory, and whether the host serves deep routes correctly.
 
-When expanding an Astro topic page, start with the official docs page that matches the concept. Then cross-check with the configuration reference or repository when exact behavior matters. Keep source links at the bottom of the page so readers can verify details without interrupting the main reading flow.
+## Release and issue tracking
 
-## Sources
+- Astro releases: https://github.com/withastro/astro/releases
+- Astro issues: https://github.com/withastro/astro/issues
+- Astro discussions: https://github.com/withastro/astro/discussions
+
+Use release notes and issues when behavior changed between versions or when a guide seems inconsistent with the installed package.
+
+## How to use sources well
+
+Do not treat resources as a replacement for the page you are writing or reading. A good documentation page should explain the task directly, then link to sources for verification and deeper reference.
+
+When exact behavior matters, prefer this order:
+
+1. The official guide for the task.
+2. The reference page for the exact option or API.
+3. The repository or release notes for version-specific changes.
+4. Community issues only after checking official facts.
+
+## References
 
 - Astro docs: https://docs.astro.build/
 - Astro repository: https://github.com/withastro/astro

@@ -1,13 +1,13 @@
 ---
 title: "Build & Deploy"
-description: "Understand Astro production builds, static output, preview checks, adapters, and deployment targets."
+description: "Understand Astro production builds, static output, preview checks, adapters, deployment targets, and URL configuration."
 ---
 
 # Build & Deploy
 
-`npm run build` runs Astro's production build. For a static site, the output goes to `dist/`. This directory contains the HTML, CSS, JavaScript, images, sitemap files, and other assets that can be uploaded to a static host.
+`npm run build` runs Astro's production build. For a static site, the output goes to `dist/`. That directory contains the HTML, CSS, JavaScript, images, sitemap files, and other assets that can be uploaded to a static host.
 
-The basic cycle is:
+The smallest reliable deployment loop is:
 
 ```bash
 npm run build
@@ -29,24 +29,88 @@ Good static targets include:
 - S3-compatible object storage plus CDN
 - any host that can serve files from `dist/`
 
-For a documentation site, static output should be the default starting point.
+For a documentation site, static output should be the starting point unless a real route needs request-time behavior.
 
-## Server rendering and adapters
+## Build output
 
-Astro can also deploy server-rendered projects through adapters. You need server rendering when pages depend on request-time data, authenticated sessions, cookies, or runtime APIs.
+After a successful static build, inspect `dist/`:
 
-Adapters connect Astro to hosting platforms. For example, a server-rendered Astro app might use a Node adapter, a Vercel adapter, or a Cloudflare adapter. Static sites do not need an adapter unless the deployment target specifically requires one.
+```text
+dist/
+  index.html
+  _astro/
+  sitemap-index.xml
+```
 
-## Metadata and URLs
+The exact files depend on integrations and routes. The important check is that public pages exist where the host expects them, assets are present, and generated URLs use the right domain and base path.
 
-Build configuration affects SEO. The most important settings are:
+For a docs site, open a few built pages in preview:
 
-- `site`: the public origin, such as `https://example.com`.
-- `base`: the subpath, such as `/repo/` for a GitHub Pages project site.
-- sitemap integration: generates sitemap files from the built routes.
-- robots and canonical behavior: tells crawlers what should be indexed.
+- the home page
+- one deep topic page
+- one localized page
+- a page with code blocks
+- a page with images or custom components
 
-If `site` or `base` is wrong, pages may build successfully but produce incorrect URLs.
+If these work in `preview` but fail on the host, the problem is usually deployment configuration rather than Astro rendering.
+
+## `site` and `base`
+
+URL configuration affects links, assets, sitemap output, and canonical metadata.
+
+```js
+import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+  site: 'https://docs.example.com',
+  base: '/',
+});
+```
+
+Use `base` when the site is served from a subpath:
+
+```js
+export default defineConfig({
+  site: 'https://user.github.io',
+  base: '/repo/',
+});
+```
+
+If the site uses a custom domain at the root, `base` is usually `/`. If the site is a GitHub Pages project site, `base` is usually `/<repository-name>/`.
+
+## Static or server output
+
+Astro can also render on demand with adapters. You need server output when pages depend on request-time data:
+
+- authenticated sessions
+- cookies
+- user-specific pages
+- form handling
+- fresh API data on every request
+- pages that cannot wait for rebuilds
+
+Static output is simpler when the content can be generated ahead of time. Server output is more flexible but adds hosting requirements, runtime behavior, and operational surface area.
+
+| Need | Start with |
+| --- | --- |
+| Documentation, blog, marketing site | Static output |
+| A few generated content routes | Static output with dynamic routes |
+| User-specific dashboard | Server output or another app framework |
+| Form submission | Server output, endpoint, or external form service |
+| Frequently changing external data | Server output or scheduled rebuilds |
+
+## Adapters
+
+Adapters connect Astro to a deployment runtime. Static sites often do not need one. Server-rendered sites do.
+
+Common adapter choices depend on the host:
+
+- Node adapter for a Node server environment.
+- Vercel adapter for Vercel.
+- Netlify adapter for Netlify.
+- Cloudflare adapter for Cloudflare Workers or Pages runtime.
+
+Choose the adapter after choosing the host and rendering mode. Installing an adapter too early can make a simple static project harder to understand.
 
 ## Deployment checklist
 
@@ -56,15 +120,27 @@ Before publishing a static Astro documentation site, inspect:
 - Topic pages load in every locale.
 - Sidebar links resolve.
 - Search assets load.
-- `sitemap-index.xml` exists.
+- `sitemap-index.xml` exists when sitemap generation is enabled.
 - `robots.txt` is present when needed.
 - Canonical URLs use the expected domain and base path.
-- Code blocks and images render correctly.
+- Code blocks, tables, and images render correctly.
+- A hard refresh on a deep URL works on the host.
 
 For GitHub Pages, pay special attention to the base path. For a custom domain, the base path usually returns to `/`.
 
-## Sources
+## Common deployment failures
+
+| Symptom | First place to look |
+| --- | --- |
+| CSS and JS 404 after deployment | `base` is missing or wrong |
+| Sitemap contains `example.com` | `site` is still the default |
+| Deep route 404s on host | Host output directory or fallback rules |
+| Works in `dev` but not `preview` | Production build output differs from dev server |
+| Build passes locally but fails in CI | Node version or lockfile mismatch |
+| Search does not work in docs | Starlight assets not served from the expected base path |
+
+## References
 
 - Deploy Astro: https://docs.astro.build/en/guides/deploy/
-- GitHub Pages deployment: https://docs.astro.build/en/guides/deploy/github/
 - Configuration reference: https://docs.astro.build/en/reference/configuration-reference/
+- On-demand rendering: https://docs.astro.build/en/guides/on-demand-rendering/

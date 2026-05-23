@@ -1,29 +1,29 @@
 ---
 title: "Content Collections"
-description: "Use Astro content collections to validate Markdown and MDX content with schemas and query it safely."
+description: "Use Astro content collections to validate content, query entries, generate routes, and keep metadata consistent."
 ---
 
 # Content Collections
 
 Content collections give Astro a structured way to load Markdown, MDX, and data files. Instead of treating content as loose files, you define collections, validate frontmatter, and query entries through Astro's content APIs.
 
-This matters as soon as a site has more than a few pages. Titles, descriptions, dates, tags, draft flags, sources, and author fields should not be copied by hand with no validation.
+This matters as soon as a site has more than a few pages. Titles, descriptions, dates, tags, draft flags, sources, and relationships should not depend on copy-paste discipline alone.
 
-## Why collections exist
+## When collections are worth it
 
-Without a schema, content errors show up late: a missing title, a typo in a date, a wrong draft flag, or a page that forgets its description. Collections move those problems closer to authoring time.
+Use a collection when content has a repeated shape:
 
-Typical benefits include:
+- blog posts with dates, authors, tags, and summaries
+- documentation pages with descriptions and related links
+- changelog entries with versions and release dates
+- case studies with customers, products, and industries
+- data files that drive generated pages
 
-- Frontmatter validation.
-- Type-safe content queries.
-- Consistent metadata across pages.
-- Better editor feedback.
-- Easier generation of indexes, feeds, and related content.
+You may not need a collection for two or three hand-written pages. Once content is repeated, queried, filtered, or generated into routes, a collection pays for itself quickly.
 
-## Basic shape
+## Basic structure
 
-Collections live under `src/content/`. A blog collection might look like this:
+A blog collection might look like this:
 
 ```text
 src/content/blog/
@@ -31,7 +31,7 @@ src/content/blog/
   second-post.md
 ```
 
-The schema is defined in a content config file:
+Define the collection in `src/content.config.ts`:
 
 ```ts
 import { defineCollection, z } from 'astro:content';
@@ -42,54 +42,114 @@ const blog = defineCollection({
     description: z.string(),
     publishedAt: z.date(),
     tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
   }),
 });
 
 export const collections = { blog };
 ```
 
-## Querying content
+Then write an entry:
 
-Once content is structured, pages can query it:
+```md
+---
+title: "First post"
+description: "A short introduction to the site."
+publishedAt: 2026-05-23
+tags: ["astro", "content"]
+---
+
+This is the body of the post.
+```
+
+If a required field is missing or has the wrong type, Astro can surface the problem during development or build instead of letting inconsistent metadata reach production.
+
+## Query entries
+
+Use `getCollection()` to load entries:
 
 ```astro
 ---
 import { getCollection } from 'astro:content';
 
-const posts = await getCollection('blog');
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+posts.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 ---
 
 <ul>
   {posts.map((post) => (
     <li>
-      <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+      <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+      <p>{post.data.description}</p>
     </li>
   ))}
 </ul>
 ```
 
-The exact API can evolve across Astro versions, but the purpose is stable: content should be queryable, typed, and validated.
+The page can now render an index from content metadata rather than hard-coded links.
 
-## Collections in documentation
+## Generate routes
 
-Documentation pages benefit from schemas too. A topic page usually needs:
+Collection entries do not automatically become pages. A dynamic route turns entries into URLs:
 
-- `title`
-- `description`
-- language or locale
-- source links
-- status or review state
-- related pages
+```astro
+---
+import { getCollection, render } from 'astro:content';
 
-Even when Starlight handles its own docs collection, the same principle applies: content is a data model, not just a folder of text files.
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
 
-## Quality gates
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
 
-For generated documentation, collections are one part of quality control. They can ensure required metadata exists. Additional checks can verify bilingual page pairs, source sections, placeholder text, broken links, and duplicate pages.
+<article>
+  <h1>{post.data.title}</h1>
+  <p>{post.data.description}</p>
+  <Content />
+</article>
+```
 
-That combination is what turns generated drafts into reviewable documentation rather than a pile of Markdown.
+With this file at `src/pages/blog/[id].astro`, each entry becomes a page under `/blog/`.
 
-## Sources
+## Choose metadata deliberately
+
+A useful schema is strict enough to catch mistakes but not so strict that every content edit becomes painful.
+
+| Field | Why it helps |
+| --- | --- |
+| `title` | Page heading, indexes, social previews |
+| `description` | Search snippets, cards, list pages |
+| `publishedAt` or `updatedAt` | Sorting, freshness, changelogs |
+| `tags` | Topic indexes and related content |
+| `draft` | Prevents unfinished content from shipping |
+| `canonical` | Handles imported or syndicated content |
+| `related` | Supports curated reading paths |
+
+For generated documentation, the schema should enforce metadata that the public site actually uses. Avoid adding fields just because they were useful during research.
+
+## Collections in Starlight
+
+Starlight uses Astro content collections for docs content. That is why a Starlight documentation site can validate frontmatter, generate navigation, power search, and support localized pages.
+
+You can still define additional collections beside Starlight docs. For example, a docs site might add collections for changelog entries, examples, integrations, or release notes.
+
+## Common mistakes
+
+| Symptom | What to check |
+| --- | --- |
+| Build fails on a date field | YAML date format or schema type |
+| Page renders but index is missing it | Filter function excludes draft or tag |
+| Dynamic route has wrong URL | Route uses `id` but the desired slug is in frontmatter |
+| Metadata differs across languages | Schema allows optional fields that should be required |
+| Content model feels hard to edit | Schema is modeling internal workflow instead of public content |
+
+## References
 
 - Content collections: https://docs.astro.build/en/guides/content-collections/
 - Content configuration: https://docs.astro.build/en/reference/content-loader-reference/
