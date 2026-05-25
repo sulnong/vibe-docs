@@ -6,8 +6,8 @@ const site = process.env.PUBLIC_SITE_URL || 'https://docxing.top';
 const base = process.env.PUBLIC_BASE_PATH || '/';
 const cloudflareToken = process.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
 const styleBootScript = `(() => {
-  const allowed = ['base', 'pop-brutal', 'luminous', 'neo-retro', 'pixel'];
-  const lightPacks = ['base', 'pop-brutal', 'neo-retro'];
+  const allowed = ['base', 'neo-retro', 'luminous'];
+  const lightPacks = ['base', 'neo-retro'];
   const storageKey = 'astro-style-pack';
   const root = document.documentElement;
   let pack = 'base';
@@ -129,54 +129,41 @@ export default defineConfig({
               label: 'Start',
               translations: { zh: '开始' },
               items: [
-                { label: 'Overview', translations: { zh: '概览' }, link: '/hermes-agent/' },
-                { label: 'Why and When', translations: { zh: '为什么与何时选择' }, link: '/hermes-agent/why-and-when/' },
-                { label: 'Installation', translations: { zh: '安装与版本基线' }, link: '/hermes-agent/installation/' },
-                { label: 'First Run', translations: { zh: '第一条可靠路径' }, link: '/hermes-agent/first-run/' },
+                { label: 'Overview', translations: { zh: '概览' }, link: '/hermes/' },
+                { label: 'Why and When', translations: { zh: '为什么与何时选择' }, link: '/hermes/why-and-when/' },
+                { label: 'Installation', translations: { zh: '安装与版本基线' }, link: '/hermes/installation/' },
+                { label: 'First Run', translations: { zh: '第一条可靠路径' }, link: '/hermes/first-run/' },
               ],
             },
             {
               label: 'Daily Work',
               translations: { zh: '日常工作流' },
               items: [
-                { label: 'Providers and Models', translations: { zh: 'Provider 与模型配置' }, link: '/hermes-agent/providers-and-models/' },
-                { label: 'CLI and TUI', translations: { zh: 'CLI 与 TUI' }, link: '/hermes-agent/cli-and-tui/' },
-                { label: 'Tools and Toolsets', translations: { zh: '工具与工具集' }, link: '/hermes-agent/tools-and-toolsets/' },
-                { label: 'Skills System', translations: { zh: 'Skills 系统' }, link: '/hermes-agent/skills/' },
-                { label: 'Memory and Sessions', translations: { zh: '记忆与会话搜索' }, link: '/hermes-agent/memory-and-sessions/' },
-                { label: 'Context Files', translations: { zh: '项目指令与 Context Files' }, link: '/hermes-agent/context-files/' },
+                { label: 'Providers and Models', translations: { zh: 'Provider 与模型配置' }, link: '/hermes/providers-and-models/' },
+                { label: 'CLI and TUI', translations: { zh: 'CLI 与 TUI' }, link: '/hermes/cli-and-tui/' },
+                { label: 'Tools and Toolsets', translations: { zh: '工具与工具集' }, link: '/hermes/tools-and-toolsets/' },
+                { label: 'Context Files', translations: { zh: '项目指令与 Context Files' }, link: '/hermes/context-files/' },
+                { label: 'Memory and Sessions', translations: { zh: '记忆与会话搜索' }, link: '/hermes/memory-and-sessions/' },
+                { label: 'Skills System', translations: { zh: 'Skills 系统' }, link: '/hermes/skills/' },
               ],
             },
             {
               label: 'Automation',
               translations: { zh: '自动化与协作' },
               items: [
-                { label: 'Messaging Gateway', translations: { zh: '消息平台 Gateway' }, link: '/hermes-agent/messaging-gateway/' },
-                { label: 'Cron Automation', translations: { zh: 'Cron 长期自动化' }, link: '/hermes-agent/cron-automation/' },
-                { label: 'Subagent Delegation', translations: { zh: 'Subagent 委派' }, link: '/hermes-agent/delegation/' },
-                { label: 'Kanban Board', translations: { zh: 'Kanban 多 Agent Board' }, link: '/hermes-agent/kanban/' },
-              ],
-            },
-            {
-              label: 'Integration and Security',
-              translations: { zh: '集成与安全' },
-              items: [
-                { label: 'Security Model', translations: { zh: '安全模型' }, link: '/hermes-agent/security-model/' },
-                { label: 'Terminal Backends', translations: { zh: 'Terminal Backends' }, link: '/hermes-agent/terminal-backends/' },
-                { label: 'MCP Integration', translations: { zh: 'MCP 集成' }, link: '/hermes-agent/mcp/' },
-                { label: 'API Server', translations: { zh: 'API Server' }, link: '/hermes-agent/api-server/' },
-                { label: 'Web and Media Tools', translations: { zh: 'Web/Browser/Media' }, link: '/hermes-agent/web-browser-media/' },
-                { label: 'OpenClaw Migration', translations: { zh: 'OpenClaw 迁移' }, link: '/hermes-agent/openclaw-migration/' },
+                { label: 'Security Model', translations: { zh: '安全模型' }, link: '/hermes/security-model/' },
+                { label: 'Automation and Collaboration', translations: { zh: '自动化与协作' }, link: '/hermes/automation/' },
+                { label: 'Integrations', translations: { zh: '集成与外部接口' }, link: '/hermes/integrations/' },
               ],
             },
             {
               label: 'Reference',
               translations: { zh: '参考' },
               items: [
-                { label: 'Architecture', translations: { zh: '架构阅读路径' }, link: '/hermes-agent/architecture/' },
-                { label: 'Troubleshooting', translations: { zh: '排错路径' }, link: '/hermes-agent/troubleshooting/' },
-                { label: 'Alternatives', translations: { zh: '替代方案与对比' }, link: '/hermes-agent/alternatives/' },
-                { label: 'Resources', translations: { zh: '资源与更新追踪' }, link: '/hermes-agent/resources/' },
+                { label: 'Architecture', translations: { zh: '架构阅读路径' }, link: '/hermes/architecture/' },
+                { label: 'Troubleshooting', translations: { zh: '排错路径' }, link: '/hermes/troubleshooting/' },
+                { label: 'Alternatives', translations: { zh: '替代方案与对比' }, link: '/hermes/alternatives/' },
+                { label: 'Resources', translations: { zh: '资源与更新追踪' }, link: '/hermes/resources/' },
               ],
             },
           ],

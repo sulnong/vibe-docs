@@ -1,12 +1,14 @@
 ---
 import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
 import SocialIcons from 'virtual:starlight/components/SocialIcons';
+import StyleSwitcher from '../StyleSwitcher.astro';
 ---
 
 <div class="mobile-preferences sl-flex">
   <div class="social-icons">
     <SocialIcons />
   </div>
+  <StyleSwitcher />
   <LanguageSelect />
 </div>
 
@@ -29,6 +31,7 @@ import SocialIcons from 'virtual:starlight/components/SocialIcons';
       flex-wrap: wrap;
       border-top: 1px solid var(--astro-global-border);
       column-gap: 1rem;
+      row-gap: 0.75rem;
       padding: 0.75rem 0;
     }
   }

@@ -1,13 +1,73 @@
 ---
+import '../styles/custom.css';
+import StyleSwitcher from '../components/StyleSwitcher.astro';
+
+const styleBootScript = `(() => {
+  const allowed = ['base', 'neo-retro', 'luminous'];
+  const lightPacks = ['base', 'neo-retro'];
+  const storageKey = 'astro-style-pack';
+  const root = document.documentElement;
+  let pack = 'base';
+  try {
+    const stored = localStorage.getItem(storageKey);
+    if (allowed.includes(stored)) pack = stored;
+  } catch {}
+  const mode = lightPacks.includes(pack) ? 'light' : 'dark';
+  root.setAttribute('data-theme-pack', pack);
+  root.setAttribute('data-theme', mode);
+  root.style.colorScheme = mode;
+  try {
+    localStorage.setItem('starlight-theme', mode);
+  } catch {}
+})();`;
+
 const topics = [
   {
     name: 'Astro',
-    description: 'A practical bilingual guide for learning Astro, routing, components, content collections, styling, and deployment.',
+    label: 'Frontend docs framework',
+    description:
+      'Build content-heavy sites with routing, islands, content collections, styling, and deployment paths that stay easy to reason about.',
+    audience: 'For teams choosing or operating Astro documentation sites.',
     en: '/en/astro/',
     zh: '/zh/astro/',
+    paths: ['Start with the project map', 'Understand islands', 'Deploy with fewer surprises'],
+  },
+  {
+    name: 'Hermes Agent',
+    label: 'Agent workbench',
+    description:
+      'Install Hermes, choose providers, set tool boundaries, and grow from a first run into memory, skills, automation, and integrations.',
+    audience: 'For developers evaluating Hermes Agent for real project work.',
+    en: '/en/hermes/',
+    zh: '/zh/hermes/',
+    paths: ['Install with a version baseline', 'Run the first useful task', 'Debug tools and permissions'],
+  },
+  {
+    name: 'Swarms',
+    label: 'Multi-agent orchestration',
+    description:
+      'Map agents, tools, memory, structured outputs, workflow architectures, production concerns, scaling, and alternatives.',
+    audience: 'For teams deciding when a multi-agent workflow is worth the extra moving parts.',
+    en: '/en/swarms/',
+    zh: '/zh/swarms/',
+    paths: ['Choose an architecture', 'Wire tools and memory', 'Prepare for production'],
   },
 ];
 const withBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+const readingPaths = [
+  {
+    title: 'Start from the task',
+    text: 'Each topic opens with practical routes for install, first run, configuration, troubleshooting, and comparison.',
+  },
+  {
+    title: 'Check the source trail',
+    text: 'Guides prefer official docs, release notes, examples, issues, and source-linked decisions over thin summaries.',
+  },
+  {
+    title: 'Stay in one topic',
+    text: 'Sidebars keep the current topic in focus so readers can move between setup, concepts, operations, and resources.',
+  },
+];
 ---
 
 <!doctype html>
@@ -15,70 +75,72 @@ const withBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Topics</title>
-    <meta name="description" content="A lightweight index of available documentation topics." />
-    <style>
-      :root {
-        color-scheme: light dark;
-        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-        background: #0b1018;
-        color: #eef4ff;
-      }
-
-      body {
-        margin: 0;
-      }
-
-      main {
-        width: min(880px, calc(100vw - 32px));
-        margin: 0 auto;
-        padding: 64px 0;
-      }
-
-      h1 {
-        font-size: clamp(2.2rem, 8vw, 4.5rem);
-        letter-spacing: 0;
-        line-height: 1;
-        margin: 0 0 16px;
-      }
-
-      .topic-card {
-        border: 1px solid rgba(160, 185, 220, 0.24);
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.04);
-        padding: 24px;
-      }
-
-      .actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 18px;
-      }
-
-      a {
-        border: 1px solid rgba(190, 210, 240, 0.28);
-        border-radius: 999px;
-        color: #eef4ff;
-        padding: 10px 14px;
-        text-decoration: none;
-      }
-    </style>
+    <title>Vibe Docs</title>
+    <meta
+      name="description"
+      content="Topic-first bilingual technical guides with source-linked paths for fast-moving developer tools."
+    />
+    <script is:inline set:html={styleBootScript}></script>
   </head>
   <body>
-    <main>
-      <h1>Documentation Topics</h1>
-      <p>Choose a topic and language. More topics will be added after they pass editorial review.</p>
-      {topics.map((topic) => (
-        <article class="topic-card">
-          <h2>{topic.name}</h2>
-          <p>{topic.description}</p>
-          <div class="actions">
-            <a href={withBase(topic.en)}>English</a>
-            <a href={withBase(topic.zh)}>中文</a>
-          </div>
-        </article>
-      ))}
+    <main class="home-shell">
+      <nav class="home-topbar" aria-label="Home controls">
+        <a class="home-brand" href={withBase('/')}>Vibe Docs</a>
+        <StyleSwitcher />
+      </nav>
+      <section class="home-hero" aria-labelledby="home-title">
+        <p class="home-kicker">Bilingual technical guides for moving targets</p>
+        <h1 id="home-title" class="home-title">Vibe Docs</h1>
+        <p class="home-summary">
+          Source-linked, topic-first documentation for developers who need a practical path through fast-changing frameworks,
+          agent tools, and orchestration libraries.
+        </p>
+        <div class="home-meta" aria-label="Site qualities">
+          <span>English + 中文</span>
+          <span>Task maps</span>
+          <span>Decision points</span>
+          <span>Troubleshooting routes</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="topics-title">
+        <div class="section-heading">
+          <p class="home-kicker">Choose a topic</p>
+          <h2 id="topics-title">Start where the work is</h2>
+        </div>
+        <div class="topic-grid">
+        {topics.map((topic) => (
+          <article class="topic-card">
+            <p class="topic-card__label">{topic.label}</p>
+            <h2>{topic.name}</h2>
+            <p>{topic.description}</p>
+            <p class="topic-card__audience">{topic.audience}</p>
+            <ul class="topic-card__paths" aria-label={`${topic.name} reading paths`}>
+              {topic.paths.map((path) => <li>{path}</li>)}
+            </ul>
+            <div class="topic-card__actions">
+              <a href={withBase(topic.en)}>English</a>
+              <a href={withBase(topic.zh)}>中文</a>
+            </div>
+          </article>
+        ))}
+        </div>
+      </section>
+
+      <section class="home-paths" aria-labelledby="paths-title">
+        <div class="section-heading">
+          <p class="home-kicker">How to read</p>
+          <h2 id="paths-title">Use the guide as a map, not a mirror</h2>
+        </div>
+        <div class="path-grid">
+          {readingPaths.map((item) => (
+            <article class="path-card">
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
     </main>
   </body>
 </html>

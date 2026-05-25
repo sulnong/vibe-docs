@@ -1,28 +1,30 @@
 ---
 const styles = [
-  ['base', 'Base', 'B'],
-  ['pop-brutal', 'Pop', 'P'],
-  ['luminous', 'Luminous', 'L'],
-  ['neo-retro', 'Retro', 'R'],
-  ['pixel', 'Pixel', 'X'],
+  { value: 'base', label: 'Base', background: '#f6f8fb', accent: '#2563eb' },
+  { value: 'neo-retro', label: 'Retro', background: '#fff7d6', accent: '#db2777' },
+  { value: 'luminous', label: 'Luminous', background: '#06101a', accent: '#55c7ff' },
 ];
 ---
 
 <div class="style-switcher" data-style-switcher>
-  <span class="style-switcher__label">Style</span>
-  <div class="style-switcher__buttons" role="radiogroup" aria-label="Choose page style">
+  <span class="style-switcher__label">Theme</span>
+  <div class="style-switcher__buttons" role="radiogroup" aria-label="Choose page theme">
     {
-      styles.map(([value, label, short]) => (
+      styles.map((style) => (
         <button
           type="button"
           class="style-switcher__button"
-          data-style-option={value}
-          aria-label={`Use ${label} style`}
+          data-style-option={style.value}
+          aria-label={`Use ${style.label} theme`}
           aria-checked="false"
           role="radio"
-          title={label}
+          title={style.label}
         >
-          <span aria-hidden="true">{short}</span>
+          <span
+            class="style-switcher__swatch"
+            style={`--swatch-bg: ${style.background}; --swatch-accent: ${style.accent};`}
+            aria-hidden="true"
+          ></span>
         </button>
       ))
     }
@@ -32,14 +34,14 @@ const styles = [
 <script is:inline>
   (() => {
     const storageKey = 'astro-style-pack';
-    const allowed = ['base', 'pop-brutal', 'luminous', 'neo-retro', 'pixel'];
-    const lightPacks = ['base', 'pop-brutal', 'neo-retro'];
+    const allowed = ['base', 'neo-retro', 'luminous'];
+    const lightPacks = ['base', 'neo-retro'];
     const root = document.documentElement;
-    const buttons = Array.from(document.querySelectorAll('[data-style-option]'));
     const normalize = (value) => (allowed.includes(value) ? value : 'base');
     const apply = (value) => {
       const theme = normalize(value);
       const mode = lightPacks.includes(theme) ? 'light' : 'dark';
+      const buttons = Array.from(document.querySelectorAll('[data-style-option]'));
       root.setAttribute('data-theme-pack', theme);
       root.setAttribute('data-theme', mode);
       root.style.colorScheme = mode;
@@ -58,7 +60,9 @@ const styles = [
       initial = normalize(localStorage.getItem(storageKey));
     } catch {}
     apply(initial);
-    buttons.forEach((button) => {
+    document.querySelectorAll('[data-style-option]').forEach((button) => {
+      if (button.dataset.styleSwitcherBound === 'true') return;
+      button.dataset.styleSwitcherBound = 'true';
       button.addEventListener('click', () => apply(button.dataset.styleOption));
     });
   })();

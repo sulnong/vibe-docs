@@ -3,3 +3,49 @@
 
 # Future split-site example. Keep disabled until a topic intentionally moves.
 # https://astro.example.com/* https://example.com/en/astro/:splat 301
+
+/en/hermes-agent/ /en/hermes/ 301
+/zh/hermes-agent/ /zh/hermes/ 301
+
+/en/hermes-agent/messaging-gateway/ /en/hermes/automation/ 301
+/en/hermes-agent/cron-automation/ /en/hermes/automation/ 301
+/en/hermes-agent/delegation/ /en/hermes/automation/ 301
+/en/hermes-agent/kanban/ /en/hermes/automation/ 301
+/zh/hermes-agent/messaging-gateway/ /zh/hermes/automation/ 301
+/zh/hermes-agent/cron-automation/ /zh/hermes/automation/ 301
+/zh/hermes-agent/delegation/ /zh/hermes/automation/ 301
+/zh/hermes-agent/kanban/ /zh/hermes/automation/ 301
+
+/en/hermes-agent/mcp/ /en/hermes/integrations/ 301
+/en/hermes-agent/api-server/ /en/hermes/integrations/ 301
+/en/hermes-agent/web-browser-media/ /en/hermes/integrations/ 301
+/en/hermes-agent/terminal-backends/ /en/hermes/security-model/ 301
+/en/hermes-agent/openclaw-migration/ /en/hermes/alternatives/ 301
+/zh/hermes-agent/mcp/ /zh/hermes/integrations/ 301
+/zh/hermes-agent/api-server/ /zh/hermes/integrations/ 301
+/zh/hermes-agent/web-browser-media/ /zh/hermes/integrations/ 301
+/zh/hermes-agent/terminal-backends/ /zh/hermes/security-model/ 301
+/zh/hermes-agent/openclaw-migration/ /zh/hermes/alternatives/ 301
+
+/en/hermes/messaging-gateway/ /en/hermes/automation/ 301
+/en/hermes/cron-automation/ /en/hermes/automation/ 301
+/en/hermes/delegation/ /en/hermes/automation/ 301
+/en/hermes/kanban/ /en/hermes/automation/ 301
+/zh/hermes/messaging-gateway/ /zh/hermes/automation/ 301
+/zh/hermes/cron-automation/ /zh/hermes/automation/ 301
+/zh/hermes/delegation/ /zh/hermes/automation/ 301
+/zh/hermes/kanban/ /zh/hermes/automation/ 301
+
+/en/hermes/mcp/ /en/hermes/integrations/ 301
+/en/hermes/api-server/ /en/hermes/integrations/ 301
+/en/hermes/web-browser-media/ /en/hermes/integrations/ 301
+/en/hermes/terminal-backends/ /en/hermes/security-model/ 301
+/en/hermes/openclaw-migration/ /en/hermes/alternatives/ 301
+/zh/hermes/mcp/ /zh/hermes/integrations/ 301
+/zh/hermes/api-server/ /zh/hermes/integrations/ 301
+/zh/hermes/web-browser-media/ /zh/hermes/integrations/ 301
+/zh/hermes/terminal-backends/ /zh/hermes/security-model/ 301
+/zh/hermes/openclaw-migration/ /zh/hermes/alternatives/ 301
+
+/en/hermes-agent/* /en/hermes/:splat 301
+/zh/hermes-agent/* /zh/hermes/:splat 301

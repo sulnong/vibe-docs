@@ -1,7 +1,7 @@
 const TOPIC_HOSTS = new Map([
   ['astro.docxing.top', 'astro'],
-  ['hermes.docxing.top', 'hermes-agent'],
-  ['hermes-agent.docxing.top', 'hermes-agent'],
+  ['hermes.docxing.top', 'hermes'],
+  ['hermes-agent.docxing.top', 'hermes'],
   ['swarms.docxing.top', 'swarms'],
 ]);
 

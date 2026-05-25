@@ -6,7 +6,7 @@ hero:
   tagline: Source-linked technical guides for developers working with fast-moving frameworks.
   actions:
     - text: Read Hermes Agent
-      link: /en/hermes-agent/
+      link: /en/hermes/
       icon: right-arrow
     - text: Read Swarms
       link: /en/swarms/
@@ -18,5 +18,5 @@ Use this index to choose a topic guide. Each guide is organized around real task
 ## Available topics
 
 - [Astro](/en/astro/) - Learn Astro through routing, components, Islands, content collections, styling, and deployment.
-- [Hermes Agent](/en/hermes-agent/) - Evaluate and operate Nous Research's long-running agent through installation, providers, CLI/TUI, tools, skills, memory, gateway, cron, Kanban, MCP, API server, security, and alternatives.
+- [Hermes Agent](/en/hermes/) - Start with installation, first run, model setup, and tool boundaries, then move into memory, skills, automation, integrations, security, and troubleshooting.
 - [Swarms](/en/swarms/) - Navigate the multi-agent orchestration framework through single-agent setup, tools, memory, structured outputs, architecture selection, production practices, scaling, examples, versions, and alternatives.

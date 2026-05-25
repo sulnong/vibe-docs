@@ -1,21 +1,21 @@
 @import './themes/base.css';
-@import './themes/pixel.css';
 @import './themes/neo-retro.css';
-@import './themes/pop-brutal.css';
 @import './themes/luminous.css';
 
 :root {
   --sl-content-width: 52rem;
   --sl-sidebar-width: 16.5rem;
-  --astro-toc-width: 6.75rem;
-  --astro-page-bg: var(--sl-color-bg);
-  --astro-nav-bg: var(--sl-color-bg-nav);
-  --astro-sidebar-bg: var(--sl-color-bg-sidebar);
+  --astro-toc-width: 7rem;
+  --astro-page-bg: var(--sl-color-bg, #f6f8fb);
+  --astro-nav-bg: var(--sl-color-bg-nav, #ffffff);
+  --astro-sidebar-bg: var(--sl-color-bg-sidebar, #f8fafc);
   --astro-content-bg: transparent;
-  --astro-heading-color: var(--sl-color-white);
-  --astro-muted-color: var(--sl-color-gray-3);
-  --astro-code-bg: var(--sl-color-bg-inline-code);
-  --astro-global-border: var(--sl-color-hairline);
+  --astro-heading-color: var(--sl-color-white, #101827);
+  --astro-muted-color: var(--sl-color-gray-3, #617089);
+  --astro-code-bg: var(--sl-color-bg-inline-code, #edf2f7);
+  --astro-global-border: var(--sl-color-hairline, #d8e1ed);
+  --astro-soft-border: color-mix(in srgb, var(--astro-global-border) 70%, transparent);
+  --astro-ring: color-mix(in srgb, var(--astro-accent, #2563eb) 35%, transparent);
   --astro-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --astro-font-heading: Inter, ui-sans-serif, system-ui, sans-serif;
   --astro-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -27,22 +27,32 @@ html {
 }
 
 body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 82% 8%, color-mix(in srgb, var(--astro-accent, #2563eb) 12%, transparent), transparent 27rem),
+    linear-gradient(180deg, color-mix(in srgb, var(--astro-page-bg) 96%, white 4%), var(--astro-page-bg));
+  color: var(--sl-color-text, var(--astro-text, #172033));
   font-family: var(--astro-font-body);
   letter-spacing: 0;
-  background:
-    radial-gradient(circle at 82% 12%, color-mix(in srgb, var(--astro-accent, #3b82f6) 10%, transparent), transparent 28rem),
-    var(--astro-page-bg);
-  color: var(--sl-color-text);
+}
+
+:where(a, button, select):focus-visible {
+  outline: 3px solid var(--astro-ring);
+  outline-offset: 3px;
 }
 
 .site-title {
+  color: var(--astro-heading-color);
   font-family: var(--astro-font-heading);
   font-weight: 850;
 }
 
 .header {
-  background: var(--astro-nav-bg);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--astro-nav-bg) 94%, white 6%), var(--astro-nav-bg));
   border-bottom-color: var(--astro-global-border);
+  box-shadow: 0 1px 0 var(--astro-soft-border);
 }
 
 .sidebar-pane {
@@ -77,28 +87,59 @@ body {
   letter-spacing: 0;
 }
 
+.sl-markdown-content :where(h2) {
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--astro-global-border) 54%, transparent);
+}
+
 .sl-markdown-content :where(p, li) {
   line-height: 1.78;
 }
 
 .sl-markdown-content :where(a) {
+  color: var(--sl-color-text-accent);
+  text-decoration-thickness: 0.08em;
   text-underline-offset: 0.18em;
 }
 
 .sl-markdown-content :where(pre) {
+  border: 1px solid var(--astro-global-border);
+  border-radius: var(--astro-radius);
   background: var(--astro-code-bg);
-  border-color: var(--astro-global-border);
   box-shadow: var(--astro-shadow);
 }
 
-.sl-markdown-content :where(code) {
-  font-family: var(--astro-font-mono);
+.sl-markdown-content :where(:not(pre) > code) {
+  border: 1px solid color-mix(in srgb, var(--astro-global-border) 70%, transparent);
   border-radius: calc(var(--astro-radius) / 2 + 2px);
+  background: color-mix(in srgb, var(--astro-code-bg) 82%, transparent);
+  color: var(--astro-heading-color);
+  font-family: var(--astro-font-mono);
+  padding: 0.12em 0.32em;
+}
+
+.sl-markdown-content :where(table) {
+  border: 1px solid var(--astro-global-border);
+  border-radius: var(--astro-radius);
+  overflow: hidden;
+  box-shadow: var(--astro-shadow);
+}
+
+.sl-markdown-content :where(th) {
+  background: color-mix(in srgb, var(--astro-surface-muted, var(--astro-code-bg)) 88%, var(--astro-accent) 12%);
+  color: var(--astro-heading-color);
+}
+
+.sl-markdown-content :where(td, th) {
+  border-color: var(--astro-soft-border);
 }
 
 .sl-markdown-content :where(blockquote) {
-  border-inline-start-color: var(--astro-accent);
+  border-inline-start: 4px solid var(--astro-accent);
+  border-radius: 0 var(--astro-radius) var(--astro-radius) 0;
+  background: color-mix(in srgb, var(--astro-surface-muted, var(--astro-code-bg)) 78%, transparent);
   color: var(--astro-muted-color);
+  padding: 0.75rem 1rem;
 }
 
 .sl-markdown-content h2:has(+ ul:last-child) + ul:last-child {
@@ -118,6 +159,7 @@ body {
 }
 
 .right-group {
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -130,16 +172,16 @@ starlight-lang-select label {
   border: 1px solid var(--astro-global-border);
   border-radius: var(--astro-radius);
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--astro-surface, #fff) 88%, white 12%), var(--astro-surface, var(--sl-color-bg-nav)));
-  color: var(--sl-color-text);
-  font-size: var(--sl-text-xs);
+    linear-gradient(180deg, color-mix(in srgb, var(--astro-surface, #fff) 90%, white 10%), var(--astro-surface, var(--astro-nav-bg)));
+  color: var(--sl-color-text, var(--astro-text));
+  font-size: var(--sl-text-xs, 0.8125rem);
   padding: 0.25rem 0.35rem;
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--astro-accent, #3b82f6) 10%, transparent);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--astro-accent, #2563eb) 9%, transparent);
 }
 
 .style-switcher__label {
-  color: var(--sl-color-gray-3);
-  font-weight: 700;
+  color: var(--astro-muted-color);
+  font-weight: 800;
   padding-inline-start: 0.25rem;
 }
 
@@ -151,21 +193,31 @@ starlight-lang-select label {
 .style-switcher__button {
   display: inline-grid;
   place-items: center;
-  width: 1.65rem;
+  width: 1.85rem;
   height: 1.65rem;
   border: 1px solid transparent;
-  border-radius: 999px;
+  border-radius: calc(var(--astro-radius) - 2px);
   background: transparent;
-  color: var(--sl-color-gray-2);
+  color: var(--sl-color-gray-2, var(--astro-muted-color));
   cursor: pointer;
-  font: 800 0.72rem/1 var(--astro-font-heading);
+  font: 850 0.72rem/1 var(--astro-font-heading);
 }
 
 .style-switcher__button:hover,
 .style-switcher__button[data-active] {
   border-color: var(--astro-accent);
-  background: var(--astro-accent);
-  color: var(--sl-color-bg);
+  background: color-mix(in srgb, var(--astro-accent) 14%, transparent);
+}
+
+.style-switcher__swatch {
+  display: block;
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 1px solid color-mix(in srgb, var(--astro-global-border) 70%, transparent);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, var(--swatch-bg) 0 58%, var(--swatch-accent) 58% 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
 }
 
 starlight-lang-select label {
@@ -181,143 +233,206 @@ starlight-lang-select select {
   border-radius: calc(var(--astro-radius) - 2px);
   background: transparent;
   color: inherit;
-  font: 700 var(--sl-text-xs)/1 var(--astro-font-heading);
+  font: 750 var(--sl-text-xs, 0.8125rem)/1 var(--astro-font-heading);
 }
 
 starlight-lang-select option {
   background: var(--astro-nav-bg);
-  color: var(--sl-color-text);
+  color: var(--sl-color-text, var(--astro-text));
 }
 
 starlight-theme-select {
   display: none !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  * {
-    scroll-behavior: auto !important;
-  }
+.home-shell {
+  width: min(1120px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: clamp(2.5rem, 7vw, 5.5rem) 0 4rem;
 }
 
-html[data-theme-pack="pop-brutal"] {
-  --astro-page-bg: #fff2b8;
-  --astro-nav-bg: #fffdf7;
-  --astro-sidebar-bg: #fff7d1;
-  --astro-content-bg: #fffdf7;
-  --astro-heading-color: #05070a;
-  --astro-muted-color: #3d2b26;
-  --astro-code-bg: #fff7d1;
-  --astro-global-border: #0b0b0c;
-  --sl-color-text-accent: #ff5a45;
-  --sl-color-bg: #fff2b8;
-  --sl-color-bg-nav: #fffdf7;
-  --sl-color-bg-sidebar: #fff7d1;
-  --sl-color-text: #171412;
-  --sl-color-white: #05070a;
-  --sl-color-black: #fffdf7;
-  --sl-color-gray-1: #1f1f1f;
-  --sl-color-gray-2: #333333;
-  --sl-color-gray-3: #5f514b;
-  --sl-color-gray-4: #a58f7e;
-  --sl-color-gray-5: #0b0b0c;
-  --sl-color-gray-6: #ffe6a3;
-  --sl-color-hairline: #0b0b0c;
+.home-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(2rem, 5vw, 4rem);
 }
 
-html[data-theme-pack="luminous"] {
-  --astro-page-bg: #03070c;
-  --astro-nav-bg: rgba(5, 13, 22, 0.96);
-  --astro-sidebar-bg: #06101a;
-  --astro-content-bg: rgba(3, 9, 15, 0.36);
-  --astro-heading-color: #f2f8ff;
-  --astro-muted-color: #9bb7d3;
-  --astro-code-bg: #071523;
-  --astro-global-border: rgba(102, 190, 255, 0.24);
-  --sl-color-bg: #03070c;
-  --sl-color-bg-nav: rgba(5, 13, 22, 0.96);
-  --sl-color-bg-sidebar: #06101a;
-  --sl-color-text: #d8e8f8;
-  --sl-color-text-accent: #7ed0ff;
-  --sl-color-white: #f2f8ff;
-  --sl-color-gray-1: #e6f2ff;
-  --sl-color-gray-2: #c5d8ec;
-  --sl-color-gray-3: #9bb7d3;
-  --sl-color-gray-4: #4e6c86;
-  --sl-color-gray-5: #263d52;
-  --sl-color-gray-6: #102235;
-  --sl-color-hairline: rgba(102, 190, 255, 0.24);
+.home-brand {
+  color: var(--astro-heading-color);
+  font: 900 0.95rem/1 var(--astro-font-heading);
+  text-decoration: none;
 }
 
-html[data-theme-pack="pixel"] {
-  --astro-page-bg: #0d141b;
-  --astro-nav-bg: #101820;
-  --astro-sidebar-bg: #0b1218;
-  --astro-content-bg: #101820;
-  --astro-heading-color: #f9ffef;
-  --astro-muted-color: #b7c7bd;
-  --astro-code-bg: #16232e;
-  --astro-global-border: #00d084;
-  --sl-color-text-accent: #00d084;
-  --sl-color-bg: #0d141b;
-  --sl-color-bg-nav: #101820;
-  --sl-color-bg-sidebar: #0b1218;
-  --sl-color-text: #f9ffef;
-  --sl-color-white: #f9ffef;
-  --sl-color-gray-1: #f9ffef;
-  --sl-color-gray-2: #cdebdc;
-  --sl-color-gray-3: #93b7a6;
-  --sl-color-gray-4: #4f7566;
-  --sl-color-gray-5: #00d084;
-  --sl-color-gray-6: #16232e;
-  --sl-color-hairline: #00d084;
+.home-hero {
+  display: grid;
+  gap: 1.25rem;
+  min-height: min(560px, calc(100vh - 8rem));
+  align-content: center;
+  padding-bottom: 2rem;
 }
 
-html[data-theme-pack="neo-retro"] {
-  --astro-page-bg: #ffe7ef;
-  --astro-nav-bg: #fff7d6;
-  --astro-sidebar-bg: #bff3ff;
-  --astro-content-bg: #fffdf1;
-  --astro-heading-color: #1f2937;
-  --astro-muted-color: #475569;
-  --astro-code-bg: #fff7d6;
-  --astro-global-border: #1f2937;
-  --sl-color-text-accent: #db2777;
-  --sl-color-bg: #ffe7ef;
-  --sl-color-bg-nav: #fff7d6;
-  --sl-color-bg-sidebar: #bff3ff;
-  --sl-color-text: #1f2937;
-  --sl-color-white: #111827;
-  --sl-color-black: #fffdf1;
-  --sl-color-gray-1: #111827;
-  --sl-color-gray-2: #1f2937;
-  --sl-color-gray-3: #475569;
-  --sl-color-gray-4: #94a3b8;
-  --sl-color-gray-5: #1f2937;
-  --sl-color-gray-6: #f8cfe0;
-  --sl-color-hairline: #1f2937;
+.home-kicker,
+.topic-card__label {
+  margin: 0;
+  color: var(--astro-accent);
+  font: 850 0.78rem/1.2 var(--astro-font-heading);
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
-html[data-theme-pack="pop-brutal"] .header,
-html[data-theme-pack="pop-brutal"] .sidebar-pane,
-html[data-theme-pack="pop-brutal"] .right-sidebar,
+.home-title {
+  max-width: 11ch;
+  margin: 0;
+  color: var(--astro-heading-color);
+  font: 900 clamp(3.4rem, 14vw, 8.75rem)/0.88 var(--astro-font-heading);
+  letter-spacing: 0;
+}
+
+.home-summary {
+  max-width: 48rem;
+  margin: 0;
+  color: var(--astro-muted-color);
+  font-size: clamp(1.08rem, 2vw, 1.35rem);
+  line-height: 1.72;
+}
+
+.home-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  max-width: 52rem;
+}
+
+.home-meta span,
+.topic-card__actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.35rem;
+  border: 1px solid var(--astro-global-border);
+  border-radius: var(--astro-radius);
+  background: color-mix(in srgb, var(--astro-surface, #fff) 88%, transparent);
+  color: var(--astro-heading-color);
+  font-weight: 750;
+  padding: 0.58rem 0.78rem;
+  text-decoration: none;
+}
+
+.section-heading {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-heading h2 {
+  max-width: 14ch;
+  margin: 0;
+  color: var(--astro-heading-color);
+  font: 880 clamp(2rem, 5vw, 4rem)/0.98 var(--astro-font-heading);
+  letter-spacing: 0;
+}
+
+.topic-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.topic-card,
+.path-card {
+  min-width: 0;
+  border: 1px solid var(--astro-global-border);
+  border-radius: var(--astro-radius);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--astro-surface, #fff) 94%, white 6%), var(--astro-surface, #fff));
+  box-shadow: var(--astro-shadow);
+}
+
+.topic-card {
+  display: flex;
+  min-height: 29rem;
+  flex-direction: column;
+  padding: clamp(1rem, 2.2vw, 1.35rem);
+}
+
+.topic-card h2 {
+  margin: 0.7rem 0 0;
+  color: var(--astro-heading-color);
+  font: 860 clamp(1.55rem, 3vw, 2.35rem)/1 var(--astro-font-heading);
+  letter-spacing: 0;
+}
+
+.topic-card p {
+  color: var(--astro-muted-color);
+  line-height: 1.62;
+}
+
+.topic-card__audience {
+  margin-top: auto;
+  font-size: 0.95rem;
+}
+
+.topic-card__paths {
+  display: grid;
+  gap: 0.45rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  color: var(--astro-heading-color);
+  list-style: none;
+}
+
+.topic-card__paths li {
+  border-top: 1px solid var(--astro-soft-border);
+  padding-top: 0.45rem;
+}
+
+.topic-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+.topic-card__actions a:hover {
+  border-color: var(--astro-accent);
+  background: var(--astro-accent);
+  color: var(--astro-accent-contrast, #ffffff);
+}
+
+.home-paths {
+  margin-top: clamp(3rem, 8vw, 6rem);
+}
+
+.path-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.path-card {
+  padding: 1.1rem;
+}
+
+.path-card h3 {
+  margin: 0;
+  color: var(--astro-heading-color);
+  font: 820 1.15rem/1.2 var(--astro-font-heading);
+}
+
+.path-card p {
+  margin-bottom: 0;
+  color: var(--astro-muted-color);
+  line-height: 1.62;
+}
+
 html[data-theme-pack="neo-retro"] .header,
 html[data-theme-pack="neo-retro"] .sidebar-pane,
-html[data-theme-pack="neo-retro"] .right-sidebar,
-html[data-theme-pack="pixel"] .header,
-html[data-theme-pack="pixel"] .sidebar-pane,
-html[data-theme-pack="pixel"] .right-sidebar {
+html[data-theme-pack="neo-retro"] .right-sidebar {
   border-width: 2px;
 }
 
-html[data-theme-pack="pop-brutal"] .sl-markdown-content :where(h1, h2, h3),
-html[data-theme-pack="pop-brutal"] .site-title {
-  font-family: var(--astro-font-display);
-  font-weight: 900;
-}
-
-html[data-theme-pack="pop-brutal"] .sl-markdown-content :where(pre, table, blockquote),
-html[data-theme-pack="neo-retro"] .sl-markdown-content :where(pre, table, blockquote),
-html[data-theme-pack="pixel"] .sl-markdown-content :where(pre, table, blockquote) {
+html[data-theme-pack="neo-retro"] .sl-markdown-content :where(pre, table, blockquote) {
   border: 2px solid var(--astro-global-border);
 }
 
@@ -338,9 +453,51 @@ html[data-theme-pack="luminous"] .sl-markdown-content :where(pre, blockquote) {
   background: rgba(7, 21, 35, 0.92);
 }
 
-html[data-theme-pack="pixel"] body {
-  background-image:
-    linear-gradient(rgba(0, 208, 132, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 208, 132, 0.05) 1px, transparent 1px);
-  background-size: 18px 18px;
+@media (max-width: 72rem) {
+  .topic-grid,
+  .path-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .topic-card {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 50rem) {
+  .home-shell {
+    width: min(100% - 24px, 42rem);
+    padding-top: 2rem;
+  }
+
+  .home-topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .home-hero {
+    min-height: auto;
+    padding-block: 2rem 3rem;
+  }
+
+  .home-title {
+    font-size: clamp(3rem, 18vw, 5rem);
+  }
+
+  .style-switcher {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .style-switcher__button {
+    width: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
