@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import test from 'node:test';
 
-const themes = ['base', 'pixel', 'neo-retro', 'pop-brutal', 'luminous'];
+const themes = ['neo-retro'];
 
 test('theme packs expose scoped data-theme selectors', async () => {
   for (const theme of themes) {
@@ -19,11 +19,12 @@ test('UI components exist as Astro wrappers for imported design ideas', async ()
   }
 });
 
-test('Astro is the first visible documentation topic', async () => {
+test('legacy Astro documentation remains reachable', async () => {
   const config = await readFile('astro.config.mjs', 'utf8');
   const enHome = await readFile('src/content/docs/en/index.md', 'utf8');
   const zhHome = await readFile('src/content/docs/zh/index.md', 'utf8');
 
+  assert.match(config, /label:\s*['"]China Economy['"]/);
   assert.match(config, /label:\s*['"]Astro['"]/);
   assert.match(config, /link:\s*['"]\/astro\/['"]/);
   assert.doesNotMatch(config, /link:\s*['"]\/starlight\/['"]/);

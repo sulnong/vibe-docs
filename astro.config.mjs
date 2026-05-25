@@ -62,8 +62,8 @@ export default defineConfig({
     sitemap(),
     starlight({
       title: {
-        en: 'Vibe Docs',
-        zh: 'Vibe Docs',
+        en: 'China Explained',
+        zh: 'China Explained',
       },
       customCss: ['./src/styles/custom.css'],
       components: {
@@ -280,6 +280,70 @@ export default defineConfig({
                   label: 'China 2026 Reflation',
                   translations: { zh: '2026 中国经济' },
                   link: '/china-economy/china-2026-reflation-turning-point/',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'China AI',
+          translations: { zh: '中国 AI' },
+          items: [
+            {
+              label: 'Start',
+              translations: { zh: '开始' },
+              items: [
+                { label: 'Overview', translations: { zh: '概览' }, link: '/china-ai/' },
+                {
+                  label: 'DeepSeek V4',
+                  translations: { zh: 'DeepSeek V4' },
+                  link: '/china-ai/deepseek-v4-efficiency-strategy/',
+                },
+                {
+                  label: 'Doubao AI Shopping',
+                  translations: { zh: '豆包 AI 购物' },
+                  link: '/china-ai/doubao-ai-shopping-bytedance-ecommerce/',
+                },
+                {
+                  label: 'OpenClaw AI Products',
+                  translations: { zh: 'OpenClaw AI 产品' },
+                  link: '/china-ai/openclaw-ai-product-environment/',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'China Industry',
+          translations: { zh: '中国产业' },
+          items: [
+            {
+              label: 'Start',
+              translations: { zh: '开始' },
+              items: [
+                { label: 'Overview', translations: { zh: '概览' }, link: '/china-industry/' },
+                {
+                  label: 'Supply-Chain HQ',
+                  translations: { zh: '供应链总部化' },
+                  link: '/china-industry/china-supply-chain-headquarters-globalization/',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'China Society',
+          translations: { zh: '中国社会' },
+          items: [
+            {
+              label: 'Start',
+              translations: { zh: '开始' },
+              items: [
+                { label: 'Overview', translations: { zh: '概览' }, link: '/china-society/' },
+                {
+                  label: 'Upward Mobility',
+                  translations: { zh: '阶层流动' },
+                  link: '/china-society/upward-mobility-ai-age/',
                 },
               ],
             },

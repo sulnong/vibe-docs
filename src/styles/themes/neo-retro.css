@@ -44,9 +44,8 @@
   font-weight: 900;
 }
 
-[data-theme-pack="neo-retro"] .style-switcher {
+[data-theme-pack="neo-retro"] .reading-toggle__container {
   border-width: 2px;
-  box-shadow: 4px 4px 0 var(--astro-border);
 }
 
 [data-theme-pack="neo-retro"] .home-meta span,

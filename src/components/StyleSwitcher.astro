@@ -1,49 +1,39 @@
----
-const modes = [
-  { value: 'comfort', label: 'Comfort' },
-  { value: 'focus', label: 'Focus' },
-];
----
-
-<div class="style-switcher" data-reading-switcher>
-  <span class="style-switcher__label">Read</span>
-  <div class="style-switcher__buttons" role="radiogroup" aria-label="Choose reading mode">
-    {
-      modes.map((mode) => (
-        <button
-          type="button"
-          class="style-switcher__button"
-          data-reading-option={mode.value}
-          aria-label={`Use ${mode.label} reading mode`}
-          aria-checked="false"
-          role="radio"
-          title={mode.label}
-        >
-          <span class="style-switcher__toggle-dot" aria-hidden="true"></span>
-        </button>
-      ))
-    }
-  </div>
-</div>
+<label class="reading-toggle" data-reading-switcher>
+  <span class="reading-toggle__label">Theme</span>
+  <input
+    class="reading-toggle__checkbox"
+    type="checkbox"
+    data-reading-toggle
+    aria-label="Use night reading tone"
+  />
+  <span class="reading-toggle__container" aria-hidden="true">
+    <span class="reading-toggle__scenery">
+      <span class="reading-toggle__spark"></span>
+      <span class="reading-toggle__spark"></span>
+      <span class="reading-toggle__spark"></span>
+      <span class="reading-toggle__cloud"></span>
+      <span class="reading-toggle__cloud"></span>
+    </span>
+    <span class="reading-toggle__orb"></span>
+  </span>
+</label>
 
 <script is:inline>
   (() => {
     const themeStorageKey = 'astro-style-pack';
     const readingStorageKey = 'astro-reading-mode';
-    const allowed = ['comfort', 'focus'];
+    const allowed = ['day', 'night'];
     const root = document.documentElement;
-    const normalize = (value) => (allowed.includes(value) ? value : 'comfort');
+    const normalize = (value) => (allowed.includes(value) ? value : 'day');
     const apply = (value) => {
       const mode = normalize(value);
-      const buttons = Array.from(document.querySelectorAll('[data-reading-option]'));
+      const toggles = Array.from(document.querySelectorAll('[data-reading-toggle]'));
       root.setAttribute('data-theme-pack', 'neo-retro');
       root.setAttribute('data-theme', 'light');
       root.setAttribute('data-reading-mode', mode);
-      root.style.colorScheme = 'light';
-      buttons.forEach((button) => {
-        const active = button.dataset.readingOption === mode;
-        button.setAttribute('aria-checked', String(active));
-        button.toggleAttribute('data-active', active);
+      root.style.colorScheme = mode === 'night' ? 'dark' : 'light';
+      toggles.forEach((toggle) => {
+        toggle.checked = mode === 'night';
       });
       try {
         localStorage.setItem(themeStorageKey, 'neo-retro');
@@ -51,15 +41,15 @@ const modes = [
         localStorage.setItem('starlight-theme', 'light');
       } catch {}
     };
-    let initial = 'comfort';
+    let initial = 'day';
     try {
       initial = normalize(localStorage.getItem(readingStorageKey));
     } catch {}
     apply(initial);
-    document.querySelectorAll('[data-reading-option]').forEach((button) => {
-      if (button.dataset.styleSwitcherBound === 'true') return;
-      button.dataset.styleSwitcherBound = 'true';
-      button.addEventListener('click', () => apply(button.dataset.readingOption));
+    document.querySelectorAll('[data-reading-toggle]').forEach((toggle) => {
+      if (toggle.dataset.readingSwitcherBound === 'true') return;
+      toggle.dataset.readingSwitcherBound = 'true';
+      toggle.addEventListener('change', () => apply(toggle.checked ? 'night' : 'day'));
     });
   })();
 </script>

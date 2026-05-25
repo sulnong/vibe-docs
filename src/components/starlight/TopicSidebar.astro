@@ -3,7 +3,16 @@ import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
 import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
 import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
 
-const TOPIC_SLUGS = ['astro', 'hermes', 'swarms', 'awesome-skills', 'china-economy'];
+const TOPIC_SLUGS = [
+  'astro',
+  'hermes',
+  'swarms',
+  'awesome-skills',
+  'china-economy',
+  'china-ai',
+  'china-industry',
+  'china-society',
+];
 const HOST_TOPICS = new Map([
   ['astro.docxing.top', 'astro'],
   ['hermes.docxing.top', 'hermes'],
@@ -11,6 +20,9 @@ const HOST_TOPICS = new Map([
   ['swarms.docxing.top', 'swarms'],
   ['awesome-skills.docxing.top', 'awesome-skills'],
   ['china-economy.docxing.top', 'china-economy'],
+  ['china-ai.docxing.top', 'china-ai'],
+  ['china-industry.docxing.top', 'china-industry'],
+  ['china-society.docxing.top', 'china-society'],
 ]);
 
 const { sidebar } = Astro.locals.starlightRoute;
@@ -23,7 +35,9 @@ const topicFromPath = TOPIC_SLUGS.find((slug) =>
 const currentTopic = topicFromHost ?? topicFromPath;
 
 const filteredSidebar = currentTopic
-  ? sidebar.filter((entry) => entryContainsTopic(entry, currentTopic))
+  ? sidebar
+      .filter((entry) => entryContainsTopic(entry, currentTopic))
+      .map((entry) => normalizeTopicEntry(entry, currentTopic, pathname))
   : sidebar;
 
 function entryContainsTopic(entry, topic) {
@@ -36,6 +50,38 @@ function entryContainsTopic(entry, topic) {
   }
 
   return false;
+}
+
+function normalizeTopicEntry(entry, topic, currentPathname) {
+  if ('href' in entry && typeof entry.href === 'string') {
+    const href = isRootChinaTopic(topic) ? stripInjectedLocale(entry.href, topic) : entry.href;
+    return {
+      ...entry,
+      href,
+      isCurrent: normalizePath(href) === normalizePath(currentPathname),
+    };
+  }
+
+  if ('entries' in entry && Array.isArray(entry.entries)) {
+    return {
+      ...entry,
+      entries: entry.entries.map((child) => normalizeTopicEntry(child, topic, currentPathname)),
+    };
+  }
+
+  return entry;
+}
+
+function isRootChinaTopic(topic) {
+  return topic.startsWith('china-');
+}
+
+function stripInjectedLocale(href, topic) {
+  return href.replace(new RegExp(`^/(?:en|zh)/(${topic})(/|$)`), '/$1$2');
+}
+
+function normalizePath(path) {
+  return path.endsWith('/') ? path : `${path}/`;
 }
 ---
 

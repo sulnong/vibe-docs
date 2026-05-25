@@ -85,3 +85,37 @@
 - [x] 用 `rg` 检查旧 URL 有重定向。
 - [x] 用 `git status --short` 汇总变更。
 - [x] 按项目规则，不运行测试、构建或验证命令，除非用户另行要求。
+
+### Task 7: 页面反馈追加修正
+
+**Files:**
+- Modify: `astro.config.mjs`
+- Modify: `src/components/StyleSwitcher.astro`
+- Modify: `src/pages/index.astro`
+- Modify: `src/styles/custom.css`
+- Modify: `src/styles/themes/neo-retro.css`
+- Modify: `src/content/docs/china-economy/china-2026-reflation-turning-point.md`
+- Modify: `tests/public-site.test.js`
+- Modify: `tests/theme-assets.test.js`
+
+- [x] 将公开站点标题从旧名称改为 `China Explained`，并同步 Article JSON-LD 的 publisher/author。
+- [x] 将阅读模式控件改为参考 `ui-ref/toggle-switch/01.html` 和 `01.css` 的单 checkbox 场景滑动开关。
+- [x] 收窄右侧目录外栏，放宽目录文本实际行宽，并给正文更多可用宽度。
+- [x] 弱化顶部导航中搜索和控件的重边框，减少多个条框堆叠感。
+- [x] 扩充 landing page 的覆盖地图、后续选题队列和编辑承诺，避免首页内容过薄。
+- [x] 更新陈旧测试断言，使其反映单 retro 主题、阅读模式控件和新主线站点定位。
+
+### Task 8: 文章页批注修正
+
+**Files:**
+- Modify: `src/components/starlight/TopicSidebar.astro`
+- Modify: `src/components/StyleSwitcher.astro`
+- Modify: `src/content/docs/china-economy/china-2026-reflation-turning-point.md`
+- Modify: `src/styles/custom.css`
+- Modify: `tests/public-site.test.js`
+
+- [x] 修复中国内容 sidebar 在多语言站点中被自动注入 `/en` 或 `/zh` 导致 404 的问题。
+- [x] 用强覆盖锁定右侧目录外层 rail 宽度，减少右侧无效 margin，让正文获得更多空间。
+- [x] 将顶部开关从无感阅读模式改为 `Theme` 切换，点击后切到明显不同的 night tone。
+- [x] 将第一篇文章改为 Starlight hero 形态，移除正文重复 H1，并增加开篇 lens 表，提升专题文章表现力。
+- [x] 修复宽屏 night 模式下右侧目录停在页面中间、目录右侧出现大面积空白的问题；主题切换只改变色调，不再改变正文和目录宽度。

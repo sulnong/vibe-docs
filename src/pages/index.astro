@@ -21,6 +21,18 @@ const featured = [
     label: 'China Economy',
     text: 'A long-form explainer on China’s shift from deflation pressure toward selective reflation, and why property, AI, geopolitics, and debt now have to be read together.',
   },
+  {
+    title: 'Why DeepSeek V4 Looks Plain',
+    href: '/china-ai/deepseek-v4-efficiency-strategy/',
+    label: 'China AI',
+    text: 'DeepSeek’s newest model is best read as an efficiency strategy: long context, lower inference cost, hardware optionality, and a quieter theory of AI power.',
+  },
+  {
+    title: 'China’s Supply Chain Is Becoming Headquarters',
+    href: '/china-industry/china-supply-chain-headquarters-globalization/',
+    label: 'China Industry',
+    text: 'A supply-chain explainer on why tariffs struggle to stop know-how, engineering coordination, overseas production, and Chinese chain leadership.',
+  },
 ];
 const principles = [
   {
@@ -35,6 +47,58 @@ const principles = [
     title: 'A knowledge graph, not a feed',
     text: 'Each essay adds topics, entities, and relationships so future pages can connect into a navigable map of China’s economy, industry, technology, and energy.',
   },
+];
+const coverage = [
+  {
+    title: 'Macro and balance sheets',
+    text: 'Deflation, reflation, fiscal expansion, local debt, household confidence, property adjustment, and the policy trade-offs behind nominal growth.',
+  },
+  {
+    title: 'Industry and capacity',
+    text: 'EVs, solar, batteries, robotics, chemicals, equipment, exports, overcapacity debates, and where Chinese supply chains are gaining or losing leverage.',
+  },
+  {
+    title: 'Technology infrastructure',
+    text: 'AI investment, chips, data centers, memory, power demand, platform shifts, and the physical bottlenecks behind software narratives.',
+  },
+  {
+    title: 'Energy and resources',
+    text: 'Electricity, coal, oil, gas, grids, storage, strategic minerals, shipping routes, and the resource map underneath China’s industrial transition.',
+  },
+];
+const queue = [
+  {
+    title: 'Doubao and AI shopping',
+    label: 'New',
+    text: 'Why ByteDance is trying to connect a mass-market AI assistant with Douyin e-commerce, and why trust is harder than a chat-based checkout flow.',
+  },
+  {
+    title: 'OpenClaw and AI products',
+    label: 'New',
+    text: 'A framework for AI products built around context, delivery, collaboration, environment, value density, and trust.',
+  },
+  {
+    title: 'Upward mobility in the AI age',
+    label: 'New',
+    text: 'A Chinese social essay on class anxiety, 300 years of wealth history, and whether the ladder has disappeared or simply changed shape.',
+  },
+  {
+    title: 'Strategic resources',
+    label: 'Planned',
+    text: 'How geopolitics changes the value of inventories, supply redundancy, energy security, rare earths, shipping, and upstream commodity exposure.',
+  },
+];
+const promises = [
+  'Every piece starts from a named source or source bundle, not a generic topic prompt.',
+  'Facts, source claims, and our interpretation are separated in the prose.',
+  'Definitions and context are included for readers who do not follow Chinese policy language every day.',
+  'Pages are connected through topics, entities, indicators, and related essays instead of chronological feed order.',
+];
+const hubs = [
+  { name: 'China Economy', href: '/china-economy/' },
+  { name: 'China AI', href: '/china-ai/' },
+  { name: 'China Industry', href: '/china-industry/' },
+  { name: 'China Society', href: '/china-society/' },
 ];
 const legacy = [
   { name: 'Astro', href: '/en/astro/' },
@@ -67,13 +131,29 @@ const legacy = [
         <p class="home-kicker">Deep English explainers</p>
         <h1 id="home-title" class="home-title">China, in context.</h1>
         <p class="home-summary">
-          Long-form English essays on China’s economy, industry, technology, and energy, built from high-signal Chinese sources and rebuilt for readers who need the whole argument.
+          Long-form English essays on China’s economy, industry, technology, and energy, built from high-signal Chinese sources and rebuilt for readers who need the full argument, not a clipped translation.
         </p>
         <div class="home-meta" aria-label="Site qualities">
           <span>China economy</span>
+          <span>China AI</span>
           <span>Industrial policy</span>
-          <span>AI and energy</span>
+          <span>Society and mobility</span>
           <span>Knowledge graph</span>
+        </div>
+      </section>
+
+      <section class="home-paths" aria-labelledby="coverage-title">
+        <div class="section-heading section-heading--wide">
+          <p class="home-kicker">Coverage map</p>
+          <h2 id="coverage-title">The beat is China’s real economy.</h2>
+        </div>
+        <div class="path-grid path-grid--four">
+          {coverage.map((item) => (
+            <article class="path-card">
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -90,8 +170,34 @@ const legacy = [
               <p>{item.text}</p>
               <div class="topic-card__actions">
                 <a href={withBase(item.href)}>Read the essay</a>
-                <a href={withBase('/china-economy/')}>Open topic hub</a>
+                <a href={withBase(`/${item.label.toLowerCase().replace(' ', '-')}/`)}>Open topic hub</a>
               </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="home-paths" aria-labelledby="hubs-title">
+        <div class="section-heading">
+          <p class="home-kicker">Topic hubs</p>
+          <h2 id="hubs-title">Four doors into the knowledge graph</h2>
+        </div>
+        <div class="home-meta">
+          {hubs.map((item) => <a href={withBase(item.href)}>{item.name}</a>)}
+        </div>
+      </section>
+
+      <section class="home-paths" aria-labelledby="queue-title">
+        <div class="section-heading section-heading--wide">
+          <p class="home-kicker">Working queue</p>
+          <h2 id="queue-title">The next essays will deepen the graph.</h2>
+        </div>
+        <div class="topic-grid topic-grid--queue">
+          {queue.map((item) => (
+            <article class="topic-card topic-card--compact">
+              <p class="topic-card__label">{item.label}</p>
+              <h2>{item.title}</h2>
+              <p>{item.text}</p>
             </article>
           ))}
         </div>
@@ -110,6 +216,16 @@ const legacy = [
             </article>
           ))}
         </div>
+      </section>
+
+      <section class="home-paths home-promise" aria-labelledby="promise-title">
+        <div class="section-heading section-heading--wide">
+          <p class="home-kicker">Editorial promise</p>
+          <h2 id="promise-title">Searchable pages, readable essays.</h2>
+        </div>
+        <ul class="promise-list">
+          {promises.map((item) => <li>{item}</li>)}
+        </ul>
       </section>
 
       <section class="home-paths legacy-links" aria-labelledby="legacy-title">

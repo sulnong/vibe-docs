@@ -2,6 +2,16 @@
 title: "China 2026: The Reflation Turning Point"
 description: "A deep English explainer on China’s 2026 economy, the shift from deflation pressure to selective reflation, the property-cycle exit, AI investment, geopolitics, debt, and the indicators to watch."
 lastUpdated: 2026-05-25
+hero:
+  title: "China 2026:<br/>The Reflation Turning Point"
+  tagline: "An English essay on China’s move from property-led deflation pressure toward selective reflation, and why the story now runs through property, AI, geopolitics, and debt."
+  actions:
+    - text: "Read the thesis"
+      link: "#the-short-answer"
+      variant: primary
+    - text: "Open topic hub"
+      link: "/china-economy/"
+      variant: secondary
 topics:
   - China economy
   - Reflation
@@ -66,11 +76,11 @@ head:
         "dateModified": "2026-05-25",
         "author": {
           "@type": "Organization",
-          "name": "Vibe Docs"
+          "name": "China Explained"
         },
         "publisher": {
           "@type": "Organization",
-          "name": "Vibe Docs"
+          "name": "China Explained"
         },
         "mainEntityOfPage": {
           "@type": "WebPage",
@@ -79,8 +89,6 @@ head:
       }
 ---
 
-# China 2026: The Reflation Turning Point
-
 China’s economy in 2026 is not a clean recovery story. It is also not the same deflation story that dominated the previous several years. The more useful description is a contested transition: China is trying to move from property-led deflation pressure into a new, uneven, policy-supported reflation cycle.
 
 That transition is easy to flatten into a headline. “China is back.” “China is still deflating.” “China has overcapacity.” “China will stimulate.” Each sentence captures something real and misses something important.
@@ -88,6 +96,13 @@ That transition is easy to flatten into a headline. “China is back.” “Chin
 The source thesis behind this essay comes from a Chinese macro speech by Zhao Jian of Xijing Research Institute. Zhao argues that China is entering a key turning point after the property boom, and that the new macro cycle is being shaped by three forces at once: AI as an industrial revolution, geopolitics as a shock to strategic resources, and money creation as the least painful way to work through balance-sheet stress.
 
 The strongest version of that argument is not that every forecast will be right. The strongest version is that China’s economy can no longer be read through property alone, or exports alone, or stimulus alone. It has to be read as a struggle between four large forces: a property bust that still suppresses confidence, a manufacturing system that can create too much supply, a technology cycle that makes some inputs scarce, and a policy system that wants higher nominal growth without reigniting the old housing machine.
+
+| Lens | What to watch |
+| --- | --- |
+| Property floor | Whether housing stops eroding household confidence and local fiscal capacity. |
+| Industrial prices | Whether PPI reflation reaches profits, wages, and private investment. |
+| AI infrastructure | Whether compute, electricity, chips, memory, cooling, and data centers become new capex demand. |
+| Debt transmission | Whether policy support reaches final demand instead of only adding more supply. |
 
 ## The short answer
 

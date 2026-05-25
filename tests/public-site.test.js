@@ -5,33 +5,51 @@ import test from 'node:test';
 test('public Starlight config is topic-first and hides internal factory pages', async () => {
   const config = await readFile('astro.config.mjs', 'utf8');
 
-  assert.match(config, /title:\s*{\s*en:\s*'Astro Guide'/s);
+  assert.match(config, /title:\s*{\s*en:\s*'China Explained'/s);
   assert.match(config, /label:\s*'Astro'/);
+  assert.match(config, /label:\s*'China Economy'/);
   assert.match(config, /link:\s*'\/astro\/github-pages\/'/);
   assert.doesNotMatch(config, /Factory/);
   assert.doesNotMatch(config, /Workflow/);
   assert.doesNotMatch(config, /Style Packs/);
 });
 
-test('root page is a lightweight topic index for public visitors', async () => {
+test('root page leads with China content and keeps legacy docs low-friction', async () => {
   const root = await readFile('src/pages/index.astro', 'utf8');
 
-  assert.match(root, /Astro/);
+  assert.match(root, /China Explained/);
+  assert.match(root, /China, in context/);
+  assert.match(root, /\/china-economy\/china-2026-reflation-turning-point\//);
   assert.match(root, /\/en\/astro\//);
-  assert.match(root, /\/zh\/astro\//);
   assert.doesNotMatch(root, /Trend Docs Factory/);
-  assert.doesNotMatch(root, /workflow/i);
+  assert.doesNotMatch(root, /Vibe Docs/);
 });
 
-test('style switcher is mounted globally instead of exposed as a public topic page', async () => {
+test('theme switcher is mounted globally instead of exposed as a public topic page', async () => {
   const component = await readFile('src/components/StyleSwitcher.astro', 'utf8');
   const css = await readFile('src/styles/custom.css', 'utf8');
 
   assert.match(component, /localStorage/);
   assert.match(component, /data-theme-pack/);
-  assert.match(css, /style-switcher/);
+  assert.match(component, /data-reading-toggle/);
+  assert.match(component, /night/);
+  assert.match(css, /reading-toggle/);
+  assert.match(css, /data-reading-mode="night"/);
   await assert.rejects(() => stat('src/content/docs/en/style-packs.mdx'), /ENOENT/);
   await assert.rejects(() => stat('src/content/docs/zh/style-packs.mdx'), /ENOENT/);
+});
+
+test('China Economy sidebar keeps root-level article URLs', async () => {
+  const sidebar = await readFile('src/components/starlight/TopicSidebar.astro', 'utf8');
+  const article = await readFile(
+    'src/content/docs/china-economy/china-2026-reflation-turning-point.md',
+    'utf8'
+  );
+
+  assert.match(sidebar, /stripInjectedLocale/);
+  assert.match(sidebar, /china-economy/);
+  assert.match(article, /hero:/);
+  assert.doesNotMatch(article, /# China 2026: The Reflation Turning Point/);
 });
 
 test('Astro topic includes the planned learning-oriented page set', async () => {
@@ -67,11 +85,7 @@ test('public source avoids internal factory naming', async () => {
     'src/pages/index.astro',
     'src/components/StyleSwitcher.astro',
     'src/styles/custom.css',
-    'src/styles/themes/base.css',
-    'src/styles/themes/pixel.css',
     'src/styles/themes/neo-retro.css',
-    'src/styles/themes/pop-brutal.css',
-    'src/styles/themes/luminous.css',
     'src/components/ui/Button.astro',
     'src/components/ui/Card.astro',
     'src/components/ui/Tooltip.astro',
