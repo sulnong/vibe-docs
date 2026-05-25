@@ -1,23 +1,38 @@
 ---
-title: Documentation Topics
-description: A topic-first index for practical bilingual technical guides.
+title: China Explained
+description: Deep English explainers on China’s economy, industry, technology, and energy.
 template: splash
 hero:
-  tagline: Source-linked technical guides for developers working with fast-moving frameworks.
+  tagline: Deep English explainers on China’s economy, industry, technology, and energy.
   actions:
-    - text: Read Awesome Skills
-      link: /en/awesome-skills/
+    - text: Start with China Economy
+      link: /china-economy/
       icon: right-arrow
-    - text: Read Swarms
-      link: /en/swarms/
+    - text: Read the 2026 turning point essay
+      link: /china-economy/china-2026-reflation-turning-point/
       icon: external
 ---
 
-Use this index to choose a topic guide. Each guide is organized around real tasks, source links, decision points, and update baselines rather than a thin rewrite of upstream README files.
+China is often visible through fragments: a policy slogan, an export chart, a property headline, a supply-chain panic, a chip restriction, a viral Chinese essay. This site turns those fragments into English explainers that can be read from beginning to end and cited without losing the original context.
 
-## Available topics
+The focus is China’s economy, industry, technology, energy, fiscal pressure, and innovation system. The method is simple: start from high-quality Chinese sources, separate data from interpretation, add the background English readers are missing, and build a knowledge network across related ideas.
 
-- [Astro](/en/astro/) - Learn Astro through routing, components, Islands, content collections, styling, and deployment.
-- [Awesome Skills](/en/awesome-skills/) - Explore 50 practical agent skills by task, with source links, installation entry points, guardrails, and similar-skill paths.
-- [Hermes Agent](/en/hermes/) - Start with installation, first run, model setup, and tool boundaries, then move into memory, skills, automation, integrations, security, and troubleshooting.
-- [Swarms](/en/swarms/) - Navigate the multi-agent orchestration framework through single-agent setup, tools, memory, structured outputs, architecture selection, production practices, scaling, examples, versions, and alternatives.
+## Start here
+
+- [China Economy](/china-economy/) - Follow the property-cycle exit, reflation debate, industrial capacity, local debt, AI investment, and domestic-demand repair.
+- [China 2026: The Reflation Turning Point](/china-economy/china-2026-reflation-turning-point/) - Read the first long-form essay on whether China is moving from deflation pressure toward selective reflation.
+
+## What makes this different
+
+Each essay is written for English readers, not translated paragraph by paragraph. Chinese sources provide the starting signal; the public article adds structure, definitions, source checks, counterpoints, and indicators to watch.
+
+The goal is not to make China sound simple. The goal is to make the complexity navigable.
+
+## Legacy technical guides
+
+The older technical documentation topics remain available:
+
+- [Astro](/en/astro/)
+- [Awesome Skills](/en/awesome-skills/)
+- [Hermes Agent](/en/hermes/)
+- [Swarms](/en/swarms/)

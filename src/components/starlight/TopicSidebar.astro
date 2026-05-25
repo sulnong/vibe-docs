@@ -3,13 +3,14 @@ import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
 import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
 import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
 
-const TOPIC_SLUGS = ['astro', 'hermes', 'swarms', 'awesome-skills'];
+const TOPIC_SLUGS = ['astro', 'hermes', 'swarms', 'awesome-skills', 'china-economy'];
 const HOST_TOPICS = new Map([
   ['astro.docxing.top', 'astro'],
   ['hermes.docxing.top', 'hermes'],
   ['hermes-agent.docxing.top', 'hermes'],
   ['swarms.docxing.top', 'swarms'],
   ['awesome-skills.docxing.top', 'awesome-skills'],
+  ['china-economy.docxing.top', 'china-economy'],
 ]);
 
 const { sidebar } = Astro.locals.starlightRoute;
@@ -17,7 +18,7 @@ const hostname = Astro.url.hostname.toLowerCase();
 const pathname = Astro.url.pathname;
 const topicFromHost = HOST_TOPICS.get(hostname);
 const topicFromPath = TOPIC_SLUGS.find((slug) =>
-  new RegExp(`/(en|zh)/${slug}(/|$)`).test(pathname)
+  new RegExp(`/(?:en|zh)/${slug}(/|$)|/${slug}(/|$)`).test(pathname)
 );
 const currentTopic = topicFromHost ?? topicFromPath;
 

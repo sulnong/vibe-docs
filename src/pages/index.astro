@@ -3,142 +3,122 @@ import '../styles/custom.css';
 import StyleSwitcher from '../components/StyleSwitcher.astro';
 
 const styleBootScript = `(() => {
-  const allowed = ['base', 'neo-retro', 'luminous'];
-  const lightPacks = ['base', 'neo-retro'];
-  const storageKey = 'astro-style-pack';
   const root = document.documentElement;
-  let pack = 'base';
+  root.setAttribute('data-theme-pack', 'neo-retro');
+  root.setAttribute('data-theme', 'light');
+  root.style.colorScheme = 'light';
   try {
-    const stored = localStorage.getItem(storageKey);
-    if (allowed.includes(stored)) pack = stored;
-  } catch {}
-  const mode = lightPacks.includes(pack) ? 'light' : 'dark';
-  root.setAttribute('data-theme-pack', pack);
-  root.setAttribute('data-theme', mode);
-  root.style.colorScheme = mode;
-  try {
-    localStorage.setItem('starlight-theme', mode);
+    localStorage.setItem('astro-style-pack', 'neo-retro');
+    localStorage.setItem('starlight-theme', 'light');
   } catch {}
 })();`;
 
-const topics = [
+const withBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+const featured = [
   {
-    name: 'Astro',
-    label: 'Frontend docs framework',
-    description:
-      'Build content-heavy sites with routing, islands, content collections, styling, and deployment paths that stay easy to reason about.',
-    audience: 'For teams choosing or operating Astro documentation sites.',
-    en: '/en/astro/',
-    zh: '/zh/astro/',
-    paths: ['Start with the project map', 'Understand islands', 'Deploy with fewer surprises'],
-  },
-  {
-    name: 'Hermes Agent',
-    label: 'Agent workbench',
-    description:
-      'Install Hermes, choose providers, set tool boundaries, and grow from a first run into memory, skills, automation, and integrations.',
-    audience: 'For developers evaluating Hermes Agent for real project work.',
-    en: '/en/hermes/',
-    zh: '/zh/hermes/',
-    paths: ['Install with a version baseline', 'Run the first useful task', 'Debug tools and permissions'],
-  },
-  {
-    name: 'Swarms',
-    label: 'Multi-agent orchestration',
-    description:
-      'Map agents, tools, memory, structured outputs, workflow architectures, production concerns, scaling, and alternatives.',
-    audience: 'For teams deciding when a multi-agent workflow is worth the extra moving parts.',
-    en: '/en/swarms/',
-    zh: '/zh/swarms/',
-    paths: ['Choose an architecture', 'Wire tools and memory', 'Prepare for production'],
+    title: 'China 2026: The Reflation Turning Point',
+    href: '/china-economy/china-2026-reflation-turning-point/',
+    label: 'China Economy',
+    text: 'A long-form explainer on China’s shift from deflation pressure toward selective reflation, and why property, AI, geopolitics, and debt now have to be read together.',
   },
 ];
-const withBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
-const readingPaths = [
+const principles = [
   {
-    title: 'Start from the task',
-    text: 'Each topic opens with practical routes for install, first run, configuration, troubleshooting, and comparison.',
+    title: 'From Chinese sources to English arguments',
+    text: 'We start with high-signal Chinese writing, then rebuild the idea for readers who need context, definitions, data, and uncertainty rather than a literal translation.',
   },
   {
-    title: 'Check the source trail',
-    text: 'Guides prefer official docs, release notes, examples, issues, and source-linked decisions over thin summaries.',
+    title: 'Readable first, searchable always',
+    text: 'SEO and AI Search shape the URL, title, opening answer, FAQ, and source trail, but the essay still has to carry a human reader from top to bottom.',
   },
   {
-    title: 'Stay in one topic',
-    text: 'Sidebars keep the current topic in focus so readers can move between setup, concepts, operations, and resources.',
+    title: 'A knowledge graph, not a feed',
+    text: 'Each essay adds topics, entities, and relationships so future pages can connect into a navigable map of China’s economy, industry, technology, and energy.',
   },
+];
+const legacy = [
+  { name: 'Astro', href: '/en/astro/' },
+  { name: 'Awesome Skills', href: '/en/awesome-skills/' },
+  { name: 'Hermes Agent', href: '/en/hermes/' },
+  { name: 'Swarms', href: '/en/swarms/' },
 ];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme-pack="neo-retro" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Vibe Docs</title>
+    <title>China Explained</title>
     <meta
       name="description"
-      content="Topic-first bilingual technical guides with source-linked paths for fast-moving developer tools."
+      content="Deep English explainers on China’s economy, industry, technology, and energy."
     />
     <script is:inline set:html={styleBootScript}></script>
   </head>
   <body>
     <main class="home-shell">
       <nav class="home-topbar" aria-label="Home controls">
-        <a class="home-brand" href={withBase('/')}>Vibe Docs</a>
+        <a class="home-brand" href={withBase('/')}>China Explained</a>
         <StyleSwitcher />
       </nav>
+
       <section class="home-hero" aria-labelledby="home-title">
-        <p class="home-kicker">Bilingual technical guides for moving targets</p>
-        <h1 id="home-title" class="home-title">Vibe Docs</h1>
+        <p class="home-kicker">Deep English explainers</p>
+        <h1 id="home-title" class="home-title">China, in context.</h1>
         <p class="home-summary">
-          Source-linked, topic-first documentation for developers who need a practical path through fast-changing frameworks,
-          agent tools, and orchestration libraries.
+          Long-form English essays on China’s economy, industry, technology, and energy, built from high-signal Chinese sources and rebuilt for readers who need the whole argument.
         </p>
         <div class="home-meta" aria-label="Site qualities">
-          <span>English + 中文</span>
-          <span>Task maps</span>
-          <span>Decision points</span>
-          <span>Troubleshooting routes</span>
+          <span>China economy</span>
+          <span>Industrial policy</span>
+          <span>AI and energy</span>
+          <span>Knowledge graph</span>
         </div>
       </section>
 
-      <section aria-labelledby="topics-title">
+      <section aria-labelledby="featured-title">
         <div class="section-heading">
-          <p class="home-kicker">Choose a topic</p>
-          <h2 id="topics-title">Start where the work is</h2>
+          <p class="home-kicker">Start here</p>
+          <h2 id="featured-title">The first node in the map</h2>
         </div>
-        <div class="topic-grid">
-        {topics.map((topic) => (
-          <article class="topic-card">
-            <p class="topic-card__label">{topic.label}</p>
-            <h2>{topic.name}</h2>
-            <p>{topic.description}</p>
-            <p class="topic-card__audience">{topic.audience}</p>
-            <ul class="topic-card__paths" aria-label={`${topic.name} reading paths`}>
-              {topic.paths.map((path) => <li>{path}</li>)}
-            </ul>
-            <div class="topic-card__actions">
-              <a href={withBase(topic.en)}>English</a>
-              <a href={withBase(topic.zh)}>中文</a>
-            </div>
-          </article>
-        ))}
+        <div class="topic-grid topic-grid--featured">
+          {featured.map((item) => (
+            <article class="topic-card topic-card--featured">
+              <p class="topic-card__label">{item.label}</p>
+              <h2>{item.title}</h2>
+              <p>{item.text}</p>
+              <div class="topic-card__actions">
+                <a href={withBase(item.href)}>Read the essay</a>
+                <a href={withBase('/china-economy/')}>Open topic hub</a>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section class="home-paths" aria-labelledby="paths-title">
+      <section class="home-paths" aria-labelledby="principles-title">
         <div class="section-heading">
-          <p class="home-kicker">How to read</p>
-          <h2 id="paths-title">Use the guide as a map, not a mirror</h2>
+          <p class="home-kicker">Editorial system</p>
+          <h2 id="principles-title">Built for readers and search</h2>
         </div>
         <div class="path-grid">
-          {readingPaths.map((item) => (
+          {principles.map((item) => (
             <article class="path-card">
               <h3>{item.title}</h3>
               <p>{item.text}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section class="home-paths legacy-links" aria-labelledby="legacy-title">
+        <div class="section-heading">
+          <p class="home-kicker">Archive</p>
+          <h2 id="legacy-title">Technical guides remain available</h2>
+        </div>
+        <div class="home-meta">
+          {legacy.map((item) => <a href={withBase(item.href)}>{item.name}</a>)}
         </div>
       </section>
     </main>

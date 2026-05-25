@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "include": ["/", "/en", "/en/*", "/zh", "/zh/*"],
+  "include": ["/", "/*", "/en", "/en/*", "/zh", "/zh/*"],
   "exclude": [
     "/_astro/*",
     "/favicon*",

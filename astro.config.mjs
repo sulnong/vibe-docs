@@ -11,11 +11,11 @@ const site = process.env.PUBLIC_SITE_URL || 'https://docxing.top';
 const base = process.env.PUBLIC_BASE_PATH || '/';
 const cloudflareToken = process.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
 const styleBootScript = `(() => {
-  const allowed = ['base', 'neo-retro', 'luminous'];
-  const lightPacks = ['base', 'neo-retro'];
+  const allowed = ['neo-retro'];
+  const lightPacks = ['neo-retro'];
   const storageKey = 'astro-style-pack';
   const root = document.documentElement;
-  let pack = 'base';
+  let pack = 'neo-retro';
   try {
     const stored = localStorage.getItem(storageKey);
     if (allowed.includes(stored)) pack = stored;
@@ -266,6 +266,24 @@ export default defineConfig({
           label: 'Awesome Skills',
           translations: { zh: 'Awesome Skills' },
           items: awesomeSkillsSidebar,
+        },
+        {
+          label: 'China Economy',
+          translations: { zh: '中国经济' },
+          items: [
+            {
+              label: 'Start',
+              translations: { zh: '开始' },
+              items: [
+                { label: 'Overview', translations: { zh: '概览' }, link: '/china-economy/' },
+                {
+                  label: 'China 2026 Reflation',
+                  translations: { zh: '2026 中国经济' },
+                  link: '/china-economy/china-2026-reflation-turning-point/',
+                },
+              ],
+            },
+          ],
         },
       ],
     }),

@@ -1,30 +1,25 @@
 ---
-const styles = [
-  { value: 'base', label: 'Base', background: '#f6f8fb', accent: '#2563eb' },
-  { value: 'neo-retro', label: 'Retro', background: '#fff7d6', accent: '#db2777' },
-  { value: 'luminous', label: 'Luminous', background: '#06101a', accent: '#55c7ff' },
+const modes = [
+  { value: 'comfort', label: 'Comfort' },
+  { value: 'focus', label: 'Focus' },
 ];
 ---
 
-<div class="style-switcher" data-style-switcher>
-  <span class="style-switcher__label">Theme</span>
-  <div class="style-switcher__buttons" role="radiogroup" aria-label="Choose page theme">
+<div class="style-switcher" data-reading-switcher>
+  <span class="style-switcher__label">Read</span>
+  <div class="style-switcher__buttons" role="radiogroup" aria-label="Choose reading mode">
     {
-      styles.map((style) => (
+      modes.map((mode) => (
         <button
           type="button"
           class="style-switcher__button"
-          data-style-option={style.value}
-          aria-label={`Use ${style.label} theme`}
+          data-reading-option={mode.value}
+          aria-label={`Use ${mode.label} reading mode`}
           aria-checked="false"
           role="radio"
-          title={style.label}
+          title={mode.label}
         >
-          <span
-            class="style-switcher__swatch"
-            style={`--swatch-bg: ${style.background}; --swatch-accent: ${style.accent};`}
-            aria-hidden="true"
-          ></span>
+          <span class="style-switcher__toggle-dot" aria-hidden="true"></span>
         </button>
       ))
     }
@@ -33,37 +28,38 @@ const styles = [
 
 <script is:inline>
   (() => {
-    const storageKey = 'astro-style-pack';
-    const allowed = ['base', 'neo-retro', 'luminous'];
-    const lightPacks = ['base', 'neo-retro'];
+    const themeStorageKey = 'astro-style-pack';
+    const readingStorageKey = 'astro-reading-mode';
+    const allowed = ['comfort', 'focus'];
     const root = document.documentElement;
-    const normalize = (value) => (allowed.includes(value) ? value : 'base');
+    const normalize = (value) => (allowed.includes(value) ? value : 'comfort');
     const apply = (value) => {
-      const theme = normalize(value);
-      const mode = lightPacks.includes(theme) ? 'light' : 'dark';
-      const buttons = Array.from(document.querySelectorAll('[data-style-option]'));
-      root.setAttribute('data-theme-pack', theme);
-      root.setAttribute('data-theme', mode);
-      root.style.colorScheme = mode;
+      const mode = normalize(value);
+      const buttons = Array.from(document.querySelectorAll('[data-reading-option]'));
+      root.setAttribute('data-theme-pack', 'neo-retro');
+      root.setAttribute('data-theme', 'light');
+      root.setAttribute('data-reading-mode', mode);
+      root.style.colorScheme = 'light';
       buttons.forEach((button) => {
-        const active = button.dataset.styleOption === theme;
+        const active = button.dataset.readingOption === mode;
         button.setAttribute('aria-checked', String(active));
         button.toggleAttribute('data-active', active);
       });
       try {
-        localStorage.setItem(storageKey, theme);
-        localStorage.setItem('starlight-theme', mode);
+        localStorage.setItem(themeStorageKey, 'neo-retro');
+        localStorage.setItem(readingStorageKey, mode);
+        localStorage.setItem('starlight-theme', 'light');
       } catch {}
     };
-    let initial = 'base';
+    let initial = 'comfort';
     try {
-      initial = normalize(localStorage.getItem(storageKey));
+      initial = normalize(localStorage.getItem(readingStorageKey));
     } catch {}
     apply(initial);
-    document.querySelectorAll('[data-style-option]').forEach((button) => {
+    document.querySelectorAll('[data-reading-option]').forEach((button) => {
       if (button.dataset.styleSwitcherBound === 'true') return;
       button.dataset.styleSwitcherBound = 'true';
-      button.addEventListener('click', () => apply(button.dataset.styleOption));
+      button.addEventListener('click', () => apply(button.dataset.readingOption));
     });
   })();
 </script>

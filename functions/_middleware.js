@@ -3,6 +3,7 @@ const TOPIC_HOSTS = new Map([
   ['hermes.docxing.top', 'hermes'],
   ['hermes-agent.docxing.top', 'hermes'],
   ['swarms.docxing.top', 'swarms'],
+  ['china-economy.docxing.top', 'china-economy'],
 ]);
 
 const ASSET_PATHS = [
@@ -37,7 +38,17 @@ function isAssetPath(pathname) {
 
 function topicPath(pathname, topic) {
   if (pathname === '/' || pathname === '') {
+    if (topic === 'china-economy') {
+      return `/${topic}/`;
+    }
     return `/en/${topic}/`;
+  }
+
+  if (topic === 'china-economy') {
+    const rest = pathname.replace(/^\/+/, '');
+    if (!rest) return `/${topic}/`;
+    if (rest === topic || rest.startsWith(`${topic}/`)) return `/${rest}`;
+    return `/${topic}/${rest}`;
   }
 
   const match = pathname.match(/^\/(en|zh)(?:\/(.*))?$/);

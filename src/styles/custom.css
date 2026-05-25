@@ -1,12 +1,10 @@
-@import './themes/base.css';
 @import './themes/neo-retro.css';
-@import './themes/luminous.css';
 
 :root {
-  --sl-content-width: 52rem;
+  --sl-content-width: 48rem;
   --sl-sidebar-width: 16.5rem;
-  --astro-toc-width: 7rem;
-  --astro-page-bg: var(--sl-color-bg, #f6f8fb);
+  --astro-toc-width: 10.5rem;
+  --astro-page-bg: var(--sl-color-bg, #ffe7ef);
   --astro-nav-bg: var(--sl-color-bg-nav, #ffffff);
   --astro-sidebar-bg: var(--sl-color-bg-sidebar, #f8fafc);
   --astro-content-bg: transparent;
@@ -16,9 +14,14 @@
   --astro-global-border: var(--sl-color-hairline, #d8e1ed);
   --astro-soft-border: color-mix(in srgb, var(--astro-global-border) 70%, transparent);
   --astro-ring: color-mix(in srgb, var(--astro-accent, #2563eb) 35%, transparent);
-  --astro-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --astro-font-heading: Inter, ui-sans-serif, system-ui, sans-serif;
+  --astro-font-body: Verdana, "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  --astro-font-heading: Arial, "PingFang SC", "Microsoft YaHei", ui-sans-serif, sans-serif;
   --astro-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+:root:not([data-theme-pack]),
+html:not([data-theme-pack]) {
+  color-scheme: light;
 }
 
 html {
@@ -73,12 +76,19 @@ body {
   max-width: var(--astro-toc-width);
 }
 
+.right-sidebar-panel a {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: auto;
+}
+
 .main-pane {
   background: var(--astro-content-bg);
 }
 
 .sl-markdown-content {
-  font-size: 1.02rem;
+  font-size: 1.035rem;
+  max-width: 48rem;
 }
 
 .sl-markdown-content :where(h1, h2, h3) {
@@ -93,7 +103,7 @@ body {
 }
 
 .sl-markdown-content :where(p, li) {
-  line-height: 1.78;
+  line-height: 1.82;
 }
 
 .sl-markdown-content :where(a) {
@@ -177,20 +187,18 @@ body {
   gap: 0.5rem;
 }
 
-.style-switcher,
-starlight-lang-select label {
+.style-switcher {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  min-height: 2.35rem;
-  border: 1px solid var(--astro-global-border);
-  border-radius: var(--astro-radius);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--astro-surface, #fff) 90%, white 10%), var(--astro-surface, var(--astro-nav-bg)));
+  gap: 0.6rem;
+  min-height: 2.55rem;
+  border: 2px solid var(--astro-global-border);
+  border-radius: 999px;
+  background: var(--astro-surface, #fffdf1);
   color: var(--sl-color-text, var(--astro-text));
   font-size: var(--sl-text-xs, 0.8125rem);
-  padding: 0.25rem 0.35rem;
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--astro-accent, #2563eb) 9%, transparent);
+  padding: 0.22rem 0.35rem 0.22rem 0.75rem;
+  box-shadow: 4px 4px 0 var(--astro-border);
 }
 
 .style-switcher__label {
@@ -201,16 +209,21 @@ starlight-lang-select label {
 
 .style-switcher__buttons {
   display: inline-flex;
-  gap: 0.25rem;
+  position: relative;
+  gap: 0.2rem;
+  border: 2px solid var(--astro-global-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--astro-surface-muted) 72%, white 28%);
+  padding: 0.18rem;
 }
 
 .style-switcher__button {
   display: inline-grid;
   place-items: center;
-  width: 1.85rem;
-  height: 1.65rem;
+  width: 2.05rem;
+  height: 1.55rem;
   border: 1px solid transparent;
-  border-radius: calc(var(--astro-radius) - 2px);
+  border-radius: 999px;
   background: transparent;
   color: var(--sl-color-gray-2, var(--astro-muted-color));
   cursor: pointer;
@@ -220,39 +233,16 @@ starlight-lang-select label {
 .style-switcher__button:hover,
 .style-switcher__button[data-active] {
   border-color: var(--astro-accent);
-  background: color-mix(in srgb, var(--astro-accent) 14%, transparent);
+  background: var(--astro-accent);
 }
 
-.style-switcher__swatch {
+.style-switcher__toggle-dot {
   display: block;
-  width: 1.05rem;
-  height: 1.05rem;
-  border: 1px solid color-mix(in srgb, var(--astro-global-border) 70%, transparent);
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 2px solid var(--astro-global-border);
   border-radius: 999px;
-  background:
-    linear-gradient(135deg, var(--swatch-bg) 0 58%, var(--swatch-accent) 58% 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
-}
-
-starlight-lang-select label {
-  position: relative;
-  width: auto;
-  padding-inline: 0.35rem;
-}
-
-starlight-lang-select select {
-  width: auto;
-  min-width: 7.25rem;
-  border: 0;
-  border-radius: calc(var(--astro-radius) - 2px);
-  background: transparent;
-  color: inherit;
-  font: 750 var(--sl-text-xs, 0.8125rem)/1 var(--astro-font-heading);
-}
-
-starlight-lang-select option {
-  background: var(--astro-nav-bg);
-  color: var(--sl-color-text, var(--astro-text));
+  background: var(--astro-surface, #fffdf1);
 }
 
 starlight-theme-select {
@@ -450,26 +440,113 @@ html[data-theme-pack="neo-retro"] .sl-markdown-content :where(pre, table, blockq
   border: 2px solid var(--astro-global-border);
 }
 
-html[data-theme-pack="luminous"] body {
+html[data-reading-mode="focus"] {
+  --sl-content-width: 44rem;
+  --astro-toc-width: 11rem;
+}
+
+html[data-reading-mode="focus"] .sidebar-pane {
+  opacity: 0.72;
+}
+
+.knowledge-graph {
+  margin-block: 3rem;
+  border: 2px solid var(--astro-global-border);
+  border-radius: var(--astro-radius);
   background:
-    radial-gradient(circle at 18% 0%, rgba(185, 221, 255, 0.16), transparent 22rem),
-    radial-gradient(circle at 82% 10%, rgba(53, 184, 255, 0.12), transparent 26rem),
-    linear-gradient(145deg, #03070c, #071523 46%, #03070c);
+    linear-gradient(135deg, color-mix(in srgb, var(--astro-surface-muted) 76%, white 24%), var(--astro-surface));
+  box-shadow: var(--astro-shadow);
+  padding: clamp(1rem, 2.6vw, 1.4rem);
 }
 
-html[data-theme-pack="luminous"] .header,
-html[data-theme-pack="luminous"] .sidebar-pane,
-html[data-theme-pack="luminous"] .right-sidebar {
-  box-shadow: 0 0 36px rgba(53, 184, 255, 0.08);
+.knowledge-graph__eyebrow {
+  margin: 0 0 0.25rem;
+  color: var(--astro-accent);
+  font: 900 0.75rem/1.2 var(--astro-font-heading);
+  text-transform: uppercase;
 }
 
-html[data-theme-pack="luminous"] .sl-markdown-content :where(pre, blockquote) {
-  background: rgba(7, 21, 35, 0.92);
+.knowledge-graph h2 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.knowledge-graph__canvas {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(11rem, 0.9fr) repeat(3, minmax(0, 1fr));
+  margin-top: 1rem;
+}
+
+.knowledge-graph__node,
+.knowledge-graph__pill,
+.knowledge-graph__related a {
+  border: 2px solid var(--astro-global-border);
+  border-radius: var(--astro-radius);
+  background: var(--astro-surface);
+  box-shadow: 3px 3px 0 var(--astro-border);
+}
+
+.knowledge-graph__node {
+  display: grid;
+  align-content: center;
+  gap: 0.35rem;
+  min-height: 8rem;
+  padding: 1rem;
+}
+
+.knowledge-graph__node span,
+.knowledge-graph__related span {
+  color: var(--astro-accent);
+  font: 900 0.72rem/1.1 var(--astro-font-heading);
+  text-transform: uppercase;
+}
+
+.knowledge-graph__node strong {
+  color: var(--astro-heading-color);
+  font-size: 1.1rem;
+  line-height: 1.18;
+}
+
+.knowledge-graph__ring {
+  display: flex;
+  align-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.knowledge-graph__pill {
+  color: var(--astro-heading-color);
+  font: 800 0.78rem/1.2 var(--astro-font-heading);
+  padding: 0.42rem 0.55rem;
+}
+
+.knowledge-graph__related {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  margin-top: 1rem;
+}
+
+.knowledge-graph__related a {
+  color: var(--astro-heading-color);
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.75rem;
+  text-decoration: none;
+}
+
+.knowledge-graph__related a:hover {
+  background: var(--astro-accent);
+  color: var(--astro-accent-contrast);
 }
 
 @media (max-width: 72rem) {
   .topic-grid,
-  .path-grid {
+  .path-grid,
+  .knowledge-graph__canvas {
     grid-template-columns: 1fr;
   }
 
