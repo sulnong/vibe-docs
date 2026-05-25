@@ -5,8 +5,8 @@ template: splash
 hero:
   tagline: Source-linked technical guides for developers working with fast-moving frameworks.
   actions:
-    - text: Read Hermes Agent
-      link: /en/hermes/
+    - text: Read Awesome Skills
+      link: /en/awesome-skills/
       icon: right-arrow
     - text: Read Swarms
       link: /en/swarms/
@@ -18,5 +18,6 @@ Use this index to choose a topic guide. Each guide is organized around real task
 ## Available topics
 
 - [Astro](/en/astro/) - Learn Astro through routing, components, Islands, content collections, styling, and deployment.
+- [Awesome Skills](/en/awesome-skills/) - Explore 50 practical agent skills by task, with source links, installation entry points, guardrails, and similar-skill paths.
 - [Hermes Agent](/en/hermes/) - Start with installation, first run, model setup, and tool boundaries, then move into memory, skills, automation, integrations, security, and troubleshooting.
 - [Swarms](/en/swarms/) - Navigate the multi-agent orchestration framework through single-agent setup, tools, memory, structured outputs, architecture selection, production practices, scaling, examples, versions, and alternatives.

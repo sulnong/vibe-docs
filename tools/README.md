@@ -11,6 +11,7 @@
 - `lib/topic-plan.js`：生成选题大纲报告的数据结构和 Markdown。
 - `lib/draft.js`：在人工确认大纲后写入中英文 Markdown 草稿。
 - `lib/checks.js`：检查双语页面数量、元信息、来源链接和占位内容。
+- `generate-awesome-skills.mjs`：根据 `src/data/awesome-skills-catalog.mjs` 生成 Awesome Skills 的中英文目录页、8 个分类页和批量 skill 页面；`playwright` 是手工打磨样页，脚本会跳过它。
 
 ## agent 可用命令
 
@@ -21,6 +22,7 @@ node tools/cli.js help
 node tools/cli.js research --topic "Astro" --repo withastro/astro --official-docs https://docs.astro.build/
 node tools/cli.js draft --topic "Astro" --repo withastro/astro --official-docs https://docs.astro.build/
 node tools/cli.js check --topic astro
+node tools/generate-awesome-skills.mjs
 ```
 
 ## agent 研究要求

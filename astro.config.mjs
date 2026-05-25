@@ -2,6 +2,11 @@ import sitemap from '@astrojs/sitemap';
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
 
+import {
+  awesomeSkillsCategories,
+  skillsForCategory,
+} from './src/data/awesome-skills-catalog.mjs';
+
 const site = process.env.PUBLIC_SITE_URL || 'https://docxing.top';
 const base = process.env.PUBLIC_BASE_PATH || '/';
 const cloudflareToken = process.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
@@ -23,6 +28,32 @@ const styleBootScript = `(() => {
     localStorage.setItem('starlight-theme', mode);
   } catch {}
 })();`;
+
+const awesomeSkillsSidebar = [
+  {
+    label: 'Start',
+    translations: { zh: '开始' },
+    items: [
+      { label: 'Overview', translations: { zh: '概览' }, link: '/awesome-skills/' },
+    ],
+  },
+  ...awesomeSkillsCategories.map((category) => ({
+    label: category.label.en,
+    translations: { zh: category.label.zh },
+    items: [
+      {
+        label: 'Overview',
+        translations: { zh: '分类概览' },
+        link: `/awesome-skills/categories/${category.key}/`,
+      },
+      ...skillsForCategory(category.key).map((skill) => ({
+        label: skill.title,
+        translations: { zh: skill.title },
+        link: `/awesome-skills/${skill.slug}/`,
+      })),
+    ],
+  })),
+];
 
 export default defineConfig({
   site,
@@ -230,6 +261,11 @@ export default defineConfig({
               ],
             },
           ],
+        },
+        {
+          label: 'Awesome Skills',
+          translations: { zh: 'Awesome Skills' },
+          items: awesomeSkillsSidebar,
         },
       ],
     }),

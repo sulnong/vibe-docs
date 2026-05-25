@@ -119,6 +119,9 @@ body {
 }
 
 .sl-markdown-content :where(table) {
+  display: table;
+  width: 100%;
+  table-layout: auto;
   border: 1px solid var(--astro-global-border);
   border-radius: var(--astro-radius);
   overflow: hidden;
@@ -132,6 +135,17 @@ body {
 
 .sl-markdown-content :where(td, th) {
   border-color: var(--astro-soft-border);
+  padding: 0.85rem 1.1rem;
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+.sl-markdown-content :where(td) {
+  overflow-wrap: anywhere;
+}
+
+.sl-markdown-content :where(th) {
+  line-height: 1.35;
 }
 
 .sl-markdown-content :where(blockquote) {
