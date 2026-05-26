@@ -4,6 +4,9 @@
 # Future split-site example. Keep disabled until a topic intentionally moves.
 # https://astro.example.com/* https://example.com/en/astro/:splat 301
 
+/en / 301
+/en/ / 301
+
 /en/china-macro/ /china-economy/ 301
 /en/china-macro/china-economy-2026-turning-point/ /china-economy/china-2026-reflation-turning-point/ 301
 /zh/china-macro/ /china-economy/ 301

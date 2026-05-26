@@ -16,6 +16,12 @@ const styleBootScript = `(() => {
 const withBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
 const featured = [
   {
+    title: "China's 15th Five-Year Plan, Explained",
+    href: '/china-economy/china-15th-five-year-plan/',
+    label: 'China Economy',
+    text: 'A full policy map for China’s 2026-2030 cycle: new quality productive forces, AI, domestic demand, opening up, welfare, green transition, and security.',
+  },
+  {
     title: 'China 2026: The Reflation Turning Point',
     href: '/china-economy/china-2026-reflation-turning-point/',
     label: 'China Economy',
@@ -68,24 +74,24 @@ const coverage = [
 ];
 const queue = [
   {
-    title: 'Doubao and AI shopping',
+    title: 'New quality productive forces',
     label: 'New',
-    text: 'Why ByteDance is trying to connect a mass-market AI assistant with Douyin e-commerce, and why trust is harder than a chat-based checkout flow.',
+    text: 'How the 15th Five-Year Plan turns advanced manufacturing, future industries, supply-chain control, and technology self-reliance into one industrial strategy.',
   },
   {
-    title: 'OpenClaw and AI products',
+    title: 'AI, data, and compute',
     label: 'New',
-    text: 'A framework for AI products built around context, delivery, collaboration, environment, value density, and trust.',
+    text: 'Why China’s 2026-2030 AI agenda is about compute clusters, model efficiency, data resources, AI Plus applications, and governance.',
   },
   {
-    title: 'Upward mobility in the AI age',
+    title: 'Fiscal reform and economic security',
     label: 'New',
-    text: 'A Chinese social essay on class anxiety, 300 years of wealth history, and whether the ladder has disappeared or simply changed shape.',
+    text: 'How the plan connects private-sector confidence, fiscal sustainability, financial risk, food, energy, minerals, data, and local debt.',
   },
   {
-    title: 'Strategic resources',
-    label: 'Planned',
-    text: 'How geopolitics changes the value of inventories, supply redundancy, energy security, rare earths, shipping, and upstream commodity exposure.',
+    title: 'Regions, food, and culture',
+    label: 'New',
+    text: 'The second layer of the plan covers city clusters, hukou reform, grain capacity, rural revitalization, tourism, soft power, and international communication.',
   },
 ];
 const promises = [
@@ -99,6 +105,7 @@ const hubs = [
   { name: 'China AI', href: '/china-ai/' },
   { name: 'China Industry', href: '/china-industry/' },
   { name: 'China Society', href: '/china-society/' },
+  { name: 'China Energy', href: '/china-energy/' },
 ];
 const legacy = [
   { name: 'Astro', href: '/en/astro/' },
@@ -180,7 +187,7 @@ const legacy = [
       <section class="home-paths" aria-labelledby="hubs-title">
         <div class="section-heading">
           <p class="home-kicker">Topic hubs</p>
-          <h2 id="hubs-title">Four doors into the knowledge graph</h2>
+          <h2 id="hubs-title">Five doors into the knowledge graph</h2>
         </div>
         <div class="home-meta">
           {hubs.map((item) => <a href={withBase(item.href)}>{item.name}</a>)}

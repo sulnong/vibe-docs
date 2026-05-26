@@ -277,6 +277,41 @@ export default defineConfig({
               items: [
                 { label: 'Overview', translations: { zh: '概览' }, link: '/china-economy/' },
                 {
+                  label: '15th Five-Year Plan',
+                  translations: { zh: '十五五规划' },
+                  link: '/china-economy/china-15th-five-year-plan/',
+                },
+                {
+                  label: 'Domestic Demand',
+                  translations: { zh: '国内需求' },
+                  link: '/china-economy/domestic-demand-15th-five-year-plan/',
+                },
+                {
+                  label: 'Opening Up',
+                  translations: { zh: '高水平开放' },
+                  link: '/china-economy/opening-up-15th-five-year-plan/',
+                },
+                {
+                  label: 'Market Reform and Finance',
+                  translations: { zh: '市场改革与金融' },
+                  link: '/china-economy/market-reform-fiscal-finance-15th-five-year-plan/',
+                },
+                {
+                  label: 'Regional Development',
+                  translations: { zh: '区域发展' },
+                  link: '/china-economy/regional-development-urbanization-15th-five-year-plan/',
+                },
+                {
+                  label: 'Food Security',
+                  translations: { zh: '粮食安全' },
+                  link: '/china-economy/food-security-agriculture-15th-five-year-plan/',
+                },
+                {
+                  label: 'Economic Security',
+                  translations: { zh: '经济安全' },
+                  link: '/china-economy/national-economic-security-15th-five-year-plan/',
+                },
+                {
                   label: 'China 2026 Reflation',
                   translations: { zh: '2026 中国经济' },
                   link: '/china-economy/china-2026-reflation-turning-point/',
@@ -294,6 +329,11 @@ export default defineConfig({
               translations: { zh: '开始' },
               items: [
                 { label: 'Overview', translations: { zh: '概览' }, link: '/china-ai/' },
+                {
+                  label: 'AI in the 15th Plan',
+                  translations: { zh: '十五五 AI' },
+                  link: '/china-ai/ai-data-compute-15th-five-year-plan/',
+                },
                 {
                   label: 'DeepSeek V4',
                   translations: { zh: 'DeepSeek V4' },
@@ -323,6 +363,11 @@ export default defineConfig({
               items: [
                 { label: 'Overview', translations: { zh: '概览' }, link: '/china-industry/' },
                 {
+                  label: 'New Quality Productive Forces',
+                  translations: { zh: '新质生产力' },
+                  link: '/china-industry/new-quality-productive-forces-15th-five-year-plan/',
+                },
+                {
                   label: 'Supply-Chain HQ',
                   translations: { zh: '供应链总部化' },
                   link: '/china-industry/china-supply-chain-headquarters-globalization/',
@@ -341,9 +386,37 @@ export default defineConfig({
               items: [
                 { label: 'Overview', translations: { zh: '概览' }, link: '/china-society/' },
                 {
+                  label: 'Population and Welfare',
+                  translations: { zh: '人口与民生' },
+                  link: '/china-society/population-welfare-15th-five-year-plan/',
+                },
+                {
+                  label: 'Culture and Soft Power',
+                  translations: { zh: '文化与传播' },
+                  link: '/china-society/culture-soft-power-15th-five-year-plan/',
+                },
+                {
                   label: 'Upward Mobility',
                   translations: { zh: '阶层流动' },
                   link: '/china-society/upward-mobility-ai-age/',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'China Energy',
+          translations: { zh: '中国能源' },
+          items: [
+            {
+              label: 'Start',
+              translations: { zh: '开始' },
+              items: [
+                { label: 'Overview', translations: { zh: '概览' }, link: '/china-energy/' },
+                {
+                  label: 'Green Transition',
+                  translations: { zh: '绿色转型' },
+                  link: '/china-energy/green-transition-energy-security-15th-five-year-plan/',
                 },
               ],
             },

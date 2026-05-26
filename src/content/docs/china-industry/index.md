@@ -14,9 +14,12 @@ entities:
   - Richard Baldwin
   - G7
 related:
+  - title: "New Quality Productive Forces in China's 15th Five-Year Plan"
+    href: "/china-industry/new-quality-productive-forces-15th-five-year-plan/"
+    relation: "Policy framework"
   - title: "China’s Supply Chain Is Becoming a Headquarters System"
     href: "/china-industry/china-supply-chain-headquarters-globalization/"
-    relation: "Start here"
+    relation: "Supply-chain context"
   - title: "China 2026: The Reflation Turning Point"
     href: "/china-economy/china-2026-reflation-turning-point/"
     relation: "Macro context"
@@ -29,6 +32,8 @@ China’s industrial story is not only about cheap factories or export volume. I
 This topic follows how Chinese industry moves from “factory for the world” toward something more complex: a network that combines domestic engineering, global labor, local-market production, and new technology infrastructure.
 
 ## Start here
+
+[New Quality Productive Forces in China's 15th Five-Year Plan](/china-industry/new-quality-productive-forces-15th-five-year-plan/) explains how the 2026-2030 plan turns advanced manufacturing, future industries, technology self-reliance, and supply-chain security into one industrial strategy.
 
 [China’s Supply Chain Is Becoming a Headquarters System](/china-industry/china-supply-chain-headquarters-globalization/) explains why tariffs can slow goods but struggle to stop knowledge, coordination, and industrial know-how from moving through global networks.
 
@@ -46,6 +51,7 @@ This topic follows how Chinese industry moves from “factory for the world” t
 
 | Node | Connections |
 | --- | --- |
+| New quality productive forces | Advanced manufacturing, future industries, industrial software, robotics, new energy |
 | Supply-chain headquarters | BYD Thailand, Chinese EVs, engineering know-how, global production |
 | Technology constraints | AI, chips, export controls, industrial automation |
-| Macro context | [China 2026: The Reflation Turning Point](/china-economy/china-2026-reflation-turning-point/) |
+| Policy framework | [China's 15th Five-Year Plan, Explained](/china-economy/china-15th-five-year-plan/) |
