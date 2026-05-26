@@ -78,11 +78,15 @@ function allTopicsEntry(currentPathname) {
   return {
     type: 'group',
     label: 'All China Topics',
+    collapsed: false,
+    badge: undefined,
     entries: PRIMARY_TOPIC_LINKS.map((topic) => ({
       type: 'link',
       label: topic.label,
       href: topic.href,
       isCurrent: normalizePath(topic.href) === normalizePath(currentPathname),
+      badge: undefined,
+      attrs: {},
     })),
   };
 }
