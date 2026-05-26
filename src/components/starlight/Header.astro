@@ -2,7 +2,6 @@
 import config from 'virtual:starlight/user-config';
 
 import Search from 'virtual:starlight/components/Search';
-import SiteTitle from 'virtual:starlight/components/SiteTitle';
 import StyleSwitcher from '../StyleSwitcher.astro';
 
 const shouldRenderSearch =
@@ -11,7 +10,10 @@ const shouldRenderSearch =
 
 <div class="header">
   <div class="title-wrapper sl-flex">
-    <SiteTitle />
+    <a class="brand-link" href="/" aria-label="China Explained home">
+      <img src="/logo.svg" alt="" width="30" height="30" />
+      <span>China Explained</span>
+    </a>
   </div>
   <div class="sl-flex print:hidden">
     {shouldRenderSearch && <Search />}
@@ -36,6 +38,30 @@ const shouldRenderSearch =
       padding: 0.25rem;
       margin: -0.25rem;
       min-width: 0;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--astro-heading-color, var(--sl-color-white));
+      font-family: var(--astro-font-heading, var(--sl-font-system));
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand-link img {
+      display: block;
+      flex: 0 0 auto;
+      width: 1.875rem;
+      height: 1.875rem;
+    }
+
+    .brand-link:hover {
+      color: var(--astro-accent, var(--sl-color-text-accent));
     }
 
     .right-group {

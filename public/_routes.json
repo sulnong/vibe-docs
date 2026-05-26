@@ -4,6 +4,7 @@
   "exclude": [
     "/_astro/*",
     "/favicon*",
+    "/logo.svg",
     "/manifest.webmanifest",
     "/robots.txt",
     "/sitemap*.xml"

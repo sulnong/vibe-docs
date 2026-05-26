@@ -1,34 +1,34 @@
 [data-theme-pack="neo-retro"] {
-  --astro-accent: #db2777;
-  --astro-accent-strong: #172033;
-  --astro-accent-contrast: #fffdf1;
-  --astro-surface: #fffdf1;
-  --astro-surface-muted: #bff3ff;
-  --astro-border: #1f2937;
-  --astro-text: #1f2937;
-  --astro-shadow: 6px 6px 0 #1f2937;
+  --astro-accent: #c2412d;
+  --astro-accent-strong: #182033;
+  --astro-accent-contrast: #fffaf0;
+  --astro-surface: #fffaf0;
+  --astro-surface-muted: #b9e4da;
+  --astro-border: #182033;
+  --astro-text: #182033;
+  --astro-shadow: 6px 6px 0 #182033;
   --astro-radius: 6px;
   --astro-font-display: Arial, "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
   --astro-font-heading: Arial, "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
   --astro-font-body: Verdana, "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
   --astro-font-mono: "Courier New", ui-monospace, monospace;
-  --sl-color-accent-low: #ffd5e5;
-  --sl-color-accent: #db2777;
-  --sl-color-accent-high: #58112b;
-  --sl-color-bg: #ffe7ef;
-  --sl-color-bg-nav: #fff7d6;
-  --sl-color-bg-sidebar: #bff3ff;
-  --sl-color-text: #1f2937;
-  --sl-color-text-accent: #db2777;
+  --sl-color-accent-low: #f4c5ab;
+  --sl-color-accent: #c2412d;
+  --sl-color-accent-high: #5f1c14;
+  --sl-color-bg: #edf3e8;
+  --sl-color-bg-nav: #fff2cf;
+  --sl-color-bg-sidebar: #b9e4da;
+  --sl-color-text: #182033;
+  --sl-color-text-accent: #c2412d;
   --sl-color-white: #111827;
-  --sl-color-black: #fffdf1;
+  --sl-color-black: #fffaf0;
   --sl-color-gray-1: #111827;
-  --sl-color-gray-2: #1f2937;
-  --sl-color-gray-3: #475569;
-  --sl-color-gray-4: #94a3b8;
-  --sl-color-gray-5: #1f2937;
-  --sl-color-gray-6: #f8cfe0;
-  --sl-color-hairline: #1f2937;
+  --sl-color-gray-2: #182033;
+  --sl-color-gray-3: #4a596c;
+  --sl-color-gray-4: #8a9aa8;
+  --sl-color-gray-5: #182033;
+  --sl-color-gray-6: #f4c5ab;
+  --sl-color-hairline: #182033;
 }
 
 [data-theme-pack="neo-retro"] .astro-button,
@@ -48,7 +48,7 @@
   border-width: 2px;
 }
 
-[data-theme-pack="neo-retro"] .home-meta span,
+[data-theme-pack="neo-retro"] .home-meta :where(span, a),
 [data-theme-pack="neo-retro"] .topic-card__actions a {
   border-width: 2px;
   box-shadow: 3px 3px 0 var(--astro-border);

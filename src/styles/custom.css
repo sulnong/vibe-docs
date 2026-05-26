@@ -5,7 +5,7 @@
   --sl-sidebar-width: 16.5rem;
   --astro-right-rail-width: 12.25rem;
   --astro-toc-width: 10.5rem;
-  --astro-page-bg: var(--sl-color-bg, #ffe7ef);
+  --astro-page-bg: var(--sl-color-bg, #edf3e8);
   --astro-nav-bg: var(--sl-color-bg-nav, #ffffff);
   --astro-sidebar-bg: var(--sl-color-bg-sidebar, #f8fafc);
   --astro-content-bg: transparent;
@@ -387,7 +387,7 @@ body {
   border: 2px solid var(--astro-border);
   border-radius: 999px;
   background:
-    linear-gradient(#2c4770, #070e2b 36%, #f5c2dc 37% 62%, #bff3ff 63%) no-repeat;
+    linear-gradient(#2c4770, #070e2b 36%, #fff2cf 37% 62%, #b9e4da 63%) no-repeat;
   background-size: 100% calc(var(--reading-toggle-height) * 2);
   background-position-y: calc(var(--reading-toggle-height) * -1);
   box-shadow: 3px 3px 0 var(--astro-border);
@@ -443,10 +443,10 @@ body {
   width: 1.05rem;
   height: 0.38rem;
   border-radius: 999px;
-  background: #fffdf1;
+  background: #fffaf0;
   box-shadow:
-    0.32rem -0.13rem 0 -0.02rem #fffdf1,
-    0.64rem 0.04rem 0 -0.05rem #fffdf1;
+    0.32rem -0.13rem 0 -0.02rem #fffaf0,
+    0.64rem 0.04rem 0 -0.05rem #fffaf0;
   opacity: 0.9;
   transition:
     opacity 0.22s ease,
@@ -475,7 +475,7 @@ body {
     radial-gradient(circle at 58% 42%, var(--astro-accent) 0.13rem, transparent 0.15rem),
     linear-gradient(90deg, transparent 38%, var(--astro-border) 39% 45%, transparent 46%),
     linear-gradient(0deg, transparent 38%, var(--astro-border) 39% 45%, transparent 46%),
-    #fffdf1;
+    #fffaf0;
   box-shadow: 0.12rem 0.12rem 0 color-mix(in srgb, var(--astro-border) 24%, transparent);
   transform: translateY(-50%) rotate(0deg);
   transition:
@@ -501,9 +501,9 @@ body {
 .reading-toggle__checkbox:checked + .reading-toggle__container .reading-toggle__orb {
   left: calc(var(--reading-toggle-width) - var(--reading-orb-size) - var(--reading-toggle-pad));
   background:
-    radial-gradient(circle at 56% 42%, #bff3ff 0.12rem, transparent 0.14rem),
+    radial-gradient(circle at 56% 42%, #b9e4da 0.12rem, transparent 0.14rem),
     linear-gradient(135deg, transparent 34%, var(--astro-border) 35% 41%, transparent 42%),
-    #f8cfe0;
+    #f4c5ab;
   transform: translateY(-50%) rotate(210deg);
 }
 
@@ -535,9 +535,22 @@ starlight-theme-select {
 }
 
 .home-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   color: var(--astro-heading-color);
   font: 900 0.95rem/1 var(--astro-font-heading);
   text-decoration: none;
+}
+
+.home-brand img {
+  display: block;
+  width: 2.125rem;
+  height: 2.125rem;
+}
+
+.home-brand:hover {
+  color: var(--astro-accent);
 }
 
 .home-hero {
@@ -580,7 +593,7 @@ starlight-theme-select {
   max-width: 52rem;
 }
 
-.home-meta span,
+.home-meta :where(span, a),
 .topic-card__actions a {
   display: inline-flex;
   align-items: center;
@@ -670,7 +683,8 @@ starlight-theme-select {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
-  margin-top: 1.25rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
 }
 
 .topic-card__actions a:hover {
@@ -724,6 +738,10 @@ starlight-theme-select {
 
 .topic-card--compact {
   min-height: 18rem;
+}
+
+.topic-card--compact .topic-card__actions {
+  padding-top: 1.5rem;
 }
 
 .topic-grid--queue {

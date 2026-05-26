@@ -67,6 +67,7 @@ export default defineConfig({
       },
       customCss: ['./src/styles/custom.css'],
       components: {
+        Head: './src/components/starlight/Head.astro',
         Header: './src/components/starlight/Header.astro',
         Sidebar: './src/components/starlight/TopicSidebar.astro',
         MobileMenuFooter: './src/components/starlight/MobileMenuFooter.astro',
@@ -85,6 +86,9 @@ export default defineConfig({
       head: [
         { tag: 'script', content: styleBootScript },
         { tag: 'meta', attrs: { name: 'robots', content: 'index, follow' } },
+        { tag: 'link', attrs: { rel: 'icon', href: '/favicon.ico', sizes: 'any' } },
+        { tag: 'link', attrs: { rel: 'shortcut icon', href: '/favicon.ico' } },
+        { tag: 'link', attrs: { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' } },
         ...(cloudflareToken
           ? [
               {
@@ -282,19 +286,36 @@ export default defineConfig({
                   link: '/china-economy/china-15th-five-year-plan/',
                 },
                 {
+                  label: 'China 2026 Reflation',
+                  translations: { zh: '2026 中国经济' },
+                  link: '/china-economy/china-2026-reflation-turning-point/',
+                },
+              ],
+            },
+            {
+              label: 'Demand and Reform',
+              translations: { zh: '需求与改革' },
+              items: [
+                {
                   label: 'Domestic Demand',
                   translations: { zh: '国内需求' },
                   link: '/china-economy/domestic-demand-15th-five-year-plan/',
                 },
                 {
-                  label: 'Opening Up',
-                  translations: { zh: '高水平开放' },
-                  link: '/china-economy/opening-up-15th-five-year-plan/',
-                },
-                {
                   label: 'Market Reform and Finance',
                   translations: { zh: '市场改革与金融' },
                   link: '/china-economy/market-reform-fiscal-finance-15th-five-year-plan/',
+                },
+              ],
+            },
+            {
+              label: 'Security and Geography',
+              translations: { zh: '安全与区域' },
+              items: [
+                {
+                  label: 'Opening Up',
+                  translations: { zh: '高水平开放' },
+                  link: '/china-economy/opening-up-15th-five-year-plan/',
                 },
                 {
                   label: 'Regional Development',
@@ -310,11 +331,6 @@ export default defineConfig({
                   label: 'Economic Security',
                   translations: { zh: '经济安全' },
                   link: '/china-economy/national-economic-security-15th-five-year-plan/',
-                },
-                {
-                  label: 'China 2026 Reflation',
-                  translations: { zh: '2026 中国经济' },
-                  link: '/china-economy/china-2026-reflation-turning-point/',
                 },
               ],
             },
@@ -334,6 +350,12 @@ export default defineConfig({
                   translations: { zh: '十五五 AI' },
                   link: '/china-ai/ai-data-compute-15th-five-year-plan/',
                 },
+              ],
+            },
+            {
+              label: 'Companies and Products',
+              translations: { zh: '公司与产品' },
+              items: [
                 {
                   label: 'DeepSeek V4',
                   translations: { zh: 'DeepSeek V4' },
@@ -362,6 +384,12 @@ export default defineConfig({
               translations: { zh: '开始' },
               items: [
                 { label: 'Overview', translations: { zh: '概览' }, link: '/china-industry/' },
+              ],
+            },
+            {
+              label: 'Industrial Strategy',
+              translations: { zh: '产业战略' },
+              items: [
                 {
                   label: 'New Quality Productive Forces',
                   translations: { zh: '新质生产力' },
@@ -385,20 +413,32 @@ export default defineConfig({
               translations: { zh: '开始' },
               items: [
                 { label: 'Overview', translations: { zh: '概览' }, link: '/china-society/' },
+              ],
+            },
+            {
+              label: 'Social Change',
+              translations: { zh: '社会变化' },
+              items: [
                 {
                   label: 'Population and Welfare',
                   translations: { zh: '人口与民生' },
                   link: '/china-society/population-welfare-15th-five-year-plan/',
                 },
                 {
-                  label: 'Culture and Soft Power',
-                  translations: { zh: '文化与传播' },
-                  link: '/china-society/culture-soft-power-15th-five-year-plan/',
-                },
-                {
                   label: 'Upward Mobility',
                   translations: { zh: '阶层流动' },
                   link: '/china-society/upward-mobility-ai-age/',
+                },
+              ],
+            },
+            {
+              label: 'Culture',
+              translations: { zh: '文化' },
+              items: [
+                {
+                  label: 'Culture and Soft Power',
+                  translations: { zh: '文化与传播' },
+                  link: '/china-society/culture-soft-power-15th-five-year-plan/',
                 },
               ],
             },
@@ -413,6 +453,12 @@ export default defineConfig({
               translations: { zh: '开始' },
               items: [
                 { label: 'Overview', translations: { zh: '概览' }, link: '/china-energy/' },
+              ],
+            },
+            {
+              label: 'Energy Transition',
+              translations: { zh: '能源转型' },
+              items: [
                 {
                   label: 'Green Transition',
                   translations: { zh: '绿色转型' },

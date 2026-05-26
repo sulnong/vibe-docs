@@ -14,11 +14,26 @@ const TOPIC_SLUGS = [
   'china-society',
   'china-energy',
 ];
+const PRIMARY_TOPICS = new Set([
+  'china-economy',
+  'china-ai',
+  'china-industry',
+  'china-society',
+  'china-energy',
+]);
+const PRIMARY_TOPIC_LINKS = [
+  { label: 'China Economy', href: '/china-economy/' },
+  { label: 'China AI', href: '/china-ai/' },
+  { label: 'China Industry', href: '/china-industry/' },
+  { label: 'China Society', href: '/china-society/' },
+  { label: 'China Energy', href: '/china-energy/' },
+];
 const HOST_TOPICS = new Map([
   ['astro.docxing.top', 'astro'],
   ['hermes.docxing.top', 'hermes'],
   ['hermes-agent.docxing.top', 'hermes'],
   ['swarms.docxing.top', 'swarms'],
+  ['skills.docxing.top', 'awesome-skills'],
   ['awesome-skills.docxing.top', 'awesome-skills'],
   ['china-economy.docxing.top', 'china-economy'],
   ['china-ai.docxing.top', 'china-ai'],
@@ -40,7 +55,8 @@ const filteredSidebar = currentTopic
   ? sidebar
       .filter((entry) => entryContainsTopic(entry, currentTopic))
       .map((entry) => normalizeTopicEntry(entry, currentTopic, pathname))
-  : sidebar;
+  : sidebar.filter((entry) => entryContainsAnyPrimaryTopic(entry));
+const sidebarWithTopicEntry = currentTopic ? [allTopicsEntry(pathname), ...filteredSidebar] : filteredSidebar;
 
 function entryContainsTopic(entry, topic) {
   if ('href' in entry && typeof entry.href === 'string') {
@@ -52,6 +68,23 @@ function entryContainsTopic(entry, topic) {
   }
 
   return false;
+}
+
+function entryContainsAnyPrimaryTopic(entry) {
+  return [...PRIMARY_TOPICS].some((topic) => entryContainsTopic(entry, topic));
+}
+
+function allTopicsEntry(currentPathname) {
+  return {
+    type: 'group',
+    label: 'All China Topics',
+    entries: PRIMARY_TOPIC_LINKS.map((topic) => ({
+      type: 'link',
+      label: topic.label,
+      href: topic.href,
+      isCurrent: normalizePath(topic.href) === normalizePath(currentPathname),
+    })),
+  };
 }
 
 function normalizeTopicEntry(entry, topic, currentPathname) {
@@ -88,7 +121,7 @@ function normalizePath(path) {
 ---
 
 <SidebarPersister>
-  <SidebarSublist sublist={filteredSidebar} />
+  <SidebarSublist sublist={sidebarWithTopicEntry} />
 </SidebarPersister>
 
 <div class="md:sl-hidden">

@@ -40,18 +40,18 @@ const featured = [
     text: 'A supply-chain explainer on why tariffs struggle to stop know-how, engineering coordination, overseas production, and Chinese chain leadership.',
   },
 ];
-const principles = [
+const readerPaths = [
   {
-    title: 'From Chinese sources to English arguments',
-    text: 'We start with high-signal Chinese writing, then rebuild the idea for readers who need context, definitions, data, and uncertainty rather than a literal translation.',
+    title: 'Policy becomes concrete',
+    text: 'National plans, ministries, firms, households, grids, and local governments are read together so abstract policy has real-world edges.',
   },
   {
-    title: 'Readable first, searchable always',
-    text: 'SEO and AI Search shape the URL, title, opening answer, FAQ, and source trail, but the essay still has to carry a human reader from top to bottom.',
+    title: 'Chinese terms, plain English',
+    text: 'Key phrases such as new quality productive forces, unified national market, and common prosperity are explained in their policy context.',
   },
   {
-    title: 'A knowledge graph, not a feed',
-    text: 'Each essay adds topics, entities, and relationships so future pages can connect into a navigable map of China’s economy, industry, technology, and energy.',
+    title: 'Context before conclusion',
+    text: 'Essays separate what the document says, what the data can show, and what remains uncertain before turning toward interpretation.',
   },
 ];
 const coverage = [
@@ -72,33 +72,37 @@ const coverage = [
     text: 'Electricity, coal, oil, gas, grids, storage, strategic minerals, shipping routes, and the resource map underneath China’s industrial transition.',
   },
 ];
-const queue = [
+const routes = [
   {
-    title: 'New quality productive forces',
-    label: 'New',
-    text: 'How the 15th Five-Year Plan turns advanced manufacturing, future industries, supply-chain control, and technology self-reliance into one industrial strategy.',
+    title: 'The 15th Plan cluster',
+    href: '/china-economy/china-15th-five-year-plan/',
+    label: 'Guide',
+    text: 'A central map for the 2026-2030 policy cycle and the related essays on industry, AI, demand, welfare, security, energy, and culture.',
   },
   {
     title: 'AI, data, and compute',
-    label: 'New',
-    text: 'Why China’s 2026-2030 AI agenda is about compute clusters, model efficiency, data resources, AI Plus applications, and governance.',
+    href: '/china-ai/ai-data-compute-15th-five-year-plan/',
+    label: 'Technology',
+    text: 'Why China’s AI agenda is about compute clusters, model efficiency, data resources, AI Plus applications, and governance.',
   },
   {
-    title: 'Fiscal reform and economic security',
-    label: 'New',
-    text: 'How the plan connects private-sector confidence, fiscal sustainability, financial risk, food, energy, minerals, data, and local debt.',
+    title: 'Industrial upgrading',
+    href: '/china-industry/new-quality-productive-forces-15th-five-year-plan/',
+    label: 'Industry',
+    text: 'How advanced manufacturing, future industries, supply-chain control, and technology self-reliance become one industrial strategy.',
   },
   {
-    title: 'Regions, food, and culture',
-    label: 'New',
-    text: 'The second layer of the plan covers city clusters, hukou reform, grain capacity, rural revitalization, tourism, soft power, and international communication.',
+    title: 'Demand, welfare, and confidence',
+    href: '/china-economy/domestic-demand-15th-five-year-plan/',
+    label: 'Society',
+    text: 'A route into consumption, household security, services, income, mobility, and the policy problem of making demand feel durable.',
   },
 ];
-const promises = [
-  'Every piece starts from a named source or source bundle, not a generic topic prompt.',
-  'Facts, source claims, and our interpretation are separated in the prose.',
-  'Definitions and context are included for readers who do not follow Chinese policy language every day.',
-  'Pages are connected through topics, entities, indicators, and related essays instead of chronological feed order.',
+const readerTools = [
+  'A short answer up front for quick orientation.',
+  'Definitions for policy terms that travel badly across languages.',
+  'Tables, timelines, and source links when they make the argument easier to follow.',
+  'Related reading paths that connect policy, companies, sectors, and social change.',
 ];
 const hubs = [
   { name: 'China Economy', href: '/china-economy/' },
@@ -125,12 +129,19 @@ const legacy = [
       name="description"
       content="Deep English explainers on China’s economy, industry, technology, and energy."
     />
+    <link rel="canonical" href="https://docxing.top/" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline set:html={styleBootScript}></script>
   </head>
   <body>
     <main class="home-shell">
       <nav class="home-topbar" aria-label="Home controls">
-        <a class="home-brand" href={withBase('/')}>China Explained</a>
+        <a class="home-brand" href="/">
+          <img src="/logo.svg" alt="" width="34" height="34" />
+          <span>China Explained</span>
+        </a>
         <StyleSwitcher />
       </nav>
 
@@ -138,14 +149,14 @@ const legacy = [
         <p class="home-kicker">Deep English explainers</p>
         <h1 id="home-title" class="home-title">China, in context.</h1>
         <p class="home-summary">
-          Long-form English essays on China’s economy, industry, technology, and energy, built from high-signal Chinese sources and rebuilt for readers who need the full argument, not a clipped translation.
+          Long-form English essays on China’s economy, industry, technology, energy, society, and policy, built from high-signal Chinese sources for readers who want the full argument.
         </p>
         <div class="home-meta" aria-label="Site qualities">
           <span>China economy</span>
           <span>China AI</span>
           <span>Industrial policy</span>
           <span>Society and mobility</span>
-          <span>Knowledge graph</span>
+          <span>Policy context</span>
         </div>
       </section>
 
@@ -167,7 +178,7 @@ const legacy = [
       <section aria-labelledby="featured-title">
         <div class="section-heading">
           <p class="home-kicker">Start here</p>
-          <h2 id="featured-title">The first node in the map</h2>
+          <h2 id="featured-title">Begin with the strongest frames</h2>
         </div>
         <div class="topic-grid topic-grid--featured">
           {featured.map((item) => (
@@ -187,36 +198,39 @@ const legacy = [
       <section class="home-paths" aria-labelledby="hubs-title">
         <div class="section-heading">
           <p class="home-kicker">Topic hubs</p>
-          <h2 id="hubs-title">Five doors into the knowledge graph</h2>
+          <h2 id="hubs-title">Five doors into the same China story</h2>
         </div>
         <div class="home-meta">
           {hubs.map((item) => <a href={withBase(item.href)}>{item.name}</a>)}
         </div>
       </section>
 
-      <section class="home-paths" aria-labelledby="queue-title">
+      <section class="home-paths" aria-labelledby="routes-title">
         <div class="section-heading section-heading--wide">
-          <p class="home-kicker">Working queue</p>
-          <h2 id="queue-title">The next essays will deepen the graph.</h2>
+          <p class="home-kicker">Reading routes</p>
+          <h2 id="routes-title">Follow systems, not the posting order.</h2>
         </div>
         <div class="topic-grid topic-grid--queue">
-          {queue.map((item) => (
+          {routes.map((item) => (
             <article class="topic-card topic-card--compact">
               <p class="topic-card__label">{item.label}</p>
               <h2>{item.title}</h2>
               <p>{item.text}</p>
+              <div class="topic-card__actions">
+                <a href={withBase(item.href)}>Open route</a>
+              </div>
             </article>
           ))}
         </div>
       </section>
 
-      <section class="home-paths" aria-labelledby="principles-title">
+      <section class="home-paths" aria-labelledby="reader-paths-title">
         <div class="section-heading">
-          <p class="home-kicker">Editorial system</p>
-          <h2 id="principles-title">Built for readers and search</h2>
+          <p class="home-kicker">How to read</p>
+          <h2 id="reader-paths-title">Start with the question, then follow the system.</h2>
         </div>
         <div class="path-grid">
-          {principles.map((item) => (
+          {readerPaths.map((item) => (
             <article class="path-card">
               <h3>{item.title}</h3>
               <p>{item.text}</p>
@@ -227,11 +241,11 @@ const legacy = [
 
       <section class="home-paths home-promise" aria-labelledby="promise-title">
         <div class="section-heading section-heading--wide">
-          <p class="home-kicker">Editorial promise</p>
-          <h2 id="promise-title">Searchable pages, readable essays.</h2>
+          <p class="home-kicker">Reader tools</p>
+          <h2 id="promise-title">Every essay should give you handles.</h2>
         </div>
         <ul class="promise-list">
-          {promises.map((item) => <li>{item}</li>)}
+          {readerTools.map((item) => <li>{item}</li>)}
         </ul>
       </section>
 

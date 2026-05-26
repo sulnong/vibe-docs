@@ -1,0 +1,49 @@
+---
+const PRIMARY_ORIGIN = 'https://docxing.top';
+const TOPIC_HOSTS = new Map([
+  ['china-economy.docxing.top', 'china-economy'],
+  ['china-ai.docxing.top', 'china-ai'],
+  ['china-industry.docxing.top', 'china-industry'],
+  ['china-society.docxing.top', 'china-society'],
+  ['china-energy.docxing.top', 'china-energy'],
+  ['astro.docxing.top', 'en/astro'],
+  ['hermes.docxing.top', 'en/hermes'],
+  ['hermes-agent.docxing.top', 'en/hermes'],
+  ['swarms.docxing.top', 'en/swarms'],
+  ['skills.docxing.top', 'en/awesome-skills'],
+  ['awesome-skills.docxing.top', 'en/awesome-skills'],
+]);
+
+const { head } = Astro.locals.starlightRoute;
+const canonicalUrl = getCanonicalUrl(Astro.url);
+
+function getCanonicalUrl(url) {
+  const host = url.hostname.toLowerCase();
+  const topic = TOPIC_HOSTS.get(host);
+  const path = normalizePath(url.pathname);
+
+  if (!topic) return `${PRIMARY_ORIGIN}${path}`;
+
+  const prefix = `/${topic}/`;
+  if (path === '/' || path === `/${topic}` || path === prefix) {
+    return `${PRIMARY_ORIGIN}${prefix}`;
+  }
+
+  if (path.startsWith(prefix)) {
+    return `${PRIMARY_ORIGIN}${path}`;
+  }
+
+  return `${PRIMARY_ORIGIN}${prefix}${path.replace(/^\/+/, '')}`;
+}
+
+function normalizePath(pathname) {
+  if (!pathname || pathname === '/') return '/';
+  return pathname.endsWith('/') ? pathname : `${pathname}/`;
+}
+---
+
+{head.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
+<link rel="canonical" href={canonicalUrl} />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />

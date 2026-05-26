@@ -3,6 +3,8 @@ const TOPIC_HOSTS = new Map([
   ['hermes.docxing.top', 'hermes'],
   ['hermes-agent.docxing.top', 'hermes'],
   ['swarms.docxing.top', 'swarms'],
+  ['skills.docxing.top', 'awesome-skills'],
+  ['awesome-skills.docxing.top', 'awesome-skills'],
   ['china-economy.docxing.top', 'china-economy'],
   ['china-ai.docxing.top', 'china-ai'],
   ['china-industry.docxing.top', 'china-industry'],
@@ -13,6 +15,7 @@ const TOPIC_HOSTS = new Map([
 const ASSET_PATHS = [
   /^\/_astro\//,
   /^\/favicon(?:\..*)?$/,
+  /^\/logo\.svg$/,
   /^\/robots\.txt$/,
   /^\/sitemap-index\.xml$/,
   /^\/sitemap-\d+\.xml$/,
