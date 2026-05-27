@@ -396,6 +396,11 @@ export default defineConfig({
                   link: '/china-industry/new-quality-productive-forces-15th-five-year-plan/',
                 },
                 {
+                  label: 'Semiconductor Substitution',
+                  translations: { zh: '半导体国产替代' },
+                  link: '/china-industry/china-semiconductor-substitution-strategy/',
+                },
+                {
                   label: 'Supply-Chain HQ',
                   translations: { zh: '供应链总部化' },
                   link: '/china-industry/china-supply-chain-headquarters-globalization/',
